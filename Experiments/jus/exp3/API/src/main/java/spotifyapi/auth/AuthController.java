@@ -80,7 +80,7 @@ public class AuthController {
     @GetMapping("top-tracks")
     public Track[] getUserTopTracks() {
         final GetUsersTopTracksRequest getUsersTopTracksRequest = spotifyApi.getUsersTopTracks()
-                .time_range("long_term") // "medium_term", "short_term"
+                .time_range("short_term") // "medium_term", "short_term"
                 .limit(5)
                 .build();
         try {
