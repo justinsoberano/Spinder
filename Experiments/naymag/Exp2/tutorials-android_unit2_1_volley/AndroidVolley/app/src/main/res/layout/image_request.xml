@@ -13,19 +13,23 @@
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/imgNetwork"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_marginTop="50dp"
-        android:scaleType="fitXY" >
-    </com.android.volley.toolbox.NetworkImageView>
+        android:scaleType="fitXY"></com.android.volley.toolbox.NetworkImageView>
 
     <ImageView
         android:id="@+id/imgView"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
+        android:layout_height="312dp"
         android:layout_margin="10dp"
         android:layout_marginTop="50dp"
-        android:scaleType="fitCenter" >
-    </ImageView>
+        android:scaleType="fitCenter"></ImageView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

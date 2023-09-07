@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.android.volley.Cache;
 import com.android.volley.Cache.Entry;
@@ -23,6 +24,8 @@ public class ImageRequestActivity extends Activity {
     private Button btnImageReq;
     private NetworkImageView imgNetWorkView;
     private ImageView imageView;
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class ImageRequestActivity extends Activity {
         btnImageReq = (Button) findViewById(R.id.btnImageReq);
         imgNetWorkView = (NetworkImageView) findViewById(R.id.imgNetwork);
         imageView = (ImageView) findViewById(R.id.imgView);
+        progressBar = findViewById(R.id.progressBar);
 
         btnImageReq.setOnClickListener(new View.OnClickListener() {
 
@@ -44,6 +48,8 @@ public class ImageRequestActivity extends Activity {
 
     private void makeImageRequest() {
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+
+        progressBar.setVisibility(View.VISIBLE);
 
         // If you are using NetworkImageView
         imgNetWorkView.setImageUrl(Const.URL_IMAGE, imageLoader);
@@ -62,10 +68,11 @@ public class ImageRequestActivity extends Activity {
 				if (response.getBitmap() != null) {
 					// load image into imageview
 					imageView.setImageBitmap(response.getBitmap());
+
 				}
 			}
 		});*/
-
+        progressBar.setVisibility(View.GONE);
         // Loading image with placeholder and error image
         imageLoader.get(Const.URL_IMAGE, ImageLoader.getImageListener(
                 imageView, R.drawable.ico_loading, R.drawable.ico_error));
