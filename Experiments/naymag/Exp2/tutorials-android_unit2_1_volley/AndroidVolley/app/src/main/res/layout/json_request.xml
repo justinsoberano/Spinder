@@ -21,6 +21,11 @@
         android:layout_height="wrap_content"
         android:text="JSON Array Request" />
 
+    <SearchView
+        android:id="@+id/btnSearch"
+        android:layout_width="388dp"
+        android:layout_height="63dp" />
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
