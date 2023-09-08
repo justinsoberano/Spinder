@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class CounterActivity extends AppCompatActivity {
+public class CounterDecreaseActivity extends AppCompatActivity {
 
-    Button increaseBtn;
+    Button decreaseBtn;
     Button backBtn;
     TextView numberTxt;
 
@@ -19,17 +19,17 @@ public class CounterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_counter);
+        setContentView(R.layout.activity_decreasecounter);
 
-        increaseBtn = findViewById(R.id.increaseBtn);
+        decreaseBtn = findViewById(R.id.decreaseBtn);
         backBtn = findViewById(R.id.backBtn);
         numberTxt = findViewById(R.id.number);
 
-        increaseBtn.setOnClickListener(new View.OnClickListener() {
+
+        decreaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                numberTxt.setText(String.valueOf(++counter));
+            public void onClick(View v) {
+                numberTxt.setText(String.valueOf(--counter));
             }
         });
 
@@ -38,7 +38,7 @@ public class CounterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(CounterActivity.this, MainActivity.class);
+                Intent intent = new Intent(CounterDecreaseActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
