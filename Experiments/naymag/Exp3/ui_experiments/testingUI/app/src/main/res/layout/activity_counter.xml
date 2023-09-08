@@ -1,39 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CounterActivity">
+    android:background="@drawable/gradient_background">
 
-    <TextView
-        android:id="@+id/number"
-        android:layout_width="wrap_content"
+    <!-- Rounded card in the center -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/roundedCard"
+        android:layout_width="240dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+        app:cardCornerRadius="16dp"
+        android:scaleType="centerCrop"
+        app:cardElevation="8dp"
+        android:background="#FFFFFF">
+
+        <!-- Add content for the rounded card here -->
+        <!-- Example: TextViews, Buttons, etc. -->
+        <ImageView
+            android:id="@+id/cardImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/nightapes"
+            />
+    </androidx.cardview.widget.CardView>
+
+    <SeekBar
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_below="@id/roundedCard"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:max="100" />
 
-    <Button
-        android:id="@+id/increaseBtn"
-        android:layout_width="wrap_content"
+    <!-- Slider-like element for swiping left or right -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Increase"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/number" />
+        android:layout_below="@id/slider"
+        android:padding="16dp"
+        android:clipToPadding="false" />
 
-    <Button
-        android:id="@+id/backBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back to Main"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/increaseBtn" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Add content for the ViewPager2 here -->
+    <!-- Example: Set up an adapter to populate ViewPager2 items -->
+</RelativeLayout>
