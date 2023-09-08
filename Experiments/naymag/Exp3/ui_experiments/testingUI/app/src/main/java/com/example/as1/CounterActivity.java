@@ -1,6 +1,9 @@
 package com.example.as1;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,10 +13,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 public class CounterActivity extends AppCompatActivity {
     private CardView roundedCard;
-    private ImageView cardImage; // Add ImageView reference
-    private ViewPager2 viewPager;
+    private ImageView cardImage;
     private TextView textViewForever;
     private TextView textViewNightTapes;
+    private ImageButton playButton;
+    private ImageButton pauseButton;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +27,30 @@ public class CounterActivity extends AppCompatActivity {
 
         // Initialize your variables by finding the corresponding XML elements
         roundedCard = findViewById(R.id.roundedCard);
-        cardImage = findViewById(R.id.cardImage); // Initialize the ImageView
-        viewPager = findViewById(R.id.viewPager);
+        cardImage = findViewById(R.id.cardImage);
         textViewForever = findViewById(R.id.textViewForever);
-        textViewForever = findViewById(R.id.textViewNightTapes);
+        textViewNightTapes = findViewById(R.id.textViewNightTapes);
+        playButton = findViewById(R.id.playButton);
+        pauseButton = findViewById(R.id.pauseButton);
 
-        // You can now manipulate these elements in your code as needed
+        mediaPlayer = MediaPlayer.create(this, R.raw.nightapes);
+
+    }
+
+    public void startMusic(){
+        mediaPlayer.start();
+    }
+
+    public void stopMusic(){
+        mediaPlayer.stop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 }
