@@ -2,12 +2,16 @@ package com.example.sumon.androidvolley;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.SearchView; // Import SearchView
+import android.widget.Button;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
@@ -21,8 +25,11 @@ import com.example.sumon.androidvolley.utils.Const;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JsonRequestActivity extends Activity implements OnClickListener {
@@ -31,6 +38,7 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
     private Button btnJsonObj, btnJsonArray;
     private TextView msgResponse;
     private ProgressDialog pDialog;
+    private List<JSONObject> originalJsonDataList = new ArrayList<>();
 
     // These tags will be used to cancel the requests
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
@@ -40,21 +48,58 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.json_request);
 
-        btnJsonObj = (Button) findViewById(R.id.btnJsonObj);
-        btnJsonArray = (Button) findViewById(R.id.btnJsonArray);
-        msgResponse = (TextView) findViewById(R.id.msgResponse);
+        btnJsonObj = findViewById(R.id.btnJsonObj);
+        btnJsonArray = findViewById(R.id.btnJsonArray);
+        msgResponse = findViewById(R.id.msgResponse);
 
         pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
+        pDialog.setMessage("Fetching Data...");
         pDialog.setCancelable(false);
 
         btnJsonObj.setOnClickListener(this);
         btnJsonArray.setOnClickListener(this);
+
+        // Initialize originalJsonDataList when you initially fetch JSON data
+        // originalJsonDataList = populateOriginalJsonDataList();
+
+        // Initialize the SearchView
+        SearchView searchView = findViewById(R.id.btnSearch);
+
+        // Set up the SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        // Set a query hint (optional)
+        searchView.setQueryHint("Search by name");
+
+        // Handle query submission
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Handle the search query here
+                performSearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Handle search text changes here (optional)
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnJsonObj) {
+            makeJsonObjReq();
+        } else if (v.getId() == R.id.btnJsonArray) {
+            makeJsonArryReq();
+        }
     }
 
     private void showProgressDialog() {
         if (!pDialog.isShowing())
-
             pDialog.show();
     }
 
@@ -71,50 +116,32 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET,
                 Const.URL_JSON_OBJECT, null,
                 new Response.Listener<JSONObject>() {
-
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
                         msgResponse.setText(response.toString());
+
+                        // Add the fetched JSON object to originalJsonDataList
+                        originalJsonDataList.add(response);
+
                         hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 hideProgressDialog();
             }
         }) {
-
-            /**
-             * Passing some request headers
-             * */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-//                params.put("name", "Androidhive");
-//                params.put("email", "abc@androidhive.info");
-//                params.put("pass", "password123");
-
-                return params;
-            }
-
         };
 
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq,
-                tag_json_obj);
-
-        // Cancelling request
-        // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_obj);
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 
     /**
@@ -128,6 +155,16 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
                         msgResponse.setText(response.toString());
+
+                        // Add the fetched JSON array to originalJsonDataList
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                originalJsonDataList.add(response.getJSONObject(i));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
                         hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
@@ -138,22 +175,56 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
             }
         });
 
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(req,
-                tag_json_arry);
+        AppController.getInstance().addToRequestQueue(req, tag_json_arry);
+    }
 
-        // Cancelling request
-        // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_arry);
+    // Inside performSearch method
+    private void performSearch(String searchTerm) {
+        Log.d(TAG, "Search Term: " + searchTerm);
+
+        // Create a list to store filtered results
+        List<JSONObject> filteredResults = new ArrayList<>();
+
+        // Iterate through the original JSON data
+        for (JSONObject jsonObject : originalJsonDataList) {
+            try {
+                // Extract the "name" field from the JSON object
+                String name = jsonObject.getString("name").toLowerCase();
+
+                // Check if the name contains the search term
+                Log.d(TAG, "Name in JSON: " + name);
+                if (name.contains(searchTerm.toLowerCase())) {
+                    filteredResults.add(jsonObject);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Update the UI with the filtered results
+        updateUIWithFilteredResults(filteredResults);
+    }
+
+
+    private void updateUIWithFilteredResults(List<JSONObject> filteredResults) {
+        if (filteredResults.isEmpty()) {
+            msgResponse.setText("No matching results found.");
+        } else {
+            // Create a StringBuilder to build the response text
+            StringBuilder responseText = new StringBuilder();
+
+            // Append each filtered JSON object to the response text
+            for (JSONObject jsonObject : filteredResults) {
+                responseText.append(jsonObject.toString()).append("\n");
+            }
+
+            msgResponse.setText(responseText.toString());
+        }
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.btnJsonObj) {
-            makeJsonObjReq();
-        } else if (v.getId() == R.id.btnJsonArray) {
-            makeJsonArryReq();
-        }
-
+    public boolean onSearchRequested() {
+        startSearch(null, false, null, true);
+        return true;
     }
-
 }
