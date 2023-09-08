@@ -6,47 +6,67 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background">
 
-    <!-- Rounded card in the center -->
     <androidx.cardview.widget.CardView
         android:id="@+id/roundedCard"
         android:layout_width="240dp"
         android:layout_height="250dp"
         android:layout_centerInParent="true"
+        android:layout_marginTop="4dp"
         app:cardCornerRadius="16dp"
         android:scaleType="centerCrop"
         app:cardElevation="8dp"
         android:background="#FFFFFF">
 
-        <!-- Add content for the rounded card here -->
-        <!-- Example: TextViews, Buttons, etc. -->
-        <ImageView
-            android:id="@+id/cardImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/nightapes"
-            />
-    </androidx.cardview.widget.CardView>
+    <ImageView
+        android:id="@+id/cardImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/nightapes"
+        />
+
+</androidx.cardview.widget.CardView>
+
+    <TextView
+    android:id="@+id/textViewForever"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/roundedCard"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="8dp"
+    android:text="Forever"
+    android:textStyle="bold"
+    android:textSize="18sp"
+    android:textColor="#FFFFFF" />
+
+    <TextView
+    android:id="@+id/textViewNightTapes"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/textViewForever"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="8dp"
+    android:text="Night Tapes"
+    android:textSize="18sp"
+    android:textColor="#FFFFFF" />
 
     <SeekBar
-        android:id="@+id/slider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/roundedCard"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:max="100" />
+    android:id="@+id/slider"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/textViewNightTapes"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:max="100" />
 
-    <!-- Slider-like element for swiping left or right -->
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/slider"
-        android:padding="16dp"
-        android:clipToPadding="false" />
+<androidx.viewpager2.widget.ViewPager2
+android:id="@+id/viewPager"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_below="@id/slider"
+android:padding="16dp"
+android:clipToPadding="false" />
 
-    <!-- Add content for the ViewPager2 here -->
-    <!-- Example: Set up an adapter to populate ViewPager2 items -->
-</RelativeLayout>
+
+    </RelativeLayout>
