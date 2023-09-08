@@ -50,31 +50,39 @@
         android:textSize="18sp"
         android:textColor="#FFFFFF" />
 
-    <!-- Play/Pause Button -->
-    <ImageButton
-        android:id="@+id/playButton"
+    <!-- Centered Buttons Layout -->
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:minHeight="48dp"
-        android:minWidth="48dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewNightTapes"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_play"
-        android:contentDescription="Play/Pause Button"
-        android:background="?android:selectableItemBackground" />
+        android:layout_marginTop="8dp">
 
-    <ImageButton
-        android:id="@+id/pauseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:minWidth="48dp"
-        android:layout_below="@+id/playButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_pause"
-        android:contentDescription="Play/Pause Button"
-        android:background="?android:selectableItemBackground" />
+        <!-- Play Button -->
+        <ImageButton
+            android:id="@+id/playButton"
+            android:layout_width="wrap_content"
+            android:minHeight="48dp"
+            android:minWidth="48dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_play"
+            android:contentDescription="Play/Pause Button"
+            android:onClick="startMusic"
+            android:background="?android:selectableItemBackground" />
+
+        <!-- Pause Button -->
+        <ImageButton
+            android:id="@+id/pauseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:minWidth="48dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/ic_pause"
+            android:onClick="stopMusic"
+            android:contentDescription="Play/Pause Button"
+            android:background="?android:selectableItemBackground" />
+
+    </LinearLayout>
 
 </RelativeLayout>

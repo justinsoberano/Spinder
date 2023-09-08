@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.viewpager2.widget.ViewPager2;
 
 public class CounterActivity extends AppCompatActivity {
     private CardView roundedCard;
@@ -37,11 +36,11 @@ public class CounterActivity extends AppCompatActivity {
 
     }
 
-    public void startMusic(){
+    public void startMusic(View v){
         mediaPlayer.start();
     }
 
-    public void stopMusic(){
+    public void stopMusic(View v){
         mediaPlayer.stop();
     }
 
