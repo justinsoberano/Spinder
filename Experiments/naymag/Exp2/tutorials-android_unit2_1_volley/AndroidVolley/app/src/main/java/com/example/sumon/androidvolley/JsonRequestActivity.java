@@ -59,31 +59,23 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         btnJsonObj.setOnClickListener(this);
         btnJsonArray.setOnClickListener(this);
 
-        // Initialize originalJsonDataList when you initially fetch JSON data
-        // originalJsonDataList = populateOriginalJsonDataList();
 
-        // Initialize the SearchView
         SearchView searchView = findViewById(R.id.btnSearch);
 
-        // Set up the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-        // Set a query hint (optional)
         searchView.setQueryHint("Search by name");
 
-        // Handle query submission
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Handle the search query here
                 performSearch(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Handle search text changes here (optional)
                 return true;
             }
         });
@@ -108,9 +100,7 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
             pDialog.hide();
     }
 
-    /**
-     * Making json object request
-     * */
+
     private void makeJsonObjReq() {
         showProgressDialog();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET,
@@ -121,7 +111,6 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
                         Log.d(TAG, response.toString());
                         msgResponse.setText(response.toString());
 
-                        // Add the fetched JSON object to originalJsonDataList
                         originalJsonDataList.add(response);
 
                         hideProgressDialog();
@@ -144,9 +133,7 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 
-    /**
-     * Making json array request
-     * */
+
     private void makeJsonArryReq() {
         showProgressDialog();
         JsonArrayRequest req = new JsonArrayRequest(Const.URL_JSON_ARRAY,
@@ -156,7 +143,6 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
                         Log.d(TAG, response.toString());
                         msgResponse.setText(response.toString());
 
-                        // Add the fetched JSON array to originalJsonDataList
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 originalJsonDataList.add(response.getJSONObject(i));
@@ -178,20 +164,15 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         AppController.getInstance().addToRequestQueue(req, tag_json_arry);
     }
 
-    // Inside performSearch method
     private void performSearch(String searchTerm) {
         Log.d(TAG, "Search Term: " + searchTerm);
 
-        // Create a list to store filtered results
         List<JSONObject> filteredResults = new ArrayList<>();
 
-        // Iterate through the original JSON data
         for (JSONObject jsonObject : originalJsonDataList) {
             try {
-                // Extract the "name" field from the JSON object
                 String name = jsonObject.getString("name").toLowerCase();
 
-                // Check if the name contains the search term
                 Log.d(TAG, "Name in JSON: " + name);
                 if (name.contains(searchTerm.toLowerCase())) {
                     filteredResults.add(jsonObject);
@@ -201,7 +182,6 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
             }
         }
 
-        // Update the UI with the filtered results
         updateUIWithFilteredResults(filteredResults);
     }
 
@@ -210,10 +190,8 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         if (filteredResults.isEmpty()) {
             msgResponse.setText("No matching results found.");
         } else {
-            // Create a StringBuilder to build the response text
             StringBuilder responseText = new StringBuilder();
 
-            // Append each filtered JSON object to the response text
             for (JSONObject jsonObject : filteredResults) {
                 responseText.append(jsonObject.toString()).append("\n");
             }
