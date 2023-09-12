@@ -4,9 +4,11 @@ plugins {
 
 android {
     compileSdk 31
+    buildToolsVersion "34.0.0"
 
     defaultConfig {
         applicationId "com.example.as1"
+        namespace "com.example.as1"
         minSdk 21
         targetSdk 31
         versionCode 1
