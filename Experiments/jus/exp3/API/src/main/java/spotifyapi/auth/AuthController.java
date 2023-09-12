@@ -43,6 +43,7 @@ public class AuthController {
     public String login() {
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
                 .scope("user-read-private, user-read-email, user-top-read")
+                .show_dialog(true)
                 .build();
 
         final URI uri = authorizationCodeUriRequest.execute();
@@ -80,7 +81,7 @@ public class AuthController {
     @GetMapping("top-tracks")
     public Track[] getUserTopTracks() {
         final GetUsersTopTracksRequest getUsersTopTracksRequest = spotifyApi.getUsersTopTracks()
-                .time_range("short_term") // "medium_term", "short_term"
+                .time_range("short_term") // "medium_term", "long_term"
                 .limit(5)
                 .build();
         try {

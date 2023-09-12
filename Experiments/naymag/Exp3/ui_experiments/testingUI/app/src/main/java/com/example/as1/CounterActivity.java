@@ -1,48 +1,55 @@
 package com.example.as1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 public class CounterActivity extends AppCompatActivity {
-
-    Button increaseBtn;
-    Button backBtn;
-    TextView numberTxt;
-
-    int counter = 0;
+    private CardView roundedCard;
+    private ImageView cardImage;
+    private TextView textViewForever;
+    private TextView textViewNightTapes;
+    private ImageButton playButton;
+    private ImageButton pauseButton;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter);
 
-        increaseBtn = findViewById(R.id.increaseBtn);
-        backBtn = findViewById(R.id.backBtn);
-        numberTxt = findViewById(R.id.number);
+        // Initialize your variables by finding the corresponding XML elements
+        roundedCard = findViewById(R.id.roundedCard);
+        cardImage = findViewById(R.id.cardImage);
+        textViewForever = findViewById(R.id.textViewForever);
+        textViewNightTapes = findViewById(R.id.textViewNightTapes);
+        playButton = findViewById(R.id.playButton);
+        pauseButton = findViewById(R.id.pauseButton);
 
-        increaseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                numberTxt.setText(String.valueOf(++counter));
-            }
-        });
+        mediaPlayer = MediaPlayer.create(this, R.raw.nightapes);
 
+    }
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(CounterActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+    public void startMusic(View v){
+        mediaPlayer.start();
+    }
 
+    public void stopMusic(View v){
+        mediaPlayer.stop();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 }
