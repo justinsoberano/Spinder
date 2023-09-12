@@ -55,7 +55,7 @@ public class ImageRequestActivity extends Activity {
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
         // If you are using NetworkImageView
-        imgNetWorkView.setImageUrl(inputUrl, imageLoader); //was Const.URL_IMAGE for input
+        imgNetWorkView.setImageUrl(Const.URL_IMAGE, imageLoader); //was Const.URL_IMAGE for input
 
 
         // If you are using normal ImageView

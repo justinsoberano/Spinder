@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Android Volley</string>
+    <string name="Custom_Json">Created Json array</string>
 </resources>

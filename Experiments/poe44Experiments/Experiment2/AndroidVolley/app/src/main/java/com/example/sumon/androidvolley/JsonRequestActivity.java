@@ -3,6 +3,8 @@ package com.example.sumon.androidvolley;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.JsonReader;
+import android.util.JsonWriter;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +22,7 @@ import com.example.sumon.androidvolley.app.AppController;
 import com.example.sumon.androidvolley.utils.Const;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -28,7 +31,7 @@ import java.util.Map;
 public class JsonRequestActivity extends Activity implements OnClickListener {
 
     private String TAG = JsonRequestActivity.class.getSimpleName();
-    private Button btnJsonObj, btnJsonArray;
+    private Button btnJsonObj, btnJsonArray, customArrayBtn;
     private TextView msgResponse;
     private ProgressDialog pDialog;
 
@@ -42,6 +45,7 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
 
         btnJsonObj = (Button) findViewById(R.id.btnJsonObj);
         btnJsonArray = (Button) findViewById(R.id.btnJsonArray);
+        customArrayBtn = (Button) findViewById(R.id.customArray);
         msgResponse = (TextView) findViewById(R.id.msgResponse);
 
         pDialog = new ProgressDialog(this);
@@ -50,6 +54,7 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
 
         btnJsonObj.setOnClickListener(this);
         btnJsonArray.setOnClickListener(this);
+        customArrayBtn.setOnClickListener(this);
     }
 
     private void showProgressDialog() {
@@ -68,8 +73,10 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
      * */
     private void makeJsonObjReq() {
         showProgressDialog();
+        Map<String,String> newObj = new HashMap<>();
+
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET,
-                Const.URL_JSON_OBJECT, null,
+                Const.URL_JSON_OBJECT,null ,
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -146,6 +153,41 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_arry);
     }
 
+    public void createJsonObject() throws JSONException {
+//        Object yo = new Object();
+        JSONArray array = new JSONArray();
+
+//        JSONArray child = new JSONArray();
+//        child.put(new JSONObject("One"));
+//        child.put(new JSONObject("Three"));
+//        child.put(new JSONObject("Five"));
+//        child.put(new JSONObject("Seven"));
+//        child.put(new JSONObject("Nine"));
+//        for(int i=0;i<5;i++) {
+//            array.put(child);
+//        }
+        String[] odds = {"one","three","five", "seven", "nine"};
+
+        for(int i=0;i<5;i++) {
+            array.put(odds[i]);
+        }
+
+        JSONObject json = new JSONObject();
+        json.put("mine",array);
+        msgResponse.setText(array.toString());
+//        new Response.Listener<JSONArray>() {
+//            @Override
+//            public void onResponse(JSONArray response) {
+//                Log.d(TAG, response.toString());
+//                msgResponse.setText(response.toString());
+//                msgResponse.setText(array.toString());
+//                hideProgressDialog();
+//            }
+//        };
+//        yo = {"title ":"STARTING JSON", "coins" : 150 };
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -154,6 +196,13 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
                 break;
             case R.id.btnJsonArray:
                 makeJsonArryReq();
+                break;
+            case R.id.customArray:
+                try {
+                    createJsonObject();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
         }
 
