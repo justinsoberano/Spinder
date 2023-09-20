@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-public class CounterActivity extends AppCompatActivity {
+public class MusicSwipe extends AppCompatActivity {
     private CardView roundedCard;
     private ImageView cardImage;
     private TextView textViewForever;
@@ -22,7 +22,7 @@ public class CounterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_counter);
+        setContentView(R.layout.activity_musicswipe);
 
         // Initialize your variables by finding the corresponding XML elements
         roundedCard = findViewById(R.id.roundedCard);
