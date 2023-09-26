@@ -18,6 +18,9 @@ public class User {
     @OneToMany
     private List<User> following;
 
+//    private List<Integer> StationIDs;
+
+
 
     public User(User L) {
     }
