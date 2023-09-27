@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Bean;
 
 import repositories.Users.User;
 import repositories.Users.UserRepository;
-import repositories.Stations.Station;
-import repositories.Stations.StationRepository;
 
 @SpringBootApplication
 class Main {
