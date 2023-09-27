@@ -8,9 +8,11 @@ import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.model_objects.specification.Artist;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
+import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -57,6 +59,8 @@ public class AuthController {
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("ERROR: " + e.getMessage());
         }
+
+        response.sendRedirect("http://localhost:8080/top-artists");
         return spotifyAPI.getAccessToken();
     }
 
@@ -87,13 +91,12 @@ public class AuthController {
         return spotifyAPI.getAccessToken();
     }
 
-    /* //Function used for testing to check if access key retrieval works
     @GetMapping("top-artists")
     public Artist[] getUserTopArtists() {
 
         final GetUsersTopArtistsRequest req = spotifyAPI.getUsersTopArtists()
                 .time_range("long_term")
-                .limit(1)
+                .limit(5)
                 .build();
 
         try {
@@ -106,5 +109,21 @@ public class AuthController {
         }
         return new Artist[0];
     }
-    */
+
+    @GetMapping("top-tracks")
+    public Track[] getUserTopTracks() {
+
+        final GetUsersTopTracksRequest req = spotifyAPI.getUsersTopTracks()
+                .time_range("long_term")
+                .limit(5)
+                .build();
+
+        try {
+            final Paging<Track> trackPaging = req.execute();
+            return trackPaging.getItems();
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Oops, something went wrong. \n" + e.getMessage());
+        }
+        return new Track[0];
+    }
 }
