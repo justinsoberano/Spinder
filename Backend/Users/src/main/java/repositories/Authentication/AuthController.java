@@ -61,8 +61,8 @@ public class AuthController {
             System.out.println("ERROR: " + e.getMessage());
         }
 
-        // used for testing
-        // response.sendRedirect("http://localhost:8080/top-artists");
+        /* Used for testing if the access key works
+        response.sendRedirect("http://localhost:8080/top-artists"); */
 
         // Returns the users access key
         return spotifyAPI.getAccessToken();
