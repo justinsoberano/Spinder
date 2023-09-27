@@ -15,12 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import repositories.Users.User;
 import repositories.Users.UserRepository;
 
-/**
- * 
- * @author Vivek Bengre
- * 
- */ 
-
 @RestController
 public class UserController {
 
