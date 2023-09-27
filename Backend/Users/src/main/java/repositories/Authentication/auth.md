@@ -12,7 +12,7 @@
 
 ## Endpoints
 
-### 1. `GET /login`
+### 1. `GET /register`
 
 Initiates the Spotify login process.
 
@@ -33,7 +33,7 @@ Initiates the Spotify login process.
 
 - Redirects the user to Spotify's login page.
 
-### 2. `GET /login/api`
+### 2. `GET /register/api`
 
 Handles the callback from Spotify after the user has granted or denied permission.
 
@@ -52,7 +52,18 @@ Handles the callback from Spotify after the user has granted or denied permissio
 - **authorizationCodeRequest**: A request object to fetch the access and refresh tokens using 
                                 the `code` provided by Spotify.
 
+### 3. `GET /login`
+
+- Similar to `/register`, the only difference is it retrieves the access token from
+  Spotify's servers. 
+
+### 4. `GET /login/api`
+
+- Similar to `/register/api`, a fallback function to check if their access key has changed
+  on Spotify's servers. This is caused if they change their name, profile picture, add a new
+  playlist, etc.
+
 ## Things to do
 
 - Implement error handling more gracefully, rather than just printing to the console.
-- Implement a secondary `GET` function when a user already authenticated with our app.
+- Spotify API builder may need its own function to be called.

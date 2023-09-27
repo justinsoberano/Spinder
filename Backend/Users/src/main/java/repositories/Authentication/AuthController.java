@@ -23,6 +23,8 @@ public class AuthController {
     private static final URI redirectURI = SpotifyHttpManager.makeUri("http://localhost:8080/login/api");
 
     // Builds our app to the API, we now have a connection with their servers.
+
+    // TODO: Make this into a function instead.
     private static final SpotifyApi spotifyAPI = new SpotifyApi.Builder()
             .setClientId("ae02bde4d6ef4bc395502d8f76e38f04")
             .setClientSecret("0d0a994ae7f842feb33dfa163b56bacd")
@@ -31,25 +33,20 @@ public class AuthController {
 
 
     @GetMapping("login")
-    @ResponseBody // This is where we ask permission for their information.
+    @ResponseBody
     void spotifyLogin(HttpServletResponse response) throws IOException {
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyAPI.authorizationCodeUri()
-                .scope("user-read-private, user-read-email, user-top-read") // do not touch
-                .show_dialog(true) // If we want to skip the spotify login use 'false'
+                .scope("user-read-private, user-read-email, user-top-read")
+                .show_dialog(false)
                 .build();
 
         final URI uri = authorizationCodeUriRequest.execute();
-
-        // Redirects the user to 'localhost:8080/login/api'
         response.sendRedirect(uri.toString());
 
     }
 
     @GetMapping("login/api")
-    // Where we get the access code
     public String getAccessCode(@RequestParam("code") String userCode, HttpServletResponse response) throws IOException {
-
-        // We 'rebuild' the API with their access code. Allows us to grab information from them.
         AuthorizationCodeRequest authorizationCodeRequest = spotifyAPI.authorizationCode(userCode)
                 .build();
 
@@ -60,16 +57,37 @@ public class AuthController {
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("ERROR: " + e.getMessage());
         }
-
-        /* Used for testing if the access key works
-        response.sendRedirect("http://localhost:8080/top-artists"); */
-
-        // Returns the users access key
         return spotifyAPI.getAccessToken();
     }
 
-    /* Function used for testing to check if access key retrieval works
+    @GetMapping("register")
+    @ResponseBody
+    void spotifyRegister(HttpServletResponse response) throws IOException {
+        AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyAPI.authorizationCodeUri()
+                .scope("user-read-private, user-top-read")
+                .show_dialog(true)
+                .build();
 
+        final URI uri = authorizationCodeUriRequest.execute();
+        response.sendRedirect(uri.toString());
+    }
+
+    @GetMapping("register/api")
+    public String accessCode(@RequestParam("code") String userCode, HttpServletResponse response) throws IOException {
+        AuthorizationCodeRequest authorizationCodeRequest = spotifyAPI.authorizationCode(userCode)
+                .build();
+
+        try {
+            final AuthorizationCodeCredentials credentials = authorizationCodeRequest.execute();
+            spotifyAPI.setAccessToken(credentials.getAccessToken());
+            spotifyAPI.setRefreshToken(credentials.getRefreshToken());
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("ERROR: " + e.getMessage());
+        }
+        return spotifyAPI.getAccessToken();
+    }
+
+    /* //Function used for testing to check if access key retrieval works
     @GetMapping("top-artists")
     public Artist[] getUserTopArtists() {
 
