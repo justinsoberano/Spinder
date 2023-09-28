@@ -15,8 +15,6 @@ public class TrackMapper {
         private List<ArtistMapper.Artist> artists;
         private String previewUrl;
 
-        Track() {}
-
         public String getId() {
             return id;
         }

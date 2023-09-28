@@ -3,7 +3,6 @@ package mappers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,8 +16,6 @@ public class ArtistMapper {
 
         private String id;
         private String name;
-
-        Artist() {}
 
         public String getName() {
             return name;
