@@ -1,5 +1,6 @@
 package repositories.Authentication;
 
+import com.google.gson.Gson;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.SpotifyApi;
@@ -14,9 +15,13 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 
+import mappers.TrackMapper;
+import mappers.ArtistMapper;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Arrays;
 
 @RestController
 public class AuthController {
@@ -25,8 +30,7 @@ public class AuthController {
     private static final URI redirectURI = SpotifyHttpManager.makeUri("http://localhost:8080/login/api");
 
     // Builds our app to the API, we now have a connection with their servers.
-
-    // TODO: Make this into a function instead.
+    // TODO: Make this into a function.
     private static final SpotifyApi spotifyAPI = new SpotifyApi.Builder()
             .setClientId("ae02bde4d6ef4bc395502d8f76e38f04")
             .setClientSecret("0d0a994ae7f842feb33dfa163b56bacd")
@@ -101,8 +105,13 @@ public class AuthController {
 
         try {
             final Paging<Artist> artistPaging = req.execute();
+
+            Gson gson = new Gson();
+            String jsonOutput = gson.toJson(artistPaging.getItems());
+            ArtistMapper.artistData(jsonOutput);
+
             return artistPaging.getItems();
-            // Returns a JSON file of top artists
+
 
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Oops, something went wrong.\n" + e.getMessage());
@@ -114,12 +123,17 @@ public class AuthController {
     public Track[] getUserTopTracks() {
 
         final GetUsersTopTracksRequest req = spotifyAPI.getUsersTopTracks()
-                .time_range("long_term")
+                .time_range("short_term")
                 .limit(5)
                 .build();
 
         try {
             final Paging<Track> trackPaging = req.execute();
+
+            Gson gson = new Gson();
+            String jsonOutput = gson.toJson(trackPaging.getItems());
+            TrackMapper.trackData(jsonOutput);
+
             return trackPaging.getItems();
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Oops, something went wrong. \n" + e.getMessage());
