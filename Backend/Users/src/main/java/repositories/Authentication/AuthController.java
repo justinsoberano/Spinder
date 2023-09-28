@@ -37,7 +37,6 @@ public class AuthController {
             .setRedirectUri(redirectURI)
             .build();
 
-
     @GetMapping("login")
     @ResponseBody
     void spotifyLogin(HttpServletResponse response) throws IOException {
@@ -93,49 +92,49 @@ public class AuthController {
         return spotifyAPI.getAccessToken();
     }
 
-    @GetMapping("top-artists")
-    public Artist[] getUserTopArtists() {
-
-        final GetUsersTopArtistsRequest req = spotifyAPI.getUsersTopArtists()
-                .time_range("long_term")
-                .limit(5)
-                .build();
-
-        try {
-            final Paging<Artist> artistPaging = req.execute();
-
-            Gson gson = new Gson();
-            String jsonOutput = gson.toJson(artistPaging.getItems());
-            ArtistMapper.artistData(jsonOutput);
-
-            return artistPaging.getItems();
-
-
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Oops, something went wrong.\n" + e.getMessage());
-        }
-        return new Artist[0];
-    }
-
-    @GetMapping("top-tracks")
-    public Track[] getUserTopTracks() {
-
-        final GetUsersTopTracksRequest req = spotifyAPI.getUsersTopTracks()
-                .time_range("short_term")
-                .limit(5)
-                .build();
-
-        try {
-            final Paging<Track> trackPaging = req.execute();
-
-            Gson gson = new Gson();
-            String jsonOutput = gson.toJson(trackPaging.getItems());
-            TrackMapper.trackData(jsonOutput);
-
-            return trackPaging.getItems();
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Oops, something went wrong. \n" + e.getMessage());
-        }
-        return new Track[0];
-    }
+//    @GetMapping("top-artists")
+//    public Artist[] getUserTopArtists() {
+//
+//        final GetUsersTopArtistsRequest req = spotifyAPI.getUsersTopArtists()
+//                .time_range("long_term")
+//                .limit(5)
+//                .build();
+//
+//        try {
+//            final Paging<Artist> artistPaging = req.execute();
+//
+//            Gson gson = new Gson();
+//            String jsonOutput = gson.toJson(artistPaging.getItems());
+//            ArtistMapper.artistData(jsonOutput);
+//
+//            return artistPaging.getItems();
+//
+//
+//        } catch (IOException | SpotifyWebApiException | ParseException e) {
+//            System.out.println("Oops, something went wrong.\n" + e.getMessage());
+//        }
+//        return new Artist[0];
+//    }
+//
+//    @GetMapping("top-tracks")
+//    public Track[] getUserTopTracks() {
+//
+//        final GetUsersTopTracksRequest req = spotifyAPI.getUsersTopTracks()
+//                .time_range("short_term")
+//                .limit(5)
+//                .build();
+//
+//        try {
+//            final Paging<Track> trackPaging = req.execute();
+//
+//            Gson gson = new Gson();
+//            String jsonOutput = gson.toJson(trackPaging.getItems());
+//            TrackMapper.trackData(jsonOutput);
+//
+//            return trackPaging.getItems();
+//        } catch (IOException | SpotifyWebApiException | ParseException e) {
+//            System.out.println("Oops, something went wrong. \n" + e.getMessage());
+//        }
+//        return new Track[0];
+//    }
 }
