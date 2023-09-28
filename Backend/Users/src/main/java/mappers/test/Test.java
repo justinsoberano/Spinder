@@ -1,4 +1,7 @@
-package mappers;
+package mappers.test;
+
+import mappers.ArtistMapper;
+import mappers.TrackMapper;
 
 public class Test {
 
