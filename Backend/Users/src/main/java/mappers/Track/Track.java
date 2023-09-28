@@ -9,7 +9,7 @@ public class Track {
     private String id;
     private String name;
     private Album album;
-    private List<Artist> artist;
+    private List<Artist> artists;
     private String previewUrl;
 
     public String getId() {
@@ -29,8 +29,8 @@ public class Track {
      * artist, else return unknown.
      */
     public String getArtist() {
-        return  artist != null && !artist.isEmpty() ?
-                artist.get(0).getName() : "Unknown Artist";
+        return  artists != null && !artists.isEmpty() ?
+                artists.get(0).getName() : "Unknown Artist";
     }
 
     /*
