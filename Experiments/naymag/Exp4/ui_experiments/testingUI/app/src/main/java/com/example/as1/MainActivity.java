@@ -27,13 +27,9 @@ public class MainActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
-        logoimg = findViewById(R.id.logoimg);
 
         userCredentials = new HashMap<>();
-        userCredentials.put("naymag", "minecraftluvr");
-        userCredentials.put("justin", "steveissocool");
-        userCredentials.put("qusai", "embeddedsystemsluvr");
-        userCredentials.put("brandon", "brandonissocool");
+        userCredentials.put("username", "password");
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
