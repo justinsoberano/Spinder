@@ -18,6 +18,8 @@ public class ArtistMapper {
         private String id;
         private String name;
 
+        Artist() {}
+
         public String getName() {
             return name;
         }
