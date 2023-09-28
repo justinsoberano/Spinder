@@ -52,7 +52,7 @@ public class AuthController {
     }
 
     @GetMapping("login/api")
-    public String getAccessCode(@RequestParam("code") String userCode, HttpServletResponse response) throws IOException {
+    public String getAccessCode(@RequestParam("code") String userCode) throws IOException {
         AuthorizationCodeRequest authorizationCodeRequest = spotifyAPI.authorizationCode(userCode)
                 .build();
 
@@ -63,8 +63,6 @@ public class AuthController {
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("ERROR: " + e.getMessage());
         }
-
-        response.sendRedirect("http://localhost:8080/top-artists");
         return spotifyAPI.getAccessToken();
     }
 
@@ -81,7 +79,7 @@ public class AuthController {
     }
 
     @GetMapping("register/api")
-    public String accessCode(@RequestParam("code") String userCode, HttpServletResponse response) throws IOException {
+    public String accessCode(@RequestParam("code") String userCode) throws IOException {
         AuthorizationCodeRequest authorizationCodeRequest = spotifyAPI.authorizationCode(userCode)
                 .build();
 
