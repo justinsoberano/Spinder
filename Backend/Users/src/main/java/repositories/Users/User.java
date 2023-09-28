@@ -11,19 +11,16 @@ public class User {
     private int id;
     private String userName;
     private String profileStr;
+
+    private String profilePicture;
     private String accessKey;
 
     @OneToMany
-    private List<User> followers; //ask
+    private List<User> followers; //ask could be friend id's
     @OneToMany
     private List<User> following;
 
-//    private List<Integer> StationIDs;
-
-
-
-    public User(User L) {
-    }
+    private int Stationid;
 
     public User() {
     }
@@ -52,6 +49,10 @@ public class User {
     public void setProfileStr(String profileStr) {
         this.profileStr = profileStr;
     }
+
+    public void setProfilePicture(String profilePicture) { this.profilePicture = profilePicture; }
+
+    public String getProfilePicture(){ return this.profilePicture; }
 
     public String getAccessKey() {
         return accessKey;

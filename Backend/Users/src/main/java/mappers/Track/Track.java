@@ -2,13 +2,20 @@ package mappers.Track;
 
 import mappers.Artist.Artist;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class Track {
 
+    @Id
     private String id;
     private String name;
+
+    @ManyToOne
     private Album album;
+
+    @OneToMany
     private List<Artist> artists;
     private String previewUrl;
 
@@ -49,37 +56,7 @@ public class Track {
         return previewUrl;
     }
 
-
-    static class Album {
-        private List<Image> images;
-        private String name;
-
-        public List<Image> getImages() {
-            return images;
-        }
-
-        public String getName() {
-            return name;
-        }
-    }
-
     /* Image class for storing all qualities of Images from Albums */
-    static class Image {
-        private int height;
-        private int width;
-        private String url;
 
-        public int getHeight() {
-            return height;
-        }
-
-        public int getWidth() {
-            return width;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-    }
 
 }
