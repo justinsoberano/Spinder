@@ -1,8 +1,10 @@
 package com.example.as1;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -10,8 +12,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MusicSwipe extends AppCompatActivity {
     private CardView roundedCard;
@@ -47,6 +52,20 @@ public class MusicSwipe extends AppCompatActivity {
         textViewNightTapes.setText(artistNames[currentSongIndex]);
         MediaPlayer mediaPlayer = MediaPlayer.create(this, songSnippets[currentSongIndex]);
         mediaPlayer.start();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.menu_profile) {
+                    Intent profileIntent = new Intent(MusicSwipe.this, ProfileScreen.class);
+                    startActivity(profileIntent);
+                    return true;
+                }
+                // Add additional if statements for other menu items if needed in the future
+                return false;
+            }
+        });
 
 
     }

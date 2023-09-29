@@ -55,34 +55,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp">
 
-        <!-- Play Button -->
-        <!-- Play Button -->
-<!--        <ImageButton-->
-<!--            android:id="@+id/playButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:minHeight="60dp"-->
-<!--            android:minWidth="60dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/ic_play"-->
-<!--            android:contentDescription="Play Button"-->
-<!--            android:onClick="toggleMusic"-->
-<!--            android:background="?android:selectableItemBackground" />-->
-
-<!--        &lt;!&ndash; Pause Button &ndash;&gt;-->
-<!--        <ImageButton-->
-<!--            android:id="@+id/pauseButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:minHeight="60dp"-->
-<!--            android:minWidth="60dp"-->
-<!--            android:layout_marginLeft="8dp"-->
-<!--            android:src="@drawable/ic_pause"-->
-<!--            android:onClick="toggleMusic"-->
-<!--            android:visibility="gone"-->
-<!--            android:contentDescription="Pause Button"-->
-<!--            android:background="?android:selectableItemBackground" />-->
-
 
     </LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/black"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/bottom_nav_menu" />
 
 </RelativeLayout>
