@@ -1,4 +1,4 @@
-package repositories.Spotify;
+package trackCreation.Spotify;
 
 import com.google.gson.Gson;
 import com.neovisionaries.i18n.CountryCode;
@@ -16,7 +16,7 @@ import se.michaelthelin.spotify.requests.authorization.client_credentials.Client
 import se.michaelthelin.spotify.requests.data.browse.GetRecommendationsRequest;
 import se.michaelthelin.spotify.requests.data.search.SearchItemRequest;
 
-import mappers.Track.TrackMapper;
+import trackCreation.Track.TrackMapper;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class SpotifyController {
 
         final SearchItemRequest search = spotifyAPI.searchItem(trackName, ModelObjectType.TRACK.getType())
                 .market(CountryCode.US)
-                .limit(1)
+                .limit(5)
                 .build();
 
         try {

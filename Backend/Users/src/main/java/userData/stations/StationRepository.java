@@ -1,7 +1,6 @@
-package repositories.Stations;
+package userData.stations;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import repositories.Users.User;
 
 public interface StationRepository extends JpaRepository<Station, Long> {
 

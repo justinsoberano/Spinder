@@ -1,7 +1,8 @@
-package repositories.Users;
+package userData.users;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+
+import userData.stations.Station;
 import java.util.List;
 
 @Entity
@@ -10,17 +11,15 @@ public class User {
     @Id
     private int id;
     private String userName;
-    private String profileStr;
-
-    private String profilePicture;
-    private String accessKey;
-
+    private String profileStr; // text associated with a profile (bio, ect.)
+    private String profilePicture; // url for pfp
+    private String accessKey; // key for access to spotify data for this user
+    @OneToMany
+    private List<Station> stations;
     @OneToMany
     private List<User> followers; //ask could be friend id's
     @OneToMany
     private List<User> following;
-
-    private int Stationid;
 
     public User() {
     }
@@ -61,6 +60,10 @@ public class User {
     public void setAccessKey(String accessKey) {
         this.accessKey = accessKey;
     }
+
+    public void addStation(Station S) { this.stations.add(S); }
+
+    public void removeStation(Station S) { this.stations.remove(S); }
 
     public void addFollower(User F){
         this.followers.add(F);

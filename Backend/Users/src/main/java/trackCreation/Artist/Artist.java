@@ -1,4 +1,4 @@
-package mappers.Artist;
+package trackCreation.Artist;
 
 /**
  * Artist class for mapper

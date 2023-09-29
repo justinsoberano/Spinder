@@ -1,4 +1,4 @@
-package repositories.Authentication;
+package userData.authentication;
 
 import com.google.gson.Gson;
 import org.apache.hc.core5.http.ParseException;
@@ -15,8 +15,8 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 
-import mappers.Artist.ArtistMapper;
-import mappers.Track.TrackMapper;
+import trackCreation.Artist.ArtistMapper;
+import trackCreation.Track.TrackMapper;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -94,7 +94,7 @@ public class AuthController {
     }
 
     @GetMapping("top-artists")
-    public List<mappers.Artist.Artist> getUserTopArtists() {
+    public List<trackCreation.Artist.Artist> getUserTopArtists() {
 
         final GetUsersTopArtistsRequest req = spotifyAPI.getUsersTopArtists()
                 .time_range("medium_term")

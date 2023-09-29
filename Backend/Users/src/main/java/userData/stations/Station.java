@@ -1,10 +1,8 @@
-package repositories.Stations;
+package userData.stations;
 
-import mappers.Track.Track;
+import trackCreation.Track.Track;
 
 import javax.persistence.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,10 +18,7 @@ public class Station {
     private String currentSong;
 
     @OneToMany
-    private List<Track> seeds = new ArrayList<Track>();
-    public void getNextSong(){
-
-    }
+    private List<Track> seeds;
 
     public void setId(int i){
         this.id = i;
@@ -33,6 +28,8 @@ public class Station {
         return id;
     }
 
+    public void addSeed(Track T) { this.seeds.add(T); }
 
+    public void removeSeed(Track T) { this.seeds.remove(T); }
 
 }

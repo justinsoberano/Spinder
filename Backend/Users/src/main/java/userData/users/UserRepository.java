@@ -1,7 +1,6 @@
-package repositories.Users;
+package userData.users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
 //import repositories.Stations.Station;
 
 public interface UserRepository extends JpaRepository<User, Long> {

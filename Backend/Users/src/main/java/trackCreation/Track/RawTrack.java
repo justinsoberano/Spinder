@@ -1,6 +1,6 @@
-package mappers.Track;
+package trackCreation.Track;
 
-import mappers.Artist.Artist;
+import trackCreation.Artist.Artist;
 
 import java.util.List;
 
