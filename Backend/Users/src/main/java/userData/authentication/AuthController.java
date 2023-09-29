@@ -15,8 +15,8 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 
-import trackCreation.Artist.ArtistMapper;
-import trackCreation.Track.TrackMapper;
+import userData.trackCreation.Artist.ArtistMapper;
+import userData.trackCreation.Track.TrackMapper;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -94,7 +94,7 @@ public class AuthController {
     }
 
     @GetMapping("top-artists")
-    public List<trackCreation.Artist.Artist> getUserTopArtists() {
+    public List<userData.trackCreation.Artist.Artist> getUserTopArtists() {
 
         final GetUsersTopArtistsRequest req = spotifyAPI.getUsersTopArtists()
                 .time_range("medium_term")

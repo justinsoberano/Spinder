@@ -1,4 +1,4 @@
-package trackCreation.Artist;
+package userData.trackCreation.Artist;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

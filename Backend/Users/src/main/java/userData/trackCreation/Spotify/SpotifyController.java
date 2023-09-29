@@ -1,4 +1,4 @@
-package trackCreation.Spotify;
+package userData.trackCreation.Spotify;
 
 import com.google.gson.Gson;
 import com.neovisionaries.i18n.CountryCode;
@@ -16,7 +16,7 @@ import se.michaelthelin.spotify.requests.authorization.client_credentials.Client
 import se.michaelthelin.spotify.requests.data.browse.GetRecommendationsRequest;
 import se.michaelthelin.spotify.requests.data.search.SearchItemRequest;
 
-import trackCreation.Track.TrackMapper;
+import userData.trackCreation.Track.TrackMapper;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -44,8 +44,7 @@ public class SpotifyController {
         }
     }
 
-    @GetMapping("search/{trackName}")
-    public static String searchTrack(@PathVariable String trackName) {
+    public static String searchTrack(String trackName) {
 
         final SearchItemRequest search = spotifyAPI.searchItem(trackName, ModelObjectType.TRACK.getType())
                 .market(CountryCode.US)
@@ -63,8 +62,8 @@ public class SpotifyController {
         return null;
     }
 
-    @GetMapping("recommendations/{seedOne}")
-    public static String getRecommendations(@PathVariable String seedOne) {
+
+    public static String getRecommendations(String seedOne) {
 
         final GetRecommendationsRequest request = spotifyAPI.getRecommendations()
                 .limit(5)

@@ -1,4 +1,4 @@
-package trackCreation.Track;
+package userData.trackCreation.Track;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

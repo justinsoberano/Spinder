@@ -1,4 +1,4 @@
-package trackCreation.Track;
+package userData.trackCreation.Track;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

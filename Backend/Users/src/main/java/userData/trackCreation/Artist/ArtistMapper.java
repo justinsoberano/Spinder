@@ -1,4 +1,4 @@
-package trackCreation.Artist;
+package userData.trackCreation.Artist;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

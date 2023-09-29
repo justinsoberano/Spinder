@@ -1,6 +1,6 @@
 package userData.stations;
 
-import trackCreation.Track.Track;
+import userData.trackCreation.Track.Track;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,8 +17,8 @@ public class Station {
 
     private String currentSong;
 
-    @OneToMany
-    private List<Track> seeds;
+    @ManyToOne
+    private Track seed;
 
     public void setId(int i){
         this.id = i;
@@ -28,8 +28,8 @@ public class Station {
         return id;
     }
 
-    public void addSeed(Track T) { this.seeds.add(T); }
+    public void setSeed(Track T) { this.seed = T ; }
 
-    public void removeSeed(Track T) { this.seeds.remove(T); }
+    public String getSeed() { return this.seed.getId(); }
 
 }

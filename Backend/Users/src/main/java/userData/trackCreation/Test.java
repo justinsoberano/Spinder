@@ -1,8 +1,8 @@
-package trackCreation;
+package userData.trackCreation;
 
-import trackCreation.Artist.Artist;
-import trackCreation.Artist.ArtistMapper;
-import trackCreation.Track.TrackMapper;
+import userData.trackCreation.Artist.Artist;
+import userData.trackCreation.Artist.ArtistMapper;
+import userData.trackCreation.Track.TrackMapper;
 
 import java.util.List;
 
