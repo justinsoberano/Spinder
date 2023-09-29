@@ -18,15 +18,14 @@ public class MusicSwipe extends AppCompatActivity {
     private ImageView cardImage;
     private TextView textViewForever;
     private TextView textViewNightTapes;
-    private ImageButton playButton;
-    private ImageButton pauseButton;
-    private MediaPlayer mediaPlayer;
     RelativeLayout relativeLayout;
+    private MediaPlayer mediaPlayer;
 
     private int currentSongIndex = 0;
     private int[] songImages = {R.drawable.modest_mouse, R.drawable.nightapes, R.drawable.nightapes};
     private String[] songTitles = {"Float on", "Dress", "So it goes..."};
     private String[] artistNames = {"Modest Mouse", "Taylor Swift", "Taylor Swift"};
+    private int[] songSnippets = {R.raw.floaton, R.raw.dress, R.raw.soitgoes};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,35 +38,18 @@ public class MusicSwipe extends AppCompatActivity {
         textViewForever = findViewById(R.id.textViewForever);
         textViewNightTapes = findViewById(R.id.textViewNightTapes);
         relativeLayout = findViewById(R.id.relativeLayout);
-//        playButton = findViewById(R.id.playButton);
-//        pauseButton = findViewById(R.id.pauseButton);
 
         swipeListener = new SwipeListener(relativeLayout);
-//        mediaPlayer = MediaPlayer.create(this, R.raw.nightapes);
 
         currentSongIndex = 0;
         cardImage.setImageResource(songImages[currentSongIndex]);
         textViewForever.setText(songTitles[currentSongIndex]);
         textViewNightTapes.setText(artistNames[currentSongIndex]);
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, songSnippets[currentSongIndex]);
+        mediaPlayer.start();
+
 
     }
-
-//    public void startMusic(View v){
-//        mediaPlayer.start();
-//    }
-//
-//    public void stopMusic(View v){
-//        mediaPlayer.stop();
-//    }
-
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        if (mediaPlayer != null) {
-//            mediaPlayer.release();
-//            mediaPlayer = null;
-//        }
-//    }
 
     private class SwipeListener implements View.OnTouchListener {
         GestureDetector gestureDetector;
@@ -94,14 +76,22 @@ public class MusicSwipe extends AppCompatActivity {
                         if(absX > absY){
                             if(absX > threshold && Math.abs(velocityX) > velocityThreshold){
                                 if(xDif > 0){
-                                    //change song image;
+                                    //"Liked the song" and basically goes to the next song in the array
                                     currentSongIndex = (currentSongIndex + 1) % songImages.length;
-//
                                 }else{
                                     currentSongIndex = (currentSongIndex - 1 + songImages.length) % songImages.length;
                                     //change info to say "you did not like this song"
                                     textViewForever.setText("You dont like this song");
                                 }
+                                if (mediaPlayer != null) {
+                                    mediaPlayer.release();
+                                    mediaPlayer = null;
+                                }
+
+                                mediaPlayer = MediaPlayer.create(MusicSwipe.this, songSnippets[currentSongIndex]);
+
+                                // Start playback
+                                mediaPlayer.start();
                                 cardImage.setImageResource(songImages[currentSongIndex]);
                                 textViewForever.setText(songTitles[currentSongIndex]);
                                 textViewNightTapes.setText(artistNames[currentSongIndex]);
@@ -117,6 +107,8 @@ public class MusicSwipe extends AppCompatActivity {
             gestureDetector = new GestureDetector(listener);
             view.setOnTouchListener(this);
         }
+
+
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             return gestureDetector.onTouchEvent(event);
