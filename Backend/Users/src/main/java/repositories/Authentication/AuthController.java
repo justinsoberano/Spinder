@@ -116,7 +116,7 @@ public class AuthController {
     }
 
     @GetMapping("top-tracks")
-    public List<mappers.Track.Track> getUserTopTracks() {
+    public String getUserTopTracks() {
 
         final GetUsersTopTracksRequest req = spotifyAPI.getUsersTopTracks()
                 .time_range("medium_term")

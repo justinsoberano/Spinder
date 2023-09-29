@@ -2,8 +2,6 @@ package repositories.Spotify;
 
 import com.google.gson.Gson;
 import com.neovisionaries.i18n.CountryCode;
-import mappers.Artist.ArtistMapper;
-import mappers.Track.Track;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,20 +11,15 @@ import se.michaelthelin.spotify.enums.ModelObjectType;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
 import se.michaelthelin.spotify.model_objects.special.SearchResult;
-import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Recommendations;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 import se.michaelthelin.spotify.requests.data.browse.GetRecommendationsRequest;
 import se.michaelthelin.spotify.requests.data.search.SearchItemRequest;
-import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
 
 import mappers.Track.TrackMapper;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 @RestController
 public class SpotifyController {
@@ -52,7 +45,7 @@ public class SpotifyController {
     }
 
     @GetMapping("search/{trackName}")
-    public static List<mappers.Track.Track> searchTrack(@PathVariable String trackName) {
+    public static String searchTrack(@PathVariable String trackName) {
 
         final SearchItemRequest search = spotifyAPI.searchItem(trackName, ModelObjectType.TRACK.getType())
                 .market(CountryCode.US)
@@ -61,7 +54,6 @@ public class SpotifyController {
 
         try {
             final SearchResult searchResult = search.execute();
-
             String jsonOutput = gson.toJson(searchResult.getTracks().getItems());
             return TrackMapper.trackData(jsonOutput);
 
@@ -72,7 +64,7 @@ public class SpotifyController {
     }
 
     @GetMapping("recommendations/{seedOne}")
-    public static List<mappers.Track.Track> getRecommendations(@PathVariable String seedOne) {
+    public static String getRecommendations(@PathVariable String seedOne) {
 
         final GetRecommendationsRequest request = spotifyAPI.getRecommendations()
                 .limit(5)
@@ -80,9 +72,11 @@ public class SpotifyController {
                 .build();
 
         try {
+
             final Recommendations recommendations = request.execute();
             String jsonOutput = gson.toJson(recommendations.getTracks());
             return TrackMapper.trackData(jsonOutput);
+
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Oh no :( " + e.getMessage());
         }

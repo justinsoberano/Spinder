@@ -1,19 +1,28 @@
 package mappers.Artist;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
+/**
+ * Artist class for mapper
+ */
 public class Artist {
 
-    @Id
+    /* Artist ID */
     private String id;
+
+    /* Artist name */
     private String name;
 
+    /**
+     * Gets the name of the artist
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the name of the ID
+     * @return id;
+     */
     public String getId() {
         return id;
     }
