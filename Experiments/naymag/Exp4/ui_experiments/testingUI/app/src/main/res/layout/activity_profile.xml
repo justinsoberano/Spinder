@@ -7,14 +7,27 @@
     android:id="@+id/relativeLayout"
     android:background="@drawable/gradient_background">
 
-    <!-- Centered Text View -->
+    <!-- Profile Picture -->
+    <ImageView
+        android:id="@+id/profilePicture"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/profilekendall"
+        android:contentDescription="Profile Picture" />
+
+
+    <!-- Username -->
     <TextView
-        android:id="@+id/textViewProfileTest"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Profile test"
-        android:textSize="24sp"
+        android:layout_toEndOf="@+id/profilePicture"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Kendall"
+        android:textSize="70sp"
         android:textColor="#FFFFFF" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
