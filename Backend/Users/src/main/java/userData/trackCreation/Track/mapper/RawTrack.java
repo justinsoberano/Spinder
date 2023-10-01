@@ -1,7 +1,4 @@
-package mappers.Track;
-
-import mappers.Artist.Artist;
-
+package userData.trackCreation.Track.mapper;
 import java.util.List;
 
 /**
@@ -142,6 +139,35 @@ public class RawTrack {
             return url;
         }
 
+    }
+
+    /** Nested Artist class
+     * Required for RawTrack as Spotify returns an array of artists
+     * If there is more than one artist.
+     */
+    public static class Artist {
+
+        /* Artist ID */
+        private String id;
+
+        /* Artist name */
+        private String name;
+
+        /**
+         * Gets the name of the artist
+         * @return name
+         */
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * Gets the name of the ID
+         * @return id;
+         */
+        public String getId() {
+            return id;
+        }
     }
 
 }

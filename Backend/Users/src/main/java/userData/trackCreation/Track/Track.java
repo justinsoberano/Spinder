@@ -1,25 +1,33 @@
-package mappers.Track;
+package userData.trackCreation.Track;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class Track {
 
+    @Id
     /* Track ID */
-    private final String id;
+    private String id;
 
     /* Track name */
-    private final String name;
+    private String name;
 
     /* Album name that Track is in */
-    private final String album;
+    private String album;
 
     /* Image URL */
-    private final String image;
+    private String image;
 
     /* Artist name */
-    private final String artist;
+    private String artist;
 
     /* Preview URL */
-    private final String preview;
+    private String preview;
+
+    public Track(){
+
+    }
 
     /* Constructor */
     public Track(String id, String name, String album,

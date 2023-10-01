@@ -1,25 +1,23 @@
-package repositories.Users;
+package userData.users;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import repositories.Users.User;
-import repositories.Users.UserRepository;
+import org.springframework.web.bind.annotation.*;
+import userData.trackCreation.Track.TrackRepository;
+import userData.stations.StationRepository;
 
 @RestController
 public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    StationRepository stationRepository;
+
+    @Autowired
+    TrackRepository trackRepository;
 
     @GetMapping(path = "/users")
     List<User> getAllUsers(){
@@ -45,6 +43,16 @@ public class UserController {
         return "success";
     }
 
+    @PostMapping(path = "user/station/{song}")
+    void createStation(@PathVariable String song){
+
+    }
+
+    @PutMapping(path = "user/profile/{string}")
+    void setBio(@PathVariable String string){
+
+    }
+
     @DeleteMapping(path = "/user/{id}")
     String deleteUser(@PathVariable int id){
         if(userRepository.existsById(id)){
@@ -54,4 +62,5 @@ public class UserController {
             return "failure";
         }
     }
+
 }

@@ -1,27 +1,17 @@
-package repositories.Authentication;
+package userData.authentication;
 
-import com.google.gson.Gson;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
-import se.michaelthelin.spotify.model_objects.specification.Artist;
-import se.michaelthelin.spotify.model_objects.specification.Paging;
-import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
-import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
-import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
-
-import mappers.Artist.ArtistMapper;
-import mappers.Track.TrackMapper;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.util.List;
 
 @RestController
 public class AuthController {
@@ -91,48 +81,5 @@ public class AuthController {
             System.out.println("ERROR: " + e.getMessage());
         }
         return spotifyAPI.getAccessToken();
-    }
-
-    @GetMapping("top-artists")
-    public List<mappers.Artist.Artist> getUserTopArtists() {
-
-        final GetUsersTopArtistsRequest req = spotifyAPI.getUsersTopArtists()
-                .time_range("medium_term")
-                .limit(5)
-                .build();
-
-        try {
-            final Paging<Artist> artistPaging = req.execute();
-
-            Gson gson = new Gson();
-            String jsonOutput = gson.toJson(artistPaging.getItems());
-            return ArtistMapper.artistData(jsonOutput);
-
-
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Oops, something went wrong.\n" + e.getMessage());
-        }
-        return null;
-    }
-
-    @GetMapping("top-tracks")
-    public String getUserTopTracks() {
-
-        final GetUsersTopTracksRequest req = spotifyAPI.getUsersTopTracks()
-                .time_range("medium_term")
-                .limit(5)
-                .build();
-
-        try {
-            final Paging<Track> trackPaging = req.execute();
-
-            Gson gson = new Gson();
-            String jsonOutput = gson.toJson(trackPaging.getItems());
-            return TrackMapper.trackData(jsonOutput);
-
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Oops, something went wrong. \n" + e.getMessage());
-        }
-        return null;
     }
 }

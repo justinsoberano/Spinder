@@ -1,7 +1,8 @@
-package mappers.Track;
+package userData.trackCreation.Track.mapper;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import userData.trackCreation.Track.Track;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +18,14 @@ public class TrackMapper {
      * Contains the preprocessor and filter
      * @return cleaned JSON file
      */
-    public static String trackData(String jsonData) {
+    public static List<Track> trackData(String jsonData) {
 
         /* Create a TypeToken for the class RawTrack for JSON preprocessing */
         Type RawTrackType = new TypeToken<List<RawTrack>>(){}.getType();
         List<RawTrack> rawTracks = gson.fromJson(jsonData, RawTrackType);
 
-        /* Create an array list of to be processed Tracks */
-        List<Track> tracks = filter(rawTracks);
-
-        /* Return a clean string JSON of tracks based on the Spotify JSON file */
-        return gson.toJson(tracks);
+        /* Return a list of tracks based on the Spotify JSON file */
+        return filter(rawTracks);
     }
 
     /**
