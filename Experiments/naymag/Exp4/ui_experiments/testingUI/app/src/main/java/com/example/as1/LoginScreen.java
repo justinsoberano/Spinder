@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginScreen extends AppCompatActivity {
     EditText username;
     EditText password;
     Button loginButton;
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
                 String enteredPassword = password.getText().toString();
 
                 if (validateLogin(enteredUsername, enteredPassword)) {
-                    Intent intent = new Intent(MainActivity.this, MusicSwipe.class);
+                    Intent intent = new Intent(LoginScreen.this, MusicSwipe.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(MainActivity.this, "User Name or Password is incorrect!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginScreen.this, "User Name or Password is incorrect!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

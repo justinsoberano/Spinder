@@ -3,27 +3,34 @@ package com.example.as1;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.android. volley.Request;
+import com.android. volley. RequestQueue;
+import com.android.volley. Response;
+import com.android.volley.VolleyError;
+import com.android.volley. toolbox. Volley;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MusicSwipe extends AppCompatActivity {
-    private CardView roundedCard;
     private ImageView cardImage;
     private TextView textViewForever;
     private TextView textViewNightTapes;
     RelativeLayout relativeLayout;
+    private TextView testRequest;
     private MediaPlayer mediaPlayer;
 
     private int currentSongIndex = 0;
@@ -38,11 +45,11 @@ public class MusicSwipe extends AppCompatActivity {
         setContentView(R.layout.activity_musicswipe);
         SwipeListener swipeListener;
 
-        roundedCard = findViewById(R.id.roundedCard);
         cardImage = findViewById(R.id.cardImage);
         textViewForever = findViewById(R.id.textViewForever);
         textViewNightTapes = findViewById(R.id.textViewNightTapes);
         relativeLayout = findViewById(R.id.relativeLayout);
+        testRequest = findViewById(R.id.testRequest);
 
         swipeListener = new SwipeListener(relativeLayout);
 
@@ -53,6 +60,12 @@ public class MusicSwipe extends AppCompatActivity {
         MediaPlayer mediaPlayer = MediaPlayer.create(this, songSnippets[currentSongIndex]);
         mediaPlayer.start();
 
+        setUpNavBar();
+        makeJSONRequest();
+
+    }
+
+    private void setUpNavBar(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -62,13 +75,45 @@ public class MusicSwipe extends AppCompatActivity {
                     startActivity(profileIntent);
                     return true;
                 }
-                // Add additional if statements for other menu items if needed in the future
                 return false;
             }
         });
-
-
     }
+
+    private void makeJSONRequest(){
+        RequestQueue requestQueue = Volley.newRequestQueue(MusicSwipe.this);
+        String url = "http://10.0.2.2:8080/search/ForeverNightTapes";
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d("Volley Response", response.toString());
+                        try {
+                            JSONObject songObject = response.getJSONObject(0);
+                            String songName = songObject.getString("name");
+
+                            testRequest.setText(songName);
+
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        error.printStackTrace();
+                    }
+                }
+        );
+
+        requestQueue.add(jsonArrayRequest);
+    }
+
 
     private class SwipeListener implements View.OnTouchListener {
         GestureDetector gestureDetector;
@@ -97,23 +142,24 @@ public class MusicSwipe extends AppCompatActivity {
                                 if(xDif > 0){
                                     //"Liked the song" and basically goes to the next song in the array
                                     currentSongIndex = (currentSongIndex + 1) % songImages.length;
+                                    if (mediaPlayer != null) {
+                                        mediaPlayer.release();
+                                        mediaPlayer = null;
+                                    }
+
+                                    mediaPlayer = MediaPlayer.create(MusicSwipe.this, songSnippets[currentSongIndex]);
+
+                                    // Start playback
+                                    cardImage.setImageResource(songImages[currentSongIndex]);
+                                    textViewForever.setText(songTitles[currentSongIndex]);
+                                    textViewNightTapes.setText(artistNames[currentSongIndex]);
+                                    mediaPlayer.start();
                                 }else{
                                     currentSongIndex = (currentSongIndex - 1 + songImages.length) % songImages.length;
                                     //change info to say "you did not like this song"
                                     textViewForever.setText("You dont like this song");
                                 }
-                                if (mediaPlayer != null) {
-                                    mediaPlayer.release();
-                                    mediaPlayer = null;
-                                }
 
-                                mediaPlayer = MediaPlayer.create(MusicSwipe.this, songSnippets[currentSongIndex]);
-
-                                // Start playback
-                                mediaPlayer.start();
-                                cardImage.setImageResource(songImages[currentSongIndex]);
-                                textViewForever.setText(songTitles[currentSongIndex]);
-                                textViewNightTapes.setText(artistNames[currentSongIndex]);
                                 return true;
                             }
                         }

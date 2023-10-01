@@ -55,6 +55,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp">
 
+        <TextView
+            android:id="@+id/testRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/roundedCard"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
