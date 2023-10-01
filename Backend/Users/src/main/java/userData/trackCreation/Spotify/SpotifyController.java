@@ -5,6 +5,7 @@ import com.neovisionaries.i18n.CountryCode;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.enums.ModelObjectType;
@@ -16,10 +17,12 @@ import se.michaelthelin.spotify.requests.authorization.client_credentials.Client
 import se.michaelthelin.spotify.requests.data.browse.GetRecommendationsRequest;
 import se.michaelthelin.spotify.requests.data.search.SearchItemRequest;
 
-import userData.trackCreation.Track.TrackMapper;
+import userData.trackCreation.Track.Track;
+import userData.trackCreation.Track.mapper.TrackMapper;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class SpotifyController {
@@ -44,11 +47,12 @@ public class SpotifyController {
         }
     }
 
-    public static String searchTrack(String trackName) {
+    @GetMapping("search/{trackName}")
+    public static List<Track> searchTrack(@PathVariable String trackName) {
 
         final SearchItemRequest search = spotifyAPI.searchItem(trackName, ModelObjectType.TRACK.getType())
                 .market(CountryCode.US)
-                .limit(5)
+                .limit(1)
                 .build();
 
         try {
@@ -63,7 +67,7 @@ public class SpotifyController {
     }
 
 
-    public static String getRecommendations(String seedOne) {
+    public static List<Track> getRecommendations(String seedOne) {
 
         final GetRecommendationsRequest request = spotifyAPI.getRecommendations()
                 .limit(5)
