@@ -14,14 +14,23 @@ public class User {
     private String profileStr; // text associated with a profile (bio, ect.)
     private String profilePicture; // url for pfp
     private String accessKey; // key for access to spotify data for this user
-    @OneToMany
-    private List<Station> stations;
-    @OneToMany
-    private List<User> followers; //ask could be friend id's
-    @OneToMany
-    private List<User> following;
+    @OneToOne
+    private Station station;
+//    @OneToMany
+//    private List<User> followers;
+//    @OneToMany
+//    private List<User> following;
 
     public User() {
+    }
+
+    // dummy constructor
+    public User(int id, String userName, String profileStr, String profilePicture, String accessKey){
+        this.id = id;
+        this.userName = userName;
+        this.profileStr = profileStr;
+        this.profilePicture = profileStr;
+        this.accessKey = accessKey;
     }
 
     //
@@ -61,25 +70,29 @@ public class User {
         this.accessKey = accessKey;
     }
 
-    public void addStation(Station S) { this.stations.add(S); }
+    public Station getStation(){ return this.station; }
 
-    public void removeStation(Station S) { this.stations.remove(S); }
+    public void setStation(Station s){ this.station = s; }
 
-    public void addFollower(User F){
-        this.followers.add(F);
-    }
+//    public void addStation(Station S) { this.stations.add(S); }
+//
+//    public void removeStation(Station S) { this.stations.remove(S); }
 
-    public void removeFollower(User F){
-        this.followers.remove(F);
-    }
-
-    public void addFollowing(User F){
-        this.following.add(F);
-    }
-
-    public void removeFollwing(User F){
-        this.following.remove(F);
-    }
+//    public void addFollower(User F){
+//        this.followers.add(F);
+//    }
+//
+//    public void removeFollower(User F){
+//        this.followers.remove(F);
+//    }
+//
+//    public void addFollowing(User F){
+//        this.following.add(F);
+//    }
+//
+//    public void removeFollwing(User F){
+//        this.following.remove(F);
+//    }
 
 
 }

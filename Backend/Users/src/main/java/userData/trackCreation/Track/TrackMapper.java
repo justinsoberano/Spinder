@@ -17,7 +17,7 @@ public class TrackMapper {
      * Contains the preprocessor and filter
      * @return cleaned JSON file
      */
-    public static String trackData(String jsonData) {
+    public static List<Track> trackData(String jsonData) {
 
         /* Create a TypeToken for the class RawTrack for JSON preprocessing */
         Type RawTrackType = new TypeToken<List<RawTrack>>(){}.getType();
@@ -27,7 +27,7 @@ public class TrackMapper {
         List<Track> tracks = filter(rawTracks);
 
         /* Return a clean string JSON of tracks based on the Spotify JSON file */
-        return gson.toJson(tracks);
+        return tracks;
     }
 
     /**

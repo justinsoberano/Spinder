@@ -128,7 +128,7 @@ public class AuthController {
 
             Gson gson = new Gson();
             String jsonOutput = gson.toJson(trackPaging.getItems());
-            return TrackMapper.trackData(jsonOutput);
+//            return TrackMapper.trackData(jsonOutput);
 
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Oops, something went wrong. \n" + e.getMessage());

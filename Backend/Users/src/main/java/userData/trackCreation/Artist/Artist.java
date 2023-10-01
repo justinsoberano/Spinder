@@ -1,11 +1,16 @@
 package userData.trackCreation.Artist;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * Artist class for mapper
  */
+@Entity
 public class Artist {
 
     /* Artist ID */
+    @Id
     private String id;
 
     /* Artist name */

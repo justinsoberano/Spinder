@@ -2,6 +2,11 @@ package userData.trackCreation.Track;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import userData.stations.Station;
 
 @Entity
 public class Track {
@@ -24,6 +29,10 @@ public class Track {
 
     /* Preview URL */
     private String preview;
+
+    @OneToOne
+    @JsonIgnore
+    private Station station;
 
     public Track(){
 

@@ -16,10 +16,12 @@ import se.michaelthelin.spotify.requests.authorization.client_credentials.Client
 import se.michaelthelin.spotify.requests.data.browse.GetRecommendationsRequest;
 import se.michaelthelin.spotify.requests.data.search.SearchItemRequest;
 
+import userData.trackCreation.Track.Track;
 import userData.trackCreation.Track.TrackMapper;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class SpotifyController {
@@ -44,7 +46,7 @@ public class SpotifyController {
         }
     }
 
-    public static String searchTrack(String trackName) {
+    public static List<Track> searchTrack(String trackName) {
 
         final SearchItemRequest search = spotifyAPI.searchItem(trackName, ModelObjectType.TRACK.getType())
                 .market(CountryCode.US)
@@ -62,8 +64,7 @@ public class SpotifyController {
         return null;
     }
 
-
-    public static String getRecommendations(String seedOne) {
+    public static List<Track> getRecommendations(String seedOne) {
 
         final GetRecommendationsRequest request = spotifyAPI.getRecommendations()
                 .limit(5)
