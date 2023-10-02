@@ -2,6 +2,7 @@ package com.example.as1;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -21,47 +22,45 @@ import com.android. volley. RequestQueue;
 import com.android.volley. Response;
 import com.android.volley.VolleyError;
 import com.android.volley. toolbox. Volley;
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class MusicSwipe extends AppCompatActivity {
     private ImageView cardImage;
     private TextView textViewForever;
     private TextView textViewNightTapes;
     RelativeLayout relativeLayout;
-    private TextView testRequest;
+    private TextView testNameRequest;
+    private TextView testArtistRequest;
     private MediaPlayer mediaPlayer;
-
     private int currentSongIndex = 0;
-    private int[] songImages = {R.drawable.modest_mouse, R.drawable.nightapes, R.drawable.nightapes};
-    private String[] songTitles = {"Float on", "Dress", "So it goes..."};
-    private String[] artistNames = {"Modest Mouse", "Taylor Swift", "Taylor Swift"};
-    private int[] songSnippets = {R.raw.floaton, R.raw.dress, R.raw.soitgoes};
+    private final ArrayList<String> songNames = new ArrayList<>();
+    private final ArrayList<String> artistNames = new ArrayList<>();
+    private final ArrayList<String> songImages = new ArrayList<>();
+    private final ArrayList<String> songSnippets = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musicswipe);
         SwipeListener swipeListener;
-
         cardImage = findViewById(R.id.cardImage);
         textViewForever = findViewById(R.id.textViewForever);
         textViewNightTapes = findViewById(R.id.textViewNightTapes);
         relativeLayout = findViewById(R.id.relativeLayout);
-        testRequest = findViewById(R.id.testRequest);
+        testNameRequest = findViewById(R.id.testNameRequest);
+        testArtistRequest = findViewById(R.id.testArtistRequest);
 
         swipeListener = new SwipeListener(relativeLayout);
-
-        currentSongIndex = 0;
-        cardImage.setImageResource(songImages[currentSongIndex]);
-        textViewForever.setText(songTitles[currentSongIndex]);
-        textViewNightTapes.setText(artistNames[currentSongIndex]);
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, songSnippets[currentSongIndex]);
-        mediaPlayer.start();
+        makeJSONRequest();
 
         setUpNavBar();
-        makeJSONRequest();
+
 
     }
 
@@ -82,7 +81,7 @@ public class MusicSwipe extends AppCompatActivity {
 
     private void makeJSONRequest(){
         RequestQueue requestQueue = Volley.newRequestQueue(MusicSwipe.this);
-        String url = "http://10.0.2.2:8080/search/ForeverNightTapes";
+        String url = "http://10.0.2.2:8080/recommendations/4HwDCXsMBC7SUdp2WT4MZP";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -93,10 +92,31 @@ public class MusicSwipe extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         Log.d("Volley Response", response.toString());
                         try {
-                            JSONObject songObject = response.getJSONObject(0);
-                            String songName = songObject.getString("name");
+                            for(int i = 0; i < response.length(); i++){
+                                JSONObject songObject = response.getJSONObject(i);
+                                String songName = songObject.getString("name");
+                                String artistName = songObject.getString("artist");
+                                String songImage = songObject.getString("image");
+                                String songSnippet = songObject.getString("preview");
 
-                            testRequest.setText(songName);
+                                songNames.add(songName);
+                                artistNames.add(artistName);
+                                songImages.add(songImage);
+                                songSnippets.add(songSnippet);
+                            }
+
+
+                            currentSongIndex = 0;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Picasso.get().load(songImages.get(currentSongIndex)).into(cardImage);
+                                    textViewForever.setText(songNames.get(currentSongIndex));
+                                    textViewNightTapes.setText(artistNames.get(currentSongIndex));
+                                    mediaPlayer = MediaPlayer.create(MusicSwipe.this, Uri.parse(songSnippets.get(currentSongIndex)));
+                                    mediaPlayer.start();
+                                }
+                            });
 
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -118,11 +138,11 @@ public class MusicSwipe extends AppCompatActivity {
     private class SwipeListener implements View.OnTouchListener {
         GestureDetector gestureDetector;
 
-        SwipeListener (View view){
+        SwipeListener(View view) {
             int threshold = 100;
             int velocityThreshold = 100;
 
-            GestureDetector.SimpleOnGestureListener listener = new GestureDetector.SimpleOnGestureListener(){
+            GestureDetector.SimpleOnGestureListener listener = new GestureDetector.SimpleOnGestureListener() {
                 @Override
                 public boolean onDown(MotionEvent e) {
                     return true;
@@ -136,34 +156,34 @@ public class MusicSwipe extends AppCompatActivity {
                     float absX = Math.abs(xDif);
                     float absY = Math.abs(yDif);
 
-                    try{
-                        if(absX > absY){
-                            if(absX > threshold && Math.abs(velocityX) > velocityThreshold){
-                                if(xDif > 0){
-                                    //"Liked the song" and basically goes to the next song in the array
-                                    currentSongIndex = (currentSongIndex + 1) % songImages.length;
-                                    if (mediaPlayer != null) {
-                                        mediaPlayer.release();
-                                        mediaPlayer = null;
-                                    }
-
-                                    mediaPlayer = MediaPlayer.create(MusicSwipe.this, songSnippets[currentSongIndex]);
-
-                                    // Start playback
-                                    cardImage.setImageResource(songImages[currentSongIndex]);
-                                    textViewForever.setText(songTitles[currentSongIndex]);
-                                    textViewNightTapes.setText(artistNames[currentSongIndex]);
-                                    mediaPlayer.start();
-                                }else{
-                                    currentSongIndex = (currentSongIndex - 1 + songImages.length) % songImages.length;
-                                    //change info to say "you did not like this song"
-                                    textViewForever.setText("You dont like this song");
+                    try {
+                        if (absX > absY) {
+                            if (absX > threshold && Math.abs(velocityX) > velocityThreshold) {
+                                if (xDif > 0) {
+                                    // "Liked the song" and basically goes to the next song in the array
+                                    currentSongIndex = (currentSongIndex + 1) % songImages.size();
+                                } else {
+                                    currentSongIndex = (currentSongIndex - 1 + songImages.size()) % songImages.size();
+                                    // change info to say "you did not like this song"
+                                    textViewForever.setText("You don't like this song");
                                 }
+
+                                // Release and recreate MediaPlayer
+                                if (mediaPlayer != null) {
+                                    mediaPlayer.release();
+                                }
+                                mediaPlayer = MediaPlayer.create(MusicSwipe.this, Uri.parse(songSnippets.get(currentSongIndex)));
+
+                                // Start playback and update UI
+                                Picasso.get().load(songImages.get(currentSongIndex)).into(cardImage);
+                                textViewForever.setText(songNames.get(currentSongIndex));
+                                textViewNightTapes.setText(artistNames.get(currentSongIndex));
+                                mediaPlayer.start();
 
                                 return true;
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     return false;
@@ -173,10 +193,10 @@ public class MusicSwipe extends AppCompatActivity {
             view.setOnTouchListener(this);
         }
 
-
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             return gestureDetector.onTouchEvent(event);
         }
     }
+
 }
