@@ -17,7 +17,6 @@
         android:src="@drawable/profilekendall"
         android:contentDescription="Profile Picture" />
 
-
     <!-- Username -->
     <TextView
         android:id="@+id/username"
@@ -29,6 +28,37 @@
         android:text="Kendall"
         android:textSize="70sp"
         android:textColor="#FFFFFF" />
+
+    <!-- Bio TextView -->
+    <TextView
+        android:id="@+id/bio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/username"
+        android:layout_toEndOf="@+id/profilePicture"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:text="TEST BIO"
+        android:textColor="#FFFFFF" />
+
+    <!-- Bio EditText -->
+    <EditText
+        android:id="@+id/editBio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bio"
+        android:minHeight="48dp"
+        android:hint="Edit Bio"/>
+
+    <!-- Set Bio Button -->
+    <Button
+        android:id="@+id/setBio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editBio"
+        android:layout_gravity="center"
+        android:text="Set Bio" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

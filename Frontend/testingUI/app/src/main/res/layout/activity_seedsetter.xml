@@ -9,19 +9,27 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/gradient_background"
-    tools:context="screens.seedSetter">
+    tools:context="screens.SeedSetter">
 
     <EditText
-        android:id="@+id/simpleEditText"
+        android:id="@+id/seed"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:minHeight="48dp"
         android:hint="Enter Text"/>
 
     <Button
-        android:id="@+id/submitButton"
+        android:id="@+id/seedSetter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="Enter Seed"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/musicSwipeSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Music Swipe"
         android:layout_gravity="center"/>
 
 </LinearLayout>

@@ -40,7 +40,7 @@ public class LoginScreen extends AppCompatActivity {
                 String enteredPassword = password.getText().toString();
 
                 if (validateLogin(enteredUsername, enteredPassword)) {
-                    Intent intent = new Intent(LoginScreen.this, MusicSwipe.class);
+                    Intent intent = new Intent(LoginScreen.this, SeedSetter.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(LoginScreen.this, "User Name or Password is incorrect!", Toast.LENGTH_SHORT).show();
