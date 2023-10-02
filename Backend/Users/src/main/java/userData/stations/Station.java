@@ -46,10 +46,10 @@ public class Station {
 
     public void setSeed(Track T) { this.seed = T ; }
 
-    public String getSeed() { return this.seed.getId(); }
+    public Track getSeed() { return this.seed; }
 
     public List<Track> generateTacks(){
-        return SpotifyController.getRecommendations(seed.getId());
+        return SpotifyController.getRecommendations(seed.getId(), 50);
     }
 
 }
