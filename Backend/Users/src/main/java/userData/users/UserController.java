@@ -25,7 +25,7 @@ public class UserController {
     @Autowired
     TrackRepository trackRepository;
 
-    @GetMapping(path = "/users")
+    @GetMapping(path = "/user")
     List<User> getAllUsers(){
         return userRepository.findAll();
     }
@@ -63,17 +63,19 @@ public class UserController {
     @PutMapping(path = "user/{id}/station/{song}")
     void setStationSeed(@PathVariable int id, @PathVariable String song){
         Track t;
+        User u = userRepository.findById(id);
         try {
             t = searchTrack(song).get(0);
         } catch (NullPointerException E) {
             return;
         }
-        userRepository.findById(id).getStation().setSeed(t); // TODO make postmapping
+        u.getStation().setSeed(t);
+        userRepository.save(u);
     }
 
     @GetMapping(path = "user/{id}/station")
-    String getStation(@PathVariable int id){
-        return userRepository.findById(id).getStation().getSeed();
+    Station getStation(@PathVariable int id){
+        return userRepository.findById(id).getStation();
     }
 
     @GetMapping(path = "user/{id}/{stationId}")
@@ -83,7 +85,10 @@ public class UserController {
 
     @PutMapping(path = "user/{id}/profile/{string}")
     void setBio(@PathVariable int id, @PathVariable String string){
-        userRepository.findById(id).setProfileStr(string);
+        User u = userRepository.findById(id);
+        u.setProfileStr(string);
+        userRepository.save(u);
+
     }
 
     @DeleteMapping(path = "/user/{id}")

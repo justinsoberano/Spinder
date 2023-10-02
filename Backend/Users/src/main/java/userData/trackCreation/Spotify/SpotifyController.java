@@ -51,7 +51,7 @@ public class SpotifyController {
 
         final SearchItemRequest search = spotifyAPI.searchItem(trackName, ModelObjectType.TRACK.getType())
                 .market(CountryCode.US)
-                .limit(50)
+                .limit(5)
                 .build();
 
         try {
@@ -66,10 +66,10 @@ public class SpotifyController {
     }
 
 
-    public static List<Track> getRecommendations(String seedOne) {
+    public static List<Track> getRecommendations(String seedOne, int numSongs) {
 
         final GetRecommendationsRequest request = spotifyAPI.getRecommendations()
-                .limit(5)
+                .limit(numSongs)
                 .seed_tracks(seedOne)
                 .build();
 
