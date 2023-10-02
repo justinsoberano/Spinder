@@ -20,7 +20,8 @@ public class Station {
 
     private String currentSong;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "track_id")
     private Track seed;
 
     @OneToOne

@@ -14,7 +14,8 @@ public class User {
     private String profileStr; // text associated with a profile (bio, ect.)
     private String profilePicture; // url for pfp
     private String accessKey; // key for access to spotify data for this user
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "station_id")
     private Station station;
 //    @OneToMany
 //    private List<User> followers;

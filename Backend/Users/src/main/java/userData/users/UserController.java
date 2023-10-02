@@ -49,15 +49,26 @@ public class UserController {
         return "success";
     }
 
+    @PostMapping(path = "/user/{id}/station/{id2}")
+    void createStation(@PathVariable int id, @PathVariable int id2){
+        if(stationRepository.existsById(id2)) {
+            return;
+        }
+        Station s = new Station();
+        s.setId(id2);
+        stationRepository.save(s);
+        userRepository.findById(id).setStation(stationRepository.findById(id2));
+    }
+
     @PutMapping(path = "user/{id}/station/{song}")
-    void createStation(@PathVariable int id, @PathVariable String song){
+    void setStationSeed(@PathVariable int id, @PathVariable String song){
         Track t;
         try {
             t = searchTrack(song).get(0);
         } catch (NullPointerException E) {
             return;
         }
-        getUserById(id).getStation().setSeed(t); // TODO make postmapping
+        userRepository.findById(id).getStation().setSeed(t); // TODO make postmapping
     }
 
     @GetMapping(path = "user/{id}/station")

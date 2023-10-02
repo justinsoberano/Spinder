@@ -51,7 +51,7 @@ public class SpotifyController {
 
         final SearchItemRequest search = spotifyAPI.searchItem(trackName, ModelObjectType.TRACK.getType())
                 .market(CountryCode.US)
-                .limit(1)
+                .limit(50)
                 .build();
 
         try {

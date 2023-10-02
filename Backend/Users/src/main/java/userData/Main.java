@@ -16,11 +16,10 @@ class Main {
         SpringApplication.run(Main.class, args);
     }
 
-    CommandLineRunner initUser(UserRepository userRepository, StationRepository stationRepository,
-                               TrackRepository trackRepository) {
+    CommandLineRunner initUser(UserRepository userRepository, StationRepository stationRepository) {
         return args -> {
             User user1 = new User(1, "Qusai", "I love music", "https://media.wired.com/photos/598e35fb99d76447c4eb1f28/master/pass/phonepicutres-TA.jpg",
-                    "key"); //TODO add key
+                    "key");
             Station station1 = new Station(1);
             user1.setStation(station1);
             userRepository.save(user1);
