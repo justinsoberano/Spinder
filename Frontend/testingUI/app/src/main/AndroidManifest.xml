@@ -23,6 +23,9 @@
             android:name="screens.MusicSwipe"
             android:exported="true" />
         <activity
+            android:name="screens.SeedSetter"
+            android:exported="true" />
+        <activity
             android:name="screens.LoginScreen"
             android:exported="true">
             <intent-filter>

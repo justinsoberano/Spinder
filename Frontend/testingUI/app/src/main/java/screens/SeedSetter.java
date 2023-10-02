@@ -1,4 +1,7 @@
 package screens;
-public class SeedSetter {
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SeedSetter extends AppCompatActivity {
 
 }
