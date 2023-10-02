@@ -83,12 +83,16 @@ public class UserController {
         return userRepository.findById(id).getStation().generateTacks();
     }
 
+    @GetMapping(path = "user/{id}/profile")
+    String getBio(@PathVariable int id){
+        return userRepository.findById(id).getProfileStr();
+    }
+
     @PutMapping(path = "user/{id}/profile/{string}")
     void setBio(@PathVariable int id, @PathVariable String string){
         User u = userRepository.findById(id);
         u.setProfileStr(string);
         userRepository.save(u);
-
     }
 
     @DeleteMapping(path = "/user/{id}")
