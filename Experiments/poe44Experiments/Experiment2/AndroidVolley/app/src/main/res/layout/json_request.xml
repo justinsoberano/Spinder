@@ -1,0 +1,69 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/createdArray"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btnJsonObj"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="JSON Object Request"
+        app:layout_constraintBottom_toTopOf="@+id/btnJsonArray"
+        app:layout_constraintEnd_toEndOf="@+id/btnJsonArray"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/btnJsonArray"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnJsonArray"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:text="JSON Array Request"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/btnJsonObj" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="420dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="26dp"
+        android:text="Response: "
+        app:layout_constraintBottom_toTopOf="@+id/msgResponse"
+        app:layout_constraintEnd_toEndOf="@+id/msgResponse"
+        app:layout_constraintHorizontal_bias="0.242"
+        app:layout_constraintStart_toStartOf="@+id/msgResponse"
+        app:layout_constraintTop_toBottomOf="@+id/btnJsonArray" />
+
+    <TextView
+        android:id="@+id/msgResponse"
+        android:layout_width="209dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="64dp"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/customArray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/customArray"
+        android:layout_width="134dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="183dp"
+        android:layout_marginBottom="476dp"
+        android:text="@string/Custom_Json"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+</android.support.constraint.ConstraintLayout>
