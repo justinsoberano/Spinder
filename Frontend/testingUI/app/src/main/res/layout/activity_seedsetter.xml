@@ -9,11 +9,19 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/gradient_background"
-    tools:context="com.example.screens.LoginScreen">
+    tools:context="screens.seedSetter">
 
     <EditText
         android:id="@+id/simpleEditText"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
+        android:layout_width="match_parent"
+        android:hint="Enter Text"/>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

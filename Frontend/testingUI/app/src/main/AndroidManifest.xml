@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.as1">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,13 +17,13 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AS1">
         <activity
-            android:name="com.example.screens.ProfileScreen"
+            android:name="screens.ProfileScreen"
             android:exported="true" />
         <activity
-            android:name="com.example.screens.MusicSwipe"
+            android:name="screens.MusicSwipe"
             android:exported="true" />
         <activity
-            android:name="com.example.screens.LoginScreen"
+            android:name="screens.LoginScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

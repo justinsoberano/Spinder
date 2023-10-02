@@ -1,5 +1,4 @@
-package com.example.screens;
-
+package screens;
 public class SeedSetter {
 
 }

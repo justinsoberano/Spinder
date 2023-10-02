@@ -1,5 +1,4 @@
-package com.example.screens;
-
+package screens;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
