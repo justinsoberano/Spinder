@@ -3,6 +3,7 @@ package userData;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import userData.stations.Station;
 import userData.stations.StationRepository;
 import userData.trackCreation.Track.TrackRepository;
@@ -16,6 +17,7 @@ class Main {
         SpringApplication.run(Main.class, args);
     }
 
+    @Bean
     CommandLineRunner initUser(UserRepository userRepository, StationRepository stationRepository) {
         return args -> {
             User user1 = new User(1, "Qusai", "I love music", "https://media.wired.com/photos/598e35fb99d76447c4eb1f28/master/pass/phonepicutres-TA.jpg",
