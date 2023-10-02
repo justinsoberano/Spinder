@@ -1,6 +1,4 @@
-# SD_323
-
-
+# Spinder
 
 ## Getting started
 
