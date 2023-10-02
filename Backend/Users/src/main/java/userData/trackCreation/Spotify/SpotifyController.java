@@ -47,8 +47,7 @@ public class SpotifyController {
         }
     }
 
-    @GetMapping("search/{trackName}")
-    public static List<Track> searchTrack(@PathVariable String trackName) {
+    public static List<Track> searchTrack(String trackName) {
 
         final SearchItemRequest search = spotifyAPI.searchItem(trackName, ModelObjectType.TRACK.getType())
                 .market(CountryCode.US)

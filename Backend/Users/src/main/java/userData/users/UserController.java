@@ -67,8 +67,7 @@ public class UserController {
 
     @GetMapping(path = "user/{id}/{stationId}")
     List<Track> getTracks(@PathVariable int id, @PathVariable int stationId){
-        Station s = userRepository.findById(id).getStation();
-        return s.generateTacks();
+        return userRepository.findById(id).getStation().generateTacks();
     }
 
     @PutMapping(path = "user/{id}/profile/{string}")

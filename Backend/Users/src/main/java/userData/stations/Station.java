@@ -1,7 +1,9 @@
 package userData.stations;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import userData.trackCreation.Spotify.SpotifyController;
 import userData.trackCreation.Track.Track;
+import userData.users.User;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,7 +25,7 @@ public class Station {
 
     @OneToOne
     @JsonIgnore
-    private Station station;
+    private User station;
 
     public Station(){
 
@@ -46,8 +48,7 @@ public class Station {
     public String getSeed() { return this.seed.getId(); }
 
     public List<Track> generateTacks(){
-        // generate seed with this.seed
-        return null;
+        return SpotifyController.getRecommendations(seed.getId());
     }
 
 }
