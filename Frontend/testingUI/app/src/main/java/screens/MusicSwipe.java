@@ -65,9 +65,6 @@ public class MusicSwipe extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.menu_profile) {
-                    if (mediaPlayer != null) {
-                        mediaPlayer.release();
-                    }
                     Intent profileIntent = new Intent(MusicSwipe.this, ProfileScreen.class);
                     startActivity(profileIntent);
                     return true;
@@ -196,5 +193,15 @@ public class MusicSwipe extends AppCompatActivity {
             return gestureDetector.onTouchEvent(event);
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
 
 }
