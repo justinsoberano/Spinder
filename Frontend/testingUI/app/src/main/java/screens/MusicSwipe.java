@@ -193,7 +193,15 @@ public class MusicSwipe extends AppCompatActivity {
             return gestureDetector.onTouchEvent(event);
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        if (mediaPlayer == null && currentSongIndex >= 0 && currentSongIndex < songSnippets.size()) {
+            mediaPlayer = MediaPlayer.create(MusicSwipe.this, Uri.parse(songSnippets.get(currentSongIndex)));
+            mediaPlayer.start();
+        }
+    }
     @Override
     protected void onPause() {
         super.onPause();
