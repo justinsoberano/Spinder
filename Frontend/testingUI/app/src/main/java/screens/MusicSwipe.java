@@ -1,5 +1,10 @@
 package screens;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.palette.graphics.Palette;
 
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.as1.R;
@@ -22,6 +28,7 @@ import com.android. volley. RequestQueue;
 import com.android.volley. Response;
 import com.android.volley.VolleyError;
 import com.android.volley. toolbox. Volley;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -107,7 +114,7 @@ public class MusicSwipe extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Picasso.get().load(songImages.get(currentSongIndex)).into(cardImage);
+                                    getColors();
                                     songNameView.setText(songNames.get(currentSongIndex));
                                     artistNameView.setText(artistNames.get(currentSongIndex));
                                     mediaPlayer = MediaPlayer.create(MusicSwipe.this, Uri.parse(songSnippets.get(currentSongIndex)));
@@ -169,8 +176,7 @@ public class MusicSwipe extends AppCompatActivity {
                                 }
                                 mediaPlayer = MediaPlayer.create(MusicSwipe.this, Uri.parse(songSnippets.get(currentSongIndex)));
 
-                                // Start playback and update UI
-                                Picasso.get().load(songImages.get(currentSongIndex)).into(cardImage);
+                                getColors();
                                 songNameView.setText(songNames.get(currentSongIndex));
                                 artistNameView.setText(artistNames.get(currentSongIndex));
                                 mediaPlayer.start();
@@ -210,6 +216,39 @@ public class MusicSwipe extends AppCompatActivity {
             mediaPlayer = null;
         }
     }
+
+    private void updateGradientXML(int startColor, int centerColor, int endColor) {
+        GradientDrawable gradientDrawable = (GradientDrawable) getResources().getDrawable(R.drawable.gradient_background);
+        gradientDrawable.setColors(new int[]{startColor, centerColor, endColor});
+        relativeLayout.setBackground(gradientDrawable);
+    }
+
+    private void getColors(){
+        Picasso.get().load(songImages.get(currentSongIndex)).into(cardImage, new Callback() {
+            @Override
+            public void onSuccess() {
+                Bitmap bitmap = ((BitmapDrawable) cardImage.getDrawable()).getBitmap();
+
+                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette palette) {
+                        int startColor = palette.getDominantColor(Color.BLACK);
+                        int centerColor = palette.getMutedColor(Color.BLUE);
+                        int endColor = palette.getDarkMutedColor(Color.GRAY);
+
+                        updateGradientXML(startColor, centerColor, endColor);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+
 
 
 }
