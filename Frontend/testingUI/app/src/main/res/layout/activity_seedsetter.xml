@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:minHeight="48dp"
+        android:textColor="@color/white"
         android:hint="Enter Text"/>
 
     <Button
