@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="988e2f67-4ffb-41c9-a8ca-4f82c6cbb20c" name="Changes" comment="Added Experiments #1">
+    <list default="true" id="3d8d4359-54f7-40ed-b0e3-21e8abf401c6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Users/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/users/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/users/UserController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,31 +23,57 @@
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
-  <component name="ProjectId" id="2V2JzmqhC3fNnEt1lvjQgzSeCvf" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2WEIrEoVwO3g2l7scQjXcjVo7DU" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/justin/Documents/SD_323&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "spring.configuration.checksum": "f9aae5fda8d810a29f12d1e61b4ab25f",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Experiments/jus/exp1" />
-      <recent name="$PROJECT_DIR$/Experiments/jus/exp3/API/src/main/java/spotifyapi" />
-      <recent name="$PROJECT_DIR$/Experiments/jus/exp3" />
-    </key>
-  </component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RunManager" selected="Application.userData.Main">
+    <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="corretto-20" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="userData.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="userData.Main" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="corretto-20" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="userData.Main" />
+      <module name="Users" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="userData.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="sd_323" />
       <method v="2">
@@ -59,120 +87,30 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="Users" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="userData.Main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="988e2f67-4ffb-41c9-a8ca-4f82c6cbb20c" name="Changes" comment="" />
-      <created>1694028508080</created>
+      <changelist id="3d8d4359-54f7-40ed-b0e3-21e8abf401c6" name="Changes" comment="" />
+      <created>1696291508921</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1694028508080</updated>
-      <workItem from="1696289843946" duration="78000" />
-      <workItem from="1696289927425" duration="22000" />
+      <updated>1696291508921</updated>
+      <workItem from="1696291509963" duration="279000" />
+      <workItem from="1696291885438" duration="210000" />
+      <workItem from="1696305693172" duration="4424000" />
+      <workItem from="1696365984072" duration="3611000" />
     </task>
-    <task id="LOCAL-00001" summary="testing changes">
-      <option name="closed" value="true" />
-      <created>1694028732948</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1694028732948</updated>
-    </task>
-    <task id="LOCAL-00002" summary="removed test file">
-      <option name="closed" value="true" />
-      <created>1694029197665</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1694029197665</updated>
-    </task>
-    <task id="LOCAL-00003" summary="removed test file">
-      <option name="closed" value="true" />
-      <created>1694029394601</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1694029394601</updated>
-    </task>
-    <task id="LOCAL-00004" summary="removed test file">
-      <option name="closed" value="true" />
-      <created>1694029411857</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1694029411857</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Added Test Fieles.">
-      <option name="closed" value="true" />
-      <created>1694029561669</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1694029561669</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Added HelloWorld">
-      <option name="closed" value="true" />
-      <created>1694029984250</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1694029984250</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Added HelloWorld">
-      <option name="closed" value="true" />
-      <created>1694030652083</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1694030652083</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Added Experiments #3">
-      <option name="closed" value="true" />
-      <created>1694036705112</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1694036705112</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Added Experiments #3">
-      <option name="closed" value="true" />
-      <created>1694036771648</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1694036771648</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Added Experiments #2">
-      <option name="closed" value="true" />
-      <created>1694052559797</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1694052559797</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Added Experiments #1">
-      <option name="closed" value="true" />
-      <created>1694125899622</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1694125899622</updated>
-    </task>
-    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="testing changes" />
-    <MESSAGE value="removed test file" />
-    <MESSAGE value="Added Test Fieles." />
-    <MESSAGE value="Added HelloWorld" />
-    <MESSAGE value="Added Experiments #3" />
-    <MESSAGE value="Added Experiments #2" />
-    <MESSAGE value="Added Experiments #1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Experiments #1" />
   </component>
 </project>

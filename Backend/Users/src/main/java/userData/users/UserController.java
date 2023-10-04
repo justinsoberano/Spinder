@@ -146,6 +146,18 @@ public class UserController {
         userRepository.save(u);
     }
 
+    @PutMapping(path = "user/{id}/picture/{string}")
+    void setPfp(@PathVariable int id, @PathVariable String string){
+        User u = userRepository.findById(id);
+        u.setProfilePicture(string);
+        userRepository.save(u);
+    }
+
+    @GetMapping(path = "user/{id}/picture")
+    String getPfp(@PathVariable int id){
+        return userRepository.findById(id).getProfilePicture();
+    }
+
     /**
      *
      * @param id
