@@ -232,8 +232,8 @@ public class MusicSwipe extends AppCompatActivity {
                 Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                     @Override
                     public void onGenerated(Palette palette) {
-                        int startColor = palette.getDominantColor(Color.BLACK);
-                        int centerColor = palette.getMutedColor(Color.BLUE);
+                        int startColor = palette.getDarkVibrantColor(Color.BLACK);
+                        int centerColor = palette.getDominantColor(Color.BLUE);
                         int endColor = palette.getDarkMutedColor(Color.GRAY);
 
                         updateGradientXML(startColor, centerColor, endColor);
