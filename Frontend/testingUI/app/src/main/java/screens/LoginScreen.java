@@ -3,11 +3,16 @@ package screens;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.as1.R;
@@ -19,8 +24,10 @@ public class LoginScreen extends AppCompatActivity {
     EditText password;
     Button loginButton;
     ImageView logoimg;
+    LinearLayout logoRelative;
 
     private HashMap<String, String> userCredentials;
+    private GradientDrawable gradientDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +36,7 @@ public class LoginScreen extends AppCompatActivity {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
-
+        logoRelative = findViewById(R.id.logoRelative);
         userCredentials = new HashMap<>();
         userCredentials.put("username", "password");
 
