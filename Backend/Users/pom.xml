@@ -15,7 +15,7 @@
         <version>2.4.0</version>
     </parent>
 
-    <name>one-to-one</name>
+    <name>Users</name>
 
     <properties>
 
@@ -34,19 +34,18 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- MYSQL dependencies -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.28</version>
-        </dependency>
-
         <!-- H2 database dependency -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.200</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- MYSQL dependencies -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
         <!-- ORM JPA specs/hibernate impl -->
