@@ -29,8 +29,8 @@ class Main {
             station1.setSeed(seed1);
             user1.setStation(station1);
 
-            trackRepository.save(seed1);
             userRepository.save(user1);
+            trackRepository.save(seed1);
             stationRepository.save(station1);
         };
     }
