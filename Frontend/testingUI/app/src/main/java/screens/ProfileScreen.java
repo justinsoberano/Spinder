@@ -35,7 +35,7 @@ public class ProfileScreen extends AppCompatActivity {
     TextView bio;
     EditText editBio;
     Button setBio;
-    String baseUrl = "http://10.0.2.2:8080/";
+    String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class ProfileScreen extends AppCompatActivity {
 
     private void getBio(){
         RequestQueue requestQueue = Volley.newRequestQueue(ProfileScreen.this);
-        String url = "http://10.0.2.2:8080/user/1/profile";
+        String url = "http://coms-309-056.class.las.iastate.edu:8080/user/1/profile";
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
