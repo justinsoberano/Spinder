@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,11 @@ public class SeedSetter extends AppCompatActivity {
     EditText seed;
     Button setSeed;
     Button musicSwipeSend;
+    Button preferences;
+    SeekBar volume;
+    SeekBar test;
+    SeekBar tempo;
+    SeekBar popularity;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
 
     @Override
@@ -28,6 +34,11 @@ public class SeedSetter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seedsetter);
 
+        volume = findViewById(R.id.volume_slider);
+        test = findViewById(R.id.test);
+        tempo = findViewById(R.id.tempo_slider);
+        popularity = findViewById(R.id.popularity_slider);
+        preferences = findViewById(R.id.preferences);
         seed = findViewById(R.id.seed);
         setSeed = findViewById(R.id.seedSetter);
         musicSwipeSend = findViewById(R.id.musicSwipeSend);
@@ -59,6 +70,36 @@ public class SeedSetter extends AppCompatActivity {
             }
         });
 
+        //volume.setOnSeekBarChangeListener();
+        //this works with java page open
+        //ask if sending slider data while sliding would be too many requests or if it would be after stop touching
+        preferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tempo = seed.getText().toString();
+                String popularity = seed.getText().toString();
+                String volume = baseUrl + "user/1/volume/" + test.toString();
+
+                    JSONObject requestBody = new JSONObject();
+
+                    JsonObjectRequest reqTempo = new JsonObjectRequest(
+                            Request.Method.PUT, volume, requestBody, null, null
+                    );
+                JsonObjectRequest reqVolume = new JsonObjectRequest(
+                        Request.Method.PUT, tempo, requestBody, null, null
+                );
+                JsonObjectRequest reqPopularity = new JsonObjectRequest(
+                        Request.Method.PUT, popularity, requestBody, null, null
+                );
+
+                Volley.newRequestQueue(SeedSetter.this).add(reqVolume);
+                Volley.newRequestQueue(SeedSetter.this).add(reqPopularity);
+                Volley.newRequestQueue(SeedSetter.this).add(reqTempo);
+
+                    Toast.makeText(SeedSetter.this, "Requests sent successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         musicSwipeSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +107,7 @@ public class SeedSetter extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
 
 
