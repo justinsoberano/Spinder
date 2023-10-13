@@ -81,17 +81,4 @@
         android:max="15"
         android:progress="3" />
 
-    <Button
-        android:id="@+id/preferences"
-        android:layout_width="237dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Set Preferences" />
-
-    <SeekBar
-        android:id="@+id/test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
 </LinearLayout>

@@ -22,9 +22,7 @@ public class SeedSetter extends AppCompatActivity {
     EditText seed;
     Button setSeed;
     Button musicSwipeSend;
-    Button preferences;
     SeekBar volume;
-    SeekBar test;
     SeekBar tempo;
     SeekBar popularity;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
@@ -35,10 +33,8 @@ public class SeedSetter extends AppCompatActivity {
         setContentView(R.layout.activity_seedsetter);
 
         volume = findViewById(R.id.volume_slider);
-        test = findViewById(R.id.test);
         tempo = findViewById(R.id.tempo_slider);
         popularity = findViewById(R.id.popularity_slider);
-        preferences = findViewById(R.id.preferences);
         seed = findViewById(R.id.seed);
         setSeed = findViewById(R.id.seedSetter);
         musicSwipeSend = findViewById(R.id.musicSwipeSend);
@@ -70,33 +66,57 @@ public class SeedSetter extends AppCompatActivity {
             }
         });
 
-        //volume.setOnSeekBarChangeListener();
-        //this works with java page open
-        //ask if sending slider data while sliding would be too many requests or if it would be after stop touching
-        preferences.setOnClickListener(new View.OnClickListener() {
+        volume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onClick(View v) {
-                String tempo = seed.getText().toString();
-                String popularity = seed.getText().toString();
-                String volume = baseUrl + "user/1/volume/" + test.toString();
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                String volume = baseUrl + "user/1/volume/" + seekBar.getProgress();//sends the volume as a string
+                JSONObject requestBody = new JSONObject();
 
-                    JSONObject requestBody = new JSONObject();
-
-                    JsonObjectRequest reqTempo = new JsonObjectRequest(
-                            Request.Method.PUT, volume, requestBody, null, null
-                    );
                 JsonObjectRequest reqVolume = new JsonObjectRequest(
-                        Request.Method.PUT, tempo, requestBody, null, null
+                        Request.Method.PUT, volume, requestBody, null, null
                 );
-                JsonObjectRequest reqPopularity = new JsonObjectRequest(
-                        Request.Method.PUT, popularity, requestBody, null, null
-                );
-
                 Volley.newRequestQueue(SeedSetter.this).add(reqVolume);
-                Volley.newRequestQueue(SeedSetter.this).add(reqPopularity);
-                Volley.newRequestQueue(SeedSetter.this).add(reqTempo);
+                Toast.makeText(SeedSetter.this, "Volume Request sent successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-                    Toast.makeText(SeedSetter.this, "Requests sent successfully", Toast.LENGTH_SHORT).show();
+        tempo.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                String Tempo = baseUrl + "user/1/tempo/" + seekBar.getProgress();//sends the volume as a string
+                JSONObject requestBody = new JSONObject();
+
+                JsonObjectRequest reqTempo = new JsonObjectRequest(
+                        Request.Method.PUT, Tempo, requestBody, null, null
+                );
+                Volley.newRequestQueue(SeedSetter.this).add(reqTempo);
+                Toast.makeText(SeedSetter.this, "Tempo Request sent successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        popularity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                String Popularity = baseUrl + "user/1/popularity/" + seekBar.getProgress();//sends the volume as a string
+                JSONObject requestBody = new JSONObject();
+
+                JsonObjectRequest reqPopularity = new JsonObjectRequest(
+                        Request.Method.PUT, Popularity, requestBody, null, null
+                );
+                Volley.newRequestQueue(SeedSetter.this).add(reqPopularity);
+                Toast.makeText(SeedSetter.this, "Popularity Request sent successfully", Toast.LENGTH_SHORT).show();
             }
         });
 
