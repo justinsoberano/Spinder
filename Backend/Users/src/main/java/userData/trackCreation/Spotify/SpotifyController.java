@@ -66,11 +66,61 @@ public class SpotifyController {
     }
 
 
-    public static List<Track> getRecommendations(String seedOne, int numSongs) {
+    public static List<Track> getRecommendations(List<String> seeds, int numSongs) {
 
         final GetRecommendationsRequest request = spotifyAPI.getRecommendations()
                 .limit(numSongs)
-                .seed_tracks(seedOne)
+                .seed_tracks(seeds.get(0))
+                .seed_tracks(seeds.get(1))
+                .seed_tracks(seeds.get(2))
+                .seed_tracks(seeds.get(3))
+                .seed_tracks(seeds.get(4))
+                .build();
+
+        try {
+
+            final Recommendations recommendations = request.execute();
+            String jsonOutput = gson.toJson(recommendations.getTracks());
+            return TrackMapper.trackData(jsonOutput);
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Oh no :( " + e.getMessage());
+        }
+        return null;
+    }
+
+    public static List<Track> getRecommendationsByArtist(List<String> seeds, int numSongs) {
+
+        final GetRecommendationsRequest request = spotifyAPI.getRecommendations()
+                .limit(numSongs)
+                .seed_artists(seeds.get(0))
+                .seed_artists(seeds.get(1))
+                .seed_artists(seeds.get(2))
+                .seed_artists(seeds.get(3))
+                .seed_artists(seeds.get(4))
+                .build();
+
+        try {
+
+            final Recommendations recommendations = request.execute();
+            String jsonOutput = gson.toJson(recommendations.getTracks());
+            return TrackMapper.trackData(jsonOutput);
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Oh no :( " + e.getMessage());
+        }
+        return null;
+    }
+
+    public static List<Track> getRecommendationsByGenre(List<String> seeds, int numSongs) {
+
+        final GetRecommendationsRequest request = spotifyAPI.getRecommendations()
+                .limit(numSongs)
+                .seed_genres(seeds.get(0))
+                .seed_genres(seeds.get(1))
+                .seed_genres(seeds.get(2))
+                .seed_genres(seeds.get(3))
+                .seed_genres(seeds.get(4))
                 .build();
 
         try {
