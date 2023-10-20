@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,9 @@ public class SeedSetter extends AppCompatActivity {
     EditText seed;
     Button setSeed;
     Button musicSwipeSend;
+    SeekBar volume;
+    SeekBar tempo;
+    SeekBar popularity;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
 
     @Override
@@ -28,6 +32,9 @@ public class SeedSetter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seedsetter);
 
+        volume = findViewById(R.id.volume_slider);
+        tempo = findViewById(R.id.tempo_slider);
+        popularity = findViewById(R.id.popularity_slider);
         seed = findViewById(R.id.seed);
         setSeed = findViewById(R.id.seedSetter);
         musicSwipeSend = findViewById(R.id.musicSwipeSend);
@@ -59,6 +66,60 @@ public class SeedSetter extends AppCompatActivity {
             }
         });
 
+        volume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                String volume = baseUrl + "user/1/volume/" + seekBar.getProgress();//sends the volume as a string
+                JSONObject requestBody = new JSONObject();
+
+                JsonObjectRequest reqVolume = new JsonObjectRequest(
+                        Request.Method.PUT, volume, requestBody, null, null
+                );
+                Volley.newRequestQueue(SeedSetter.this).add(reqVolume);
+                Toast.makeText(SeedSetter.this, "Volume at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        tempo.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                String Tempo = baseUrl + "user/1/tempo/" + seekBar.getProgress();//sends the volume as a string
+                JSONObject requestBody = new JSONObject();
+
+                JsonObjectRequest reqTempo = new JsonObjectRequest(
+                        Request.Method.PUT, Tempo, requestBody, null, null
+                );
+                Volley.newRequestQueue(SeedSetter.this).add(reqTempo);
+                Toast.makeText(SeedSetter.this, "Tempo at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        popularity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                String Popularity = baseUrl + "user/1/popularity/" + seekBar.getProgress();//sends the volume as a string
+                JSONObject requestBody = new JSONObject();
+
+                JsonObjectRequest reqPopularity = new JsonObjectRequest(
+                        Request.Method.PUT, Popularity, requestBody, null, null
+                );
+                Volley.newRequestQueue(SeedSetter.this).add(reqPopularity);
+                Toast.makeText(SeedSetter.this, "Popularity at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         musicSwipeSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +127,7 @@ public class SeedSetter extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
 
 
