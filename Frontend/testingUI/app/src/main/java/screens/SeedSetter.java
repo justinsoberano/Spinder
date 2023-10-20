@@ -80,7 +80,7 @@ public class SeedSetter extends AppCompatActivity {
                         Request.Method.PUT, volume, requestBody, null, null
                 );
                 Volley.newRequestQueue(SeedSetter.this).add(reqVolume);
-                Toast.makeText(SeedSetter.this, "Volume Request sent successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SeedSetter.this, "Volume at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -98,7 +98,7 @@ public class SeedSetter extends AppCompatActivity {
                         Request.Method.PUT, Tempo, requestBody, null, null
                 );
                 Volley.newRequestQueue(SeedSetter.this).add(reqTempo);
-                Toast.makeText(SeedSetter.this, "Tempo Request sent successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SeedSetter.this, "Tempo at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -116,7 +116,7 @@ public class SeedSetter extends AppCompatActivity {
                         Request.Method.PUT, Popularity, requestBody, null, null
                 );
                 Volley.newRequestQueue(SeedSetter.this).add(reqPopularity);
-                Toast.makeText(SeedSetter.this, "Popularity Request sent successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SeedSetter.this, "Popularity at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
             }
         });
 
