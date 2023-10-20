@@ -65,19 +65,19 @@ public class SpotifyController {
         return null;
     }
 
-
-    public static List<Track> getRecommendations(List<String> seeds, int numSongs/*, int popularity*/) {
+    // TODO: Make into a list of tracks
+    public static List<Track> getRecommendations(String seeds, int numSongs/*, int popularity*/) {
 
         /* int max = Math.min(popularity + 20, 100);
         int min = Math.max(popularity - 20, 0); */
 
         final GetRecommendationsRequest request = spotifyAPI.getRecommendations()
                 .limit(numSongs)
-                .seed_tracks(seeds.get(0))
-                .seed_tracks(seeds.get(1))
-                .seed_tracks(seeds.get(2))
-                .seed_tracks(seeds.get(3))
-                .seed_tracks(seeds.get(4))
+                .seed_tracks(seeds)
+//                .seed_tracks(seeds.get(1))
+//                .seed_tracks(seeds.get(2))
+//                .seed_tracks(seeds.get(3))
+//                .seed_tracks(seeds.get(4))
                 // .max_popularity(max)
                 // .min_popularity(min)
                 .build();
