@@ -26,8 +26,7 @@ public class LoginScreen extends AppCompatActivity {
     Button loginButton;
     LinearLayout logoRelative;
     Button registerButton;
-    String baseUrl = "http://10.0.2.2:8080/";
-
+    String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
 
     private HashMap<String, String> userCredentials;
 
@@ -42,12 +41,13 @@ public class LoginScreen extends AppCompatActivity {
         registerButton = findViewById(R.id.signUpButton);
         userCredentials = new HashMap<>();
         userCredentials.put("username", "password");
-        String enteredUsername = username.getText().toString();
-        String enteredPassword = password.getText().toString();
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String enteredUsername = username.getText().toString();
+                String enteredPassword = password.getText().toString();
                 if (validateLogin(enteredUsername, enteredPassword)) {
                     Intent intent = new Intent(LoginScreen.this, SeedSetter.class);
                     startActivity(intent);
@@ -63,9 +63,8 @@ public class LoginScreen extends AppCompatActivity {
                 registerButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        String usernameSend = enteredUsername;
-                        String passwordSend = enteredPassword;
+                        String usernameSend = username.getText().toString();
+                        String passwordSend = password.getText().toString();
 
                         if (!usernameSend.isEmpty() && !passwordSend.isEmpty()) {
                             String url = baseUrl + "user/" + usernameSend + "/" + passwordSend;
@@ -73,7 +72,7 @@ public class LoginScreen extends AppCompatActivity {
                             JSONObject requestBody = new JSONObject();
 
                             JsonObjectRequest request = new JsonObjectRequest(
-                                    Request.Method.PUT,
+                                    Request.Method.POST,
                                     url,
                                     requestBody,
                                     null,
@@ -87,7 +86,7 @@ public class LoginScreen extends AppCompatActivity {
                             Toast.makeText(LoginScreen.this, "Please Register", Toast.LENGTH_SHORT).show();
                         }
 
-                        Uri uri = Uri.parse("http://10.0.2.2:8080/register");
+                        Uri uri = Uri.parse("http://coms-309-056.class.las.iastate.edu:8080/register");
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(intent);
                     }
@@ -102,7 +101,6 @@ public class LoginScreen extends AppCompatActivity {
             String storedPassword = userCredentials.get(enteredUsername);
             return enteredPassword.equals(storedPassword);
         }
-
         return false;
     }
 }
