@@ -84,7 +84,9 @@ public class MusicSwipe extends AppCompatActivity {
 
     private void makeJSONRequest(){
         RequestQueue requestQueue = Volley.newRequestQueue(MusicSwipe.this);
-        String url = "http://coms-309-056.class.las.iastate.edu:8080/user/1/1";
+//        String url = "http://coms-309-056.class.las.iastate.edu:8080/user/1/1";
+        String url = "http://10.0.2.2:8080/user/1/1";
+
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
