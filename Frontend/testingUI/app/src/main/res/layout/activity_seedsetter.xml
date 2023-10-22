@@ -30,7 +30,55 @@
         android:id="@+id/musicSwipeSend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to Music Swipe"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:text="Go to Music Swipe" />
+
+    <TextView
+        android:id="@+id/volume"
+        android:layout_width="235dp"
+        android:layout_height="wrap_content"
+        android:text="Volume"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+    <SeekBar
+        android:id="@+id/volume_slider"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:max="15"
+        android:progress="3" />
+
+    <TextView
+        android:id="@+id/popularity"
+        android:layout_width="237dp"
+        android:layout_height="wrap_content"
+        android:text="Popularity"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+    <SeekBar
+        android:id="@+id/popularity_slider"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:max="15"
+        android:progress="3" />
+
+    <TextView
+        android:id="@+id/tempo"
+        android:layout_width="239dp"
+        android:layout_height="wrap_content"
+        android:text="Tempo"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+    <SeekBar
+        android:id="@+id/tempo_slider"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:max="15"
+        android:progress="3" />
 
 </LinearLayout>
