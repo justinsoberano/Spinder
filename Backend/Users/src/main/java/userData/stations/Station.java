@@ -6,7 +6,10 @@ import userData.trackCreation.Track.Track;
 import userData.users.User;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 @Entity
 public class Station {
@@ -20,9 +23,9 @@ public class Station {
 
     private String currentSong;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "track_id")
-    private Track seed;
+    private List<Track> seeds = new ArrayList<Track>();
 
     @OneToOne
     @JsonIgnore
@@ -44,12 +47,21 @@ public class Station {
         return id;
     }
 
-    public void setSeed(Track T) { this.seed = T ; }
+    public void addSeed(Track T) {
+        if(seeds.size() == 5) {
+            seeds.remove(0);
+        }
+        seeds.add(T);
+    }
 
-    public Track getSeed() { return this.seed; }
+    public void remove() { seeds.remove(0); }
+
+    List<Track> getSeeds(){
+        return seeds;
+    }
 
     public List<Track> generateTacks(){
-        return SpotifyController.getRecommendations(seed.getId(), 50);
+        return SpotifyController.getRecommendations(seeds, 50);
     }
 
 }
