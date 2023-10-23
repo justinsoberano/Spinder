@@ -2,6 +2,7 @@ package screens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,6 +140,11 @@ public class Stations extends AppCompatActivity {
         });
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
+        Log.d("SongText", "Logged Song string: " + songText);
+        Log.d("VolumeString", "Logged Volume string: " + volumeString);
+        Log.d("TempoString", "Logged Tempo string: " + tempoString);
+        Log.d("PopularityString", "Logged Pop string: " + popularityString);
+
         SeedSetter seedSetter = new SeedSetter(songText, volumeString, tempoString, popularityString);
     }
 

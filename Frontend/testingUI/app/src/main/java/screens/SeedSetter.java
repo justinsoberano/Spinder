@@ -142,7 +142,5 @@ public class SeedSetter extends AppCompatActivity {
         });
 
 
-
-
     }
 }
