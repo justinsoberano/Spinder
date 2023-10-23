@@ -35,6 +35,7 @@ public class ProfileScreen extends AppCompatActivity {
     TextView bio;
     EditText editBio;
     Button setBio;
+    Button friendList;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
 
     @Override
@@ -45,6 +46,7 @@ public class ProfileScreen extends AppCompatActivity {
         bio = findViewById(R.id.bio);
         editBio = findViewById(R.id.editBio);
         setBio = findViewById(R.id.setBio);
+        friendList = findViewById(R.id.friendList);
 
         setBio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +72,13 @@ public class ProfileScreen extends AppCompatActivity {
                 } else {
                     Toast.makeText(ProfileScreen.this, "Set A Bio", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        friendList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.activity_friends);
             }
         });
 
