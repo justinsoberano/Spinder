@@ -35,11 +35,6 @@ public class Stations extends AppCompatActivity {
     CardView station1;
     CardView station2;
     CardView station3;
-    private int cardCount;
-
-    //    String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
-    String baseUrl = "http://10.0.2.2:8080/";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,27 +50,42 @@ public class Stations extends AppCompatActivity {
         station1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showSeedSetterDialog();
+                if(!showSeedSetterDialog()){
+                    showSeedSetterDialog();
+                }else{
+                    Intent straightToSwipe = new Intent(Stations.this, MusicSwipe.class);
+                    startActivity(straightToSwipe);
+                }
             }
         });
 
         station2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               showSeedSetterDialog();
+                if(!showSeedSetterDialog()){
+                    showSeedSetterDialog();
+                }else{
+                    Intent straightToSwipe = new Intent(Stations.this, MusicSwipe.class);
+                    startActivity(straightToSwipe);
+                }
             }
         });
 
         station3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showSeedSetterDialog();
+                if(!showSeedSetterDialog()){
+                    showSeedSetterDialog();
+                }else{
+                    Intent straightToSwipe = new Intent(Stations.this, MusicSwipe.class);
+                    startActivity(straightToSwipe);
+                }
             }
         });
 
     }
 
-    private void showSeedSetterDialog() {
+    private boolean showSeedSetterDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
         View dialogView = getLayoutInflater().inflate(R.layout.activity_seedsetter, null);
@@ -88,85 +98,73 @@ public class Stations extends AppCompatActivity {
         SeekBar popularity = dialogView.findViewById(R.id.popularity_slider);
         Button musicSwipeSend = dialogView.findViewById(R.id.musicSwipeSend);
 
-        setSeed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String songText = seed.getText().toString();
+        SeedSetter seedSetter = new SeedSetter();
 
-                if (!songText.isEmpty()) {
-                    String url = baseUrl + "user/1/station/" + songText;
+        if(seed != null && volume != null && tempo != null & popularity != null) {
 
-                    JSONObject requestBody = new JSONObject();
+            setSeed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String songText = seed.getText().toString();
 
-                    JsonObjectRequest request = new JsonObjectRequest(
-                            Request.Method.PUT,
-                            url,
-                            requestBody,
-                            null,
-                            null
-                    );
-
-                    Volley.newRequestQueue(Stations.this).add(request);
-
-                    Toast.makeText(Stations.this, "Request sent successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(Stations.this, "Must Enter A Song Name", Toast.LENGTH_SHORT).show();
+                    if (!songText.isEmpty()) {
+                        seedSetter.setSeed(songText);
+                        Toast.makeText(Stations.this, "Request sent successfully", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
-        volume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                String volume = baseUrl + "user/1/volume/" + seekBar.getProgress();//sends the volume as a string
-                JSONObject requestBody = new JSONObject();
+            });
+            volume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                }
 
-                JsonObjectRequest reqVolume = new JsonObjectRequest(
-                        Request.Method.PUT, volume, requestBody, null, null
-                );
-                Volley.newRequestQueue(Stations.this).add(reqVolume);
-                Toast.makeText(Stations.this, "Volume at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
 
-        tempo.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                String Tempo = baseUrl + "user/1/tempo/" + seekBar.getProgress();//sends the volume as a string
-                JSONObject requestBody = new JSONObject();
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    String volume = Integer.toString(seekBar.getProgress());//sends the volume as a string
+                    seedSetter.setVolume(volume);
 
-                JsonObjectRequest reqTempo = new JsonObjectRequest(
-                        Request.Method.PUT, Tempo, requestBody, null, null
-                );
-                Volley.newRequestQueue(Stations.this).add(reqTempo);
-                Toast.makeText(Stations.this, "Tempo at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    Toast.makeText(Stations.this, "Volume at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-        popularity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                String Popularity = baseUrl + "user/1/popularity/" + seekBar.getProgress();//sends the volume as a string
-                JSONObject requestBody = new JSONObject();
+            tempo.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                }
 
-                JsonObjectRequest reqPopularity = new JsonObjectRequest(
-                        Request.Method.PUT, Popularity, requestBody, null, null
-                );
-                Volley.newRequestQueue(Stations.this).add(reqPopularity);
-                Toast.makeText(Stations.this, "Popularity at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    String Tempo = Integer.toString(seekBar.getProgress());//sends the volume as a string
+                    seedSetter.setTempo(Tempo);
+                    Toast.makeText(Stations.this, "Tempo at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            popularity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    String Popularity = Integer.toString(seekBar.getProgress());//sends the volume as a string
+                    seedSetter.setPopularity(Popularity);
+                    Toast.makeText(Stations.this, "Popularity at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         musicSwipeSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,6 +174,7 @@ public class Stations extends AppCompatActivity {
         });
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
+        return true;
     }
 
 
