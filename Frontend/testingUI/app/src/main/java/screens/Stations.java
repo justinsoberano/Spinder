@@ -1,8 +1,10 @@
 package screens;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,10 +35,11 @@ public class Stations extends AppCompatActivity {
     CardView station1;
     CardView station2;
     CardView station3;
-    String songText;
-    String volumeString;
-    String tempoString;
-    String popularityString;
+    private int cardCount;
+
+    //    String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
+    String baseUrl = "http://10.0.2.2:8080/";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +51,10 @@ public class Stations extends AppCompatActivity {
         station2 = findViewById(R.id.station2);
         station3 = findViewById(R.id.station3);
 
+
         station1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent createStation1 = new Intent(Stations.this, SeedSetter.class);
-//                startActivity(createStation1);
                 showSeedSetterDialog();
             }
         });
@@ -88,8 +91,23 @@ public class Stations extends AppCompatActivity {
         setSeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                songText = seed.getText().toString();
+                String songText = seed.getText().toString();
+
                 if (!songText.isEmpty()) {
+                    String url = baseUrl + "user/1/station/" + songText;
+
+                    JSONObject requestBody = new JSONObject();
+
+                    JsonObjectRequest request = new JsonObjectRequest(
+                            Request.Method.PUT,
+                            url,
+                            requestBody,
+                            null,
+                            null
+                    );
+
+                    Volley.newRequestQueue(Stations.this).add(request);
+
                     Toast.makeText(Stations.this, "Request sent successfully", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(Stations.this, "Must Enter A Song Name", Toast.LENGTH_SHORT).show();
@@ -103,8 +121,14 @@ public class Stations extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                volumeString = Integer.toString(seekBar.getProgress()); //sends the volume as a string
-                Toast.makeText(Stations.this, "Volume at " + seekBar.getProgress() + " sent", Toast.LENGTH_SHORT).show();
+                String volume = baseUrl + "user/1/volume/" + seekBar.getProgress();//sends the volume as a string
+                JSONObject requestBody = new JSONObject();
+
+                JsonObjectRequest reqVolume = new JsonObjectRequest(
+                        Request.Method.PUT, volume, requestBody, null, null
+                );
+                Volley.newRequestQueue(Stations.this).add(reqVolume);
+                Toast.makeText(Stations.this, "Volume at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -115,8 +139,14 @@ public class Stations extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                tempoString = Integer.toString(seekBar.getProgress());//sends the volume as a string
-                Toast.makeText(Stations.this, "Tempo at " + seekBar.getProgress() + " sent", Toast.LENGTH_SHORT).show();
+                String Tempo = baseUrl + "user/1/tempo/" + seekBar.getProgress();//sends the volume as a string
+                JSONObject requestBody = new JSONObject();
+
+                JsonObjectRequest reqTempo = new JsonObjectRequest(
+                        Request.Method.PUT, Tempo, requestBody, null, null
+                );
+                Volley.newRequestQueue(Stations.this).add(reqTempo);
+                Toast.makeText(Stations.this, "Tempo at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -127,8 +157,14 @@ public class Stations extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                popularityString = Integer.toString(seekBar.getProgress());//sends the volume as a string
-                Toast.makeText(Stations.this, "Popularity at " + seekBar.getProgress() + " sent", Toast.LENGTH_SHORT).show();
+                String Popularity = baseUrl + "user/1/popularity/" + seekBar.getProgress();//sends the volume as a string
+                JSONObject requestBody = new JSONObject();
+
+                JsonObjectRequest reqPopularity = new JsonObjectRequest(
+                        Request.Method.PUT, Popularity, requestBody, null, null
+                );
+                Volley.newRequestQueue(Stations.this).add(reqPopularity);
+                Toast.makeText(Stations.this, "Popularity at " + seekBar.getProgress() + "sent", Toast.LENGTH_SHORT).show();
             }
         });
         musicSwipeSend.setOnClickListener(new View.OnClickListener() {
@@ -140,12 +176,7 @@ public class Stations extends AppCompatActivity {
         });
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
-        Log.d("SongText", "Logged Song string: " + songText);
-        Log.d("VolumeString", "Logged Volume string: " + volumeString);
-        Log.d("TempoString", "Logged Tempo string: " + tempoString);
-        Log.d("PopularityString", "Logged Pop string: " + popularityString);
-
-        SeedSetter seedSetter = new SeedSetter(songText, volumeString, tempoString, popularityString);
     }
+
 
 }
