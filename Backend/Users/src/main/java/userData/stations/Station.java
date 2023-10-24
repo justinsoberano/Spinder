@@ -49,6 +49,8 @@ public class Station {
     public Track getSeed() { return this.seed; }
 
     public List<Track> generateTacks(){
+
+
         return SpotifyController.getRecommendations(seed.getId(), 50);
     }
 

@@ -17,7 +17,7 @@ import java.net.URI;
 public class AuthController {
 
     // Redirect URI used for the localhost to connect to the spotify login page
-    private static final URI redirectURI = SpotifyHttpManager.makeUri("http://localhost:8080/login/api");
+    private static final URI redirectURI = SpotifyHttpManager.makeUri("http://10.0.2.2:8080/login/api");
 
     // Builds our app to the API, we now have a connection with their servers.
     // TODO: Make this into a function maybe?
@@ -81,5 +81,6 @@ public class AuthController {
             System.out.println("ERROR: " + e.getMessage());
         }
         return spotifyAPI.getAccessToken();
+
     }
 }
