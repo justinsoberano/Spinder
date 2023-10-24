@@ -26,9 +26,6 @@
             android:name="screens.SeedSetter"
             android:exported="true" />
         <activity
-            android:name="screens.Stations"
-            android:exported="true" />
-        <activity
             android:name="screens.LoginScreen"
             android:exported="true">
             <intent-filter>

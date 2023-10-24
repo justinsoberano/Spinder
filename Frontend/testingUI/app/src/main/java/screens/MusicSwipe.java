@@ -40,6 +40,7 @@ import java.util.ArrayList;
 
 public class MusicSwipe extends AppCompatActivity {
     private ImageView cardImage;
+    private ImageView changePreferences;
     private TextView songNameView;
     private TextView artistNameView;
     RelativeLayout relativeLayout;
@@ -59,6 +60,9 @@ public class MusicSwipe extends AppCompatActivity {
         songNameView = findViewById(R.id.songNameView);
         artistNameView = findViewById(R.id.artistNameView);
         relativeLayout = findViewById(R.id.relativeLayout);
+        changePreferences = findViewById(R.id.changePreferences);
+
+        changePreferences();
 
         swipeListener = new SwipeListener(relativeLayout);
         makeJSONRequest();
@@ -251,7 +255,15 @@ public class MusicSwipe extends AppCompatActivity {
         });
     }
 
-
+    void changePreferences(){
+        changePreferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent changeSettings = new Intent(MusicSwipe.this, SeedSetter.class);
+                startActivity(changeSettings);
+            }
+        });
+    }
 
 
 }

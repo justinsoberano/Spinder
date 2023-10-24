@@ -2,7 +2,6 @@ package screens;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
@@ -26,31 +25,8 @@ public class SeedSetter extends AppCompatActivity {
     SeekBar volume;
     SeekBar tempo;
     SeekBar popularity;
-
-    String seedToSend;
-    String volumeToSend;
-    String tempoToSend;
-    String popularityToSend;
-
-
 //    String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
     String baseUrl = "http://10.0.2.2:8080/";
-
-    void setSeed(String seed){
-        seedToSend = seed;
-    }
-
-    void setVolume(String volume){
-        volumeToSend = volume;
-    }
-
-    void setTempo(String tempo){
-        tempoToSend = tempo;
-    }
-
-    void setPopularity(String popularity){
-        popularityToSend = popularity;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +40,13 @@ public class SeedSetter extends AppCompatActivity {
         setSeed = findViewById(R.id.seedSetter);
         musicSwipeSend = findViewById(R.id.musicSwipeSend);
 
-        Log.d("Seed", "SEED SENT: " + seedToSend);
-        Log.d("Volume", "VOLUME SENT: " + volumeToSend);
-        Log.d("Tempo", "TEMPO SENT: " + tempoToSend);
-        Log.d("Popularity", "POPULARITY SENT: " + popularityToSend);
         setSeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!seedToSend.isEmpty()) {
-                    String url = baseUrl + "user/1/station/" + seedToSend;
+                String songText = seed.getText().toString();
+
+                if (!songText.isEmpty()) {
+                    String url = baseUrl + "user/1/station/" + songText;
 
                     JSONObject requestBody = new JSONObject();
 
@@ -100,7 +74,7 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                String volume = baseUrl + "user/1/volume/" + volumeToSend;//sends the volume as a string
+                String volume = baseUrl + "user/1/volume/" + seekBar.getProgress();//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqVolume = new JsonObjectRequest(
@@ -118,7 +92,7 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                String Tempo = baseUrl + "user/1/tempo/" + tempoToSend;//sends the volume as a string
+                String Tempo = baseUrl + "user/1/tempo/" + seekBar.getProgress();//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqTempo = new JsonObjectRequest(
@@ -136,7 +110,7 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                String Popularity = baseUrl + "user/1/popularity/" + popularityToSend;//sends the volume as a string
+                String Popularity = baseUrl + "user/1/popularity/" + seekBar.getProgress();//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqPopularity = new JsonObjectRequest(
@@ -147,7 +121,6 @@ public class SeedSetter extends AppCompatActivity {
             }
         });
 
-
         musicSwipeSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,5 +130,8 @@ public class SeedSetter extends AppCompatActivity {
         });
 
 
+
+
     }
 }
+

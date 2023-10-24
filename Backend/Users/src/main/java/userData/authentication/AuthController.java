@@ -81,8 +81,6 @@ public class AuthController {
             System.out.println("ERROR: " + e.getMessage());
         }
         return spotifyAPI.getAccessToken();
-        // create user
-        // set acces tpken
 
     }
 }
