@@ -46,7 +46,10 @@ public class SeedSetter extends AppCompatActivity {
                 String songText = seed.getText().toString();
 
                 if (!songText.isEmpty()) {
-                    String url = baseUrl + "user/1/station/" + songText;
+//                    String url = baseUrl + "user/1/station/" + songText;
+                    LoginScreen username = new LoginScreen();
+                    String userName = username.getUserId();
+                    String url = baseUrl + "user/" + userName + "/station" + songText;
 
                     JSONObject requestBody = new JSONObject();
 
@@ -74,7 +77,9 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                String volume = baseUrl + "user/1/volume/" + seekBar.getProgress();//sends the volume as a string
+                LoginScreen username = new LoginScreen();
+                String userName = username.getUserId();
+                String volume = baseUrl + "user/" + userName + "/volume/" + seekBar.getProgress();//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqVolume = new JsonObjectRequest(
@@ -92,7 +97,9 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                String Tempo = baseUrl + "user/1/tempo/" + seekBar.getProgress();//sends the volume as a string
+                LoginScreen username = new LoginScreen();
+                String userName = username.getUserId();
+                String Tempo = baseUrl + "user/" + userName + "/tempo/" + seekBar.getProgress();//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqTempo = new JsonObjectRequest(
@@ -110,7 +117,9 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                String Popularity = baseUrl + "user/1/popularity/" + seekBar.getProgress();//sends the volume as a string
+                LoginScreen username = new LoginScreen();
+                String userName = username.getUserId();
+                String Popularity = baseUrl + "user/" + userName + "/popularity/" + seekBar.getProgress();//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqPopularity = new JsonObjectRequest(
