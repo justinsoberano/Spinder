@@ -72,7 +72,7 @@ public class SeedSetter extends AppCompatActivity {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekBar seekBar) {//will want to send to loudness
                 String volume = baseUrl + "user/1/volume/" + seekBar.getProgress();//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
@@ -91,7 +91,7 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                String Tempo = baseUrl + "user/1/tempo/" + seekBar.getProgress();//sends the volume as a string
+                String Tempo = baseUrl + "user/1/tempo/" + seekBar.getProgress();//sends the tempo as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqTempo = new JsonObjectRequest(
@@ -109,7 +109,7 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                String Popularity = baseUrl + "user/1/popularity/" + seekBar.getProgress();//sends the volume as a string
+                String Popularity = baseUrl + "user/1/popularity/" + seekBar.getProgress();//sends the popularity as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqPopularity = new JsonObjectRequest(

@@ -34,8 +34,10 @@ public class ProfileScreen extends AppCompatActivity {
 
     TextView bio;
     EditText editBio;
+    EditText friendText;
     Button setBio;
     Button friendList;
+    Button addFriend;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
 
     @Override
@@ -47,6 +49,8 @@ public class ProfileScreen extends AppCompatActivity {
         editBio = findViewById(R.id.editBio);
         setBio = findViewById(R.id.setBio);
         friendList = findViewById(R.id.friendList);
+        addFriend = findViewById(R.id.addFriend);
+        friendText = findViewById(R.id.friendText);
 
         setBio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,10 +79,29 @@ public class ProfileScreen extends AppCompatActivity {
             }
         });
 
-        friendList.setOnClickListener(new View.OnClickListener() {
+        friendList.setOnClickListener(new View.OnClickListener() {//want this to send a username to friendprofile for it to build other user profile
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.activity_friends);
+            }
+        });
+        addFriend.setOnClickListener(new View.OnClickListener() {//add the submitted username into users friend list
+            @Override
+            public void onClick(View v) {
+                String editFriendString = friendText.getText().toString();
+                if (!editFriendString.isEmpty()) {
+                    String url = baseUrl + "user/friends/" + editFriendString;//may need to be user/friend/ or however it is named
+                    JSONObject requestBody = new JSONObject();
+                    JsonObjectRequest request = new JsonObjectRequest(
+                            Request.Method.PUT, url, requestBody, null, null
+                    );
+
+                    Volley.newRequestQueue(ProfileScreen.this).add(request);
+
+                    Toast.makeText(ProfileScreen.this, "Request sent successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ProfileScreen.this, "Enter Friend Username", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

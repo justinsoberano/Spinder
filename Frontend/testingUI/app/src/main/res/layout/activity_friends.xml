@@ -11,17 +11,20 @@
         android:layout_width="117dp"
         android:layout_height="37dp"
         android:layout_below="@+id/username"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/profilePicture"
         android:text="friend/bio?"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/usernameF"
-        tools:layout_editor_absoluteX="147dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernameF" />
 
     <TextView
         android:id="@+id/usernameF"
         android:layout_width="254dp"
         android:layout_height="104dp"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="16dp"
         android:layout_toEndOf="@+id/profilePicture"
         android:text="friend/username"
@@ -34,7 +37,7 @@
         android:id="@+id/profilePictureF"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:contentDescription="Profile Picture"
         android:src="@drawable/profilekendall"
@@ -55,4 +58,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/bottom_nav_menu" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

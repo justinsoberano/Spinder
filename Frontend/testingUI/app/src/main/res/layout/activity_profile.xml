@@ -8,6 +8,26 @@
     android:background="@drawable/gradient_background">
 
     <!-- Profile Picture -->
+
+    <Button
+        android:id="@+id/addFriend"
+        android:layout_width="137dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editBio"
+        android:layout_marginLeft="-88dp"
+        android:layout_marginTop="123dp"
+        android:layout_toRightOf="@id/setBio"
+        android:text="Add Friend" />
+
+    <EditText
+        android:id="@+id/friendText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bio"
+        android:layout_marginTop="115dp"
+        android:hint="Enter Friend Username"
+        android:minHeight="48dp" />
+
     <ImageView
         android:id="@+id/profilePicture"
         android:layout_width="120dp"
@@ -75,9 +95,9 @@
         android:layout_width="137dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/editBio"
-        android:layout_marginLeft="183dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="120dp"
         android:layout_toRightOf="@id/setBio"
-        android:text="Friends List" />
+        android:text="Open Friend Profile" />
 
 </RelativeLayout>
