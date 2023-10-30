@@ -89,9 +89,10 @@ public class MusicSwipe extends AppCompatActivity {
 
     private void makeJSONRequest(){
         RequestQueue requestQueue = Volley.newRequestQueue(MusicSwipe.this);
-        LoginScreen user = new LoginScreen();
-        String userId = user.getUserId();
-        String url = baseUrl + "user/" + userId + "/station";
+        if(GlobalVariables.userName == null){
+            return;
+        }
+        String url = baseUrl + "user/" + GlobalVariables.userName + "/station";
 //        String url = "http://10.0.2.2:8080/user/1/1";
 
 

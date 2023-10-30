@@ -2,6 +2,7 @@ package screens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.as1.R;
 
 import org.json.JSONObject;
+import screens.GlobalVariables;
 
 public class SeedSetter extends AppCompatActivity {
     EditText seed;
@@ -46,10 +48,10 @@ public class SeedSetter extends AppCompatActivity {
                 String songText = seed.getText().toString();
 
                 if (!songText.isEmpty()) {
-//                    String url = baseUrl + "user/1/station/" + songText;
-                    LoginScreen username = new LoginScreen();
-                    String userName = username.getUserId();
-                    String url = baseUrl + "user/" + userName + "/station" + songText;
+                    if(GlobalVariables.userName == null){
+                        return;
+                    }
+                    String url = baseUrl + "user/" + GlobalVariables.userName + "/station/" + songText;
 
                     JSONObject requestBody = new JSONObject();
 
@@ -77,9 +79,10 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                LoginScreen username = new LoginScreen();
-                String userName = username.getUserId();
-                String volume = baseUrl + "user/" + userName + "/volume/" + seekBar.getProgress();//sends the volume as a string
+                if(GlobalVariables.userName == null){
+                    return;
+                }
+                String volume = baseUrl + "user/" + GlobalVariables.userName + "/volume/" + seekBar.getProgress();//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqVolume = new JsonObjectRequest(
@@ -97,9 +100,10 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                LoginScreen username = new LoginScreen();
-                String userName = username.getUserId();
-                String Tempo = baseUrl + "user/" + userName + "/tempo/" + seekBar.getProgress();//sends the volume as a string
+                if(GlobalVariables.userName == null){
+                    return;
+                }
+                String Tempo = baseUrl + "user/" + GlobalVariables.userName + "/tempo/" + seekBar.getProgress();//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqTempo = new JsonObjectRequest(
@@ -117,9 +121,10 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                LoginScreen username = new LoginScreen();
-                String userName = username.getUserId();
-                String Popularity = baseUrl + "user/" + userName + "/popularity/" + seekBar.getProgress();//sends the volume as a string
+                if(GlobalVariables.userName == null){
+                    return;
+                }
+                String Popularity = baseUrl + "user/" + GlobalVariables.userName + "/popularity/" + seekBar.getProgress();//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqPopularity = new JsonObjectRequest(
@@ -137,8 +142,6 @@ public class SeedSetter extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 
 
     }

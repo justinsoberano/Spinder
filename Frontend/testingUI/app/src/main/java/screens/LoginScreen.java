@@ -1,5 +1,7 @@
 package screens;
 
+import static java.sql.Types.NULL;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -24,6 +26,7 @@ import com.example.as1.R;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import screens.GlobalVariables;
 
 public class LoginScreen extends AppCompatActivity {
     EditText username;
@@ -31,8 +34,8 @@ public class LoginScreen extends AppCompatActivity {
     Button loginButton;
     LinearLayout logoRelative;
     Button registerButton;
-    String userName;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
+    String isUserValid;
 
     private HashMap<String, String> userCredentials;
 
@@ -53,11 +56,13 @@ public class LoginScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String enteredUsername = username.getText().toString();
-//                String enteredPassword = password.getText().toString();
+                String enteredPassword = password.getText().toString();
+                GlobalVariables.userName = enteredUsername;
 
-                setUserId(enteredUsername);
-                Intent intent = new Intent(LoginScreen.this, SeedSetter.class);
-                startActivity(intent);
+                if(validateLogin(enteredUsername, enteredPassword)){
+                    Intent intent = new Intent(LoginScreen.this, SeedSetter.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -100,21 +105,33 @@ public class LoginScreen extends AppCompatActivity {
 
     }
 
-    void setUserId(String username){
-        this.userName = username;
-    }
-
-    String getUserId(){
-        return userName;
-    }
-
-
-
     public boolean validateLogin(String enteredUsername, String enteredPassword) {
-        if (userCredentials.containsKey(enteredUsername)) {
-            String storedPassword = userCredentials.get(enteredUsername);
-            return enteredPassword.equals(storedPassword);
-        }
-        return false;
+        RequestQueue requestQueue = Volley.newRequestQueue(LoginScreen.this);
+
+        //CHANGE THIS TO BE WHATEVER I NEED TO SEND IT TO
+        String url = "http://coms-309-056.class.las.iastate.edu:8080/user/1/profile";
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Volley Response", response);
+                        isUserValid = response;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        );
+        requestQueue.add(stringRequest);
+        return isUserValid.equals("true");
+
     }
+
+
 }
