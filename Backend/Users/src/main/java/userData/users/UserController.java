@@ -174,18 +174,28 @@ public class UserController {
      * @param id
      * @return
      */
-    @DeleteMapping(path = "/user/{id}")
-    String deleteUser(@PathVariable int id){
-        if(userRepository.existsById(id)){
-            userRepository.deleteById(id);
-            return "success";
-        } else {
-            return "failure";
-        }
+    @DeleteMapping(path = "/user/{name}")
+    String deleteUser(@PathVariable String name){
+        return null;
+//        if(userRepository.existsByUserName(name)){
+//                User u = userRepository.findByUserName(name);
+//                Station s = u.getStation();
+//                Track t = s.getSeed();
+//                s.setSeed(null);
+//                trackRepository.deleteById(t.getId());
+//
+//
+//                userRepository.deleteByUserName(name);
+//                return "success";
+//            } else {
+//                return "failure";
+//        }
     }
 
     @DeleteMapping("user/all")
     void deleteAll(){
+        trackRepository.deleteAll();
+        stationRepository.deleteAll();
         userRepository.deleteAll();
     }
 

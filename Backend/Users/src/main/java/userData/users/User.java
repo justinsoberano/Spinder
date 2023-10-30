@@ -18,10 +18,9 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "station_id")
     private Station station;
-//    @OneToMany
-//    private List<User> followers;
-//    @OneToMany
-//    private List<User> following;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<User> friends;
 
     public User() {
     }
