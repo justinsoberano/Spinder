@@ -11,6 +11,7 @@ public class User {
     @Id
     private int id;
     private String userName;
+    private String password;
     private String profileStr; // text associated with a profile (bio, ect.)
     private String profilePicture; // url for pfp
     private String accessKey; // key for access to spotify data for this user
@@ -49,6 +50,14 @@ public class User {
 
     public void setUserName(String userName){
         this. userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getProfileStr(){

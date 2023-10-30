@@ -16,9 +16,9 @@ public class Station {
     @Id
     private int id;
 
-    private String nextSongID;
-
-    private String currentSong;
+    private int tempo;
+    private int popularity;
+    private int volume;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "track_id")
@@ -48,9 +48,31 @@ public class Station {
 
     public Track getSeed() { return this.seed; }
 
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
+
+    public void setTempo(int tempo) {
+        this.tempo = tempo;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public int getTempo() {
+        return tempo;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
     public List<Track> generateTacks(){
-
-
         return SpotifyController.getRecommendations(seed.getId(), 50);
     }
 

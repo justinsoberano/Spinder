@@ -1,6 +1,8 @@
 package userData.users;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,8 @@ import userData.stations.StationRepository;
 //import userData.trackCreation.Spotify.SpotifyController;
 import userData.trackCreation.Track.Track;
 
+import javax.servlet.http.HttpServletResponse;
+import userData.authentication.AuthController;
 import static userData.trackCreation.Spotify.SpotifyController.searchTrack;
 //import static userData.trackCreation.Spotify.SpotifyController.searchTrack;
 
@@ -53,45 +57,43 @@ public class UserController {
 
     /**
      * Post mapping for creating new users.
-     * @param user, request body(json) used for user creation
+     * @param , request body(json) used for user creation
      * @return String status
      */
-    @PostMapping(path = "/user")
-    String createUser(User user){
-        if (user == null) {
+    @PostMapping(path = "/user/{name}/{password}")
+    String createUser(@PathVariable String name, @PathVariable String password) throws IOException {
+        if (userRepository.findByUserName(name) != null) {
             return "Post Request Failed";
         }
-        userRepository.save(user);
+        Random r = new Random();
+        User u = new User();
+        u.setId(r.nextInt());
+        Station s = new Station(u.getId()); // same id as owner
+        s.setTempo(50);
+        s.setPopularity(50);
+        s.setVolume(50);
+        u.setUserName(name);
+        u.setPassword(password);
+        u.setStation(s);
+        stationRepository.save(s);
+        userRepository.save(u);
         return "success";
     }
 
-    /**
-     * Request used to create a new station.
-     *
-     * @param id id of user
-     * @param id2 id of new station of user
-     */
-    @PostMapping(path = "/user/{id}/station/{id2}")
-    void createStation(@PathVariable int id, @PathVariable int id2){
-        if(stationRepository.existsById(id2)) {
-            return;
-        }
-        Station s = new Station();
-        s.setId(id2);
-        stationRepository.save(s);
-        userRepository.findById(id).setStation(stationRepository.findById(id2));
+    @GetMapping(path = "/login/{username}")
+    String getUserId(@PathVariable String username){
+        return String.valueOf(userRepository.findByUserName(username).getId());
     }
 
     /**
      * Seed setting request for rec generation
      *
-     * @param id of user refered to.
      * @param song string to be used in seeding the station
      */
-    @PutMapping(path = "user/{id}/station/{song}")
-    void setStationSeed(@PathVariable int id, @PathVariable String song){
+    @PutMapping(path = "user/{username}/station/{song}")
+    void setStationSeed(@PathVariable String username, @PathVariable String song){
         Track t;
-        User u = userRepository.findById(id);
+        User u = userRepository.findByUserName(username);
         try {
             t = searchTrack(song).get(0);
         } catch (NullPointerException E) {
@@ -101,27 +103,36 @@ public class UserController {
         userRepository.save(u);
     }
 
-    /**
-     * Request for getting users station
-     *
-     * @param id of user refered to.
-     * @return station of user
-     */
-    @GetMapping(path = "user/{id}/station")
-    Station getStation(@PathVariable int id){
-        return userRepository.findById(id).getStation();
+//    @PutMapping(path = "user/{username}/station")
+//    void removeStationSeed(@PathVariable String username){
+//        User u = userRepository.findByUserName(username);
+//        u.getStation().remove();
+//    }
+
+    @GetMapping(path = "user/{username}/station")
+    List<Track> getTracks(@PathVariable String username){
+        return userRepository.findByUserName(username).getStation().generateTacks();
     }
 
-    /**
-     * Request for getting list of generated tracks from a station
-     *
-     * @param id user whose station it is
-     * @param stationId station of user
-     * @return generated songs from station with seed
-     */
-    @GetMapping(path = "user/{id}/{stationId}")
-    List<Track> getTracks(@PathVariable int id, @PathVariable int stationId){
-        return userRepository.findById(id).getStation().generateTacks();
+    @PutMapping(path = "user/{username}/tempo/{tempo}")
+    void setTempo(@PathVariable String username, @PathVariable int tempo){
+        User u = userRepository.findByUserName(username);
+        Station s = u.getStation();
+        s.setTempo(tempo);
+    }
+
+    @PutMapping(path = "user/{username}/tempo/{pop}")
+    void setPopularity(@PathVariable String username, @PathVariable int pop){
+        User u = userRepository.findByUserName(username);
+        Station s = u.getStation();
+        s.setPopularity(pop);
+    }
+
+    @PutMapping(path = "user/{username}/tempo/{vol}")
+    void setVolume(@PathVariable String username, @PathVariable int vol){
+        User u = userRepository.findByUserName(username);
+        Station s = u.getStation();
+        s.setTempo(vol);
     }
 
     /**
@@ -171,6 +182,11 @@ public class UserController {
         } else {
             return "failure";
         }
+    }
+
+    @DeleteMapping("user/all")
+    void deleteAll(){
+        userRepository.deleteAll();
     }
 
 }
