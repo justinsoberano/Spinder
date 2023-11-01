@@ -13,6 +13,8 @@ import userData.stations.StationRepository;
 import userData.trackCreation.Track.Track;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
+
 import userData.authentication.AuthController;
 import static userData.trackCreation.Spotify.SpotifyController.searchTrack;
 //import static userData.trackCreation.Spotify.SpotifyController.searchTrack;
@@ -42,17 +44,12 @@ public class UserController {
 
     /**
      *
-     * @param id, the id of the user
+     * @param username, the id of the user
      * @return json data of user of id
      */
-    @GetMapping(path = "/user/{id}")
-    User getUserById( @PathVariable int id){
-        if(userRepository.existsById(id)){
-            return userRepository.findById(id);
-        } else {
-            return null; // error
-        }
-
+    @GetMapping(path = "/user/{username}")
+    User getUserById( @PathVariable String  username){
+        return userRepository.findByUserName(username);
     }
 
     /**
@@ -101,6 +98,7 @@ public class UserController {
         }
         u.getStation().setSeed(t);
         userRepository.save(u);
+        trackRepository.save(t);
     }
 
 //    @PutMapping(path = "user/{username}/station")
@@ -119,84 +117,113 @@ public class UserController {
         User u = userRepository.findByUserName(username);
         Station s = u.getStation();
         s.setTempo(tempo);
+        stationRepository.save(s);
+        userRepository.save(u);
     }
 
-    @PutMapping(path = "user/{username}/tempo/{pop}")
+    @PutMapping(path = "user/{username}/popularity/{pop}")
     void setPopularity(@PathVariable String username, @PathVariable int pop){
         User u = userRepository.findByUserName(username);
         Station s = u.getStation();
         s.setPopularity(pop);
+        stationRepository.save(s);
+        userRepository.save(u);
     }
 
-    @PutMapping(path = "user/{username}/tempo/{vol}")
+    @PutMapping(path = "user/{username}/volume/{vol}")
     void setVolume(@PathVariable String username, @PathVariable int vol){
         User u = userRepository.findByUserName(username);
         Station s = u.getStation();
-        s.setTempo(vol);
+        s.setVolume(vol);
+        stationRepository.save(s);
+        userRepository.save(u);
     }
 
     /**
      *
-     * @param id
+     * @param username
      * @return
      */
-    @GetMapping(path = "user/{id}/profile")
-    String getBio(@PathVariable int id){
-        return userRepository.findById(id).getProfileStr();
+    @GetMapping(path = "user/{username}/profile")
+    String getBio(@PathVariable String username){
+        return userRepository.findByUserName(username).getProfileStr();
     }
 
     /**
      *
-     * @param id
+     * @param username
      * @param string
      */
-    @PutMapping(path = "user/{id}/profile/{string}")
-    void setBio(@PathVariable int id, @PathVariable String string){
-        User u = userRepository.findById(id);
+    @PutMapping(path = "user/{username}/profile/{string}")
+    void setBio(@PathVariable String username, @PathVariable String string){
+        User u = userRepository.findByUserName(username);
         u.setProfileStr(string);
         userRepository.save(u);
     }
 
-    @PutMapping(path = "user/{id}/picture/{string}")
-    void setPfp(@PathVariable int id, @PathVariable String string){
-        User u = userRepository.findById(id);
+    @PutMapping(path = "user/{username}/picture/{string}")
+    void setPfp(@PathVariable String username, @PathVariable String string){
+        User u = userRepository.findByUserName(username);
         u.setProfilePicture(string);
         userRepository.save(u);
     }
 
-    @GetMapping(path = "user/{id}/picture")
-    String getPfp(@PathVariable int id){
-        return userRepository.findById(id).getProfilePicture();
+    @GetMapping(path = "user/{username}/picture")
+    String getPfp(@PathVariable String username){
+        return userRepository.findByUserName(username).getProfilePicture();
+    }
+
+    @GetMapping(path = "user/{username}/{password}")
+    String loginAuth(@PathVariable String username, @PathVariable String password){
+        User u = userRepository.findByUserName(username);
+        if(u == null){
+            return "error: user not found";
+        }
+        else if(u.getPassword().equals(password)){
+            return "true";
+        } else {
+            return "false";
+        }
+    }
+
+    @PutMapping(path = "friends/{user1}/{user2}")
+    void addFriend(@PathVariable String user1, @PathVariable String user2){
+        User u1 = userRepository.findByUserName(user1);
+        User u2 = userRepository.findByUserName(user2);
+        u1.addFriend(u2);
+        u2.addFriend(u1);
+        userRepository.save(u1);
+        userRepository.save(u2);
     }
 
     /**
      *
-     * @param id
+     * @param
      * @return
      */
-    @DeleteMapping(path = "/user/{name}")
-    String deleteUser(@PathVariable String name){
-        return null;
-//        if(userRepository.existsByUserName(name)){
-//                User u = userRepository.findByUserName(name);
-//                Station s = u.getStation();
-//                Track t = s.getSeed();
-//                s.setSeed(null);
-//                trackRepository.deleteById(t.getId());
-//
-//
-//                userRepository.deleteByUserName(name);
-//                return "success";
-//            } else {
-//                return "failure";
-//        }
-    }
+    @Transactional
+    @DeleteMapping(path = "/user/{id}")
+    public String deleteUser(@PathVariable int id){
+        if(userRepository.existsById(id)){
+                User u = userRepository.findById(id);
+                Station s = u.getStation();
+                Track t = s.getSeed();
+                s.setSeed(null);
+                u.setStation(null);
 
+                trackRepository.deleteById(t.getId());
+                stationRepository.deleteById(s.getId());
+                userRepository.deleteById(id);
+                return "success";
+            } else {
+                return "failure";
+        }
+    }
+    @Transactional
     @DeleteMapping("user/all")
-    void deleteAll(){
+    public void deleteAll(){
         trackRepository.deleteAll();
         stationRepository.deleteAll();
         userRepository.deleteAll();
     }
-
 }

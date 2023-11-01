@@ -83,25 +83,19 @@ public class User {
 
     public void setStation(Station s){ this.station = s; }
 
-//    public void addStation(Station S) { this.stations.add(S); }
-//
-//    public void removeStation(Station S) { this.stations.remove(S); }
+    public void addFriend(User f){
+        this.friends.add(f);
+    }
 
-//    public void addFollower(User F){
-//        this.followers.add(F);
-//    }
-//
-//    public void removeFollower(User F){
-//        this.followers.remove(F);
-//    }
-//
-//    public void addFollowing(User F){
-//        this.following.add(F);
-//    }
-//
-//    public void removeFollwing(User F){
-//        this.following.remove(F);
-//    }
+    public void removeFreind(User f){
+        this.friends.remove(f);
+    }
+
+
+
+    public List<User> getFriends(){
+        return this.friends;
+    }
 
 
 }
