@@ -2,6 +2,7 @@ package screens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.as1.R;
 
 import org.json.JSONObject;
+import screens.GlobalVariables;
 
 public class SeedSetter extends AppCompatActivity {
     EditText seed;
@@ -26,6 +28,7 @@ public class SeedSetter extends AppCompatActivity {
     SeekBar tempo;
     SeekBar popularity;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
+//    String baseUrl = "http://10.0.2.2:8080/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,10 @@ public class SeedSetter extends AppCompatActivity {
                 String songText = seed.getText().toString();
 
                 if (!songText.isEmpty()) {
-                    String url = baseUrl + "user/1/station/" + songText;
+                    if(GlobalVariables.userName == null){
+                        return;
+                    }
+                    String url = baseUrl + "user/" + GlobalVariables.userName + "/station/" + songText;
 
                     JSONObject requestBody = new JSONObject();
 
@@ -72,8 +78,12 @@ public class SeedSetter extends AppCompatActivity {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {//will want to send to loudness
-                String volume = baseUrl + "user/1/volume/" + seekBar.getProgress();//sends the volume as a string
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if(GlobalVariables.userName == null){
+                    return;
+                }
+                String volume = baseUrl + "user/" + GlobalVariables.userName + "/volume/" + (seekBar.getProgress() * 10);//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqVolume = new JsonObjectRequest(
@@ -91,7 +101,10 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                String Tempo = baseUrl + "user/1/tempo/" + seekBar.getProgress();//sends the tempo as a string
+                if(GlobalVariables.userName == null){
+                    return;
+                }
+                String Tempo = baseUrl + "user/" + GlobalVariables.userName + "/tempo/" + (seekBar.getProgress() * 10);//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqTempo = new JsonObjectRequest(
@@ -109,7 +122,10 @@ public class SeedSetter extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                String Popularity = baseUrl + "user/1/popularity/" + seekBar.getProgress();//sends the popularity as a string
+                if(GlobalVariables.userName == null){
+                    return;
+                }
+                String Popularity = baseUrl + "user/" + GlobalVariables.userName + "/popularity/" + (seekBar.getProgress() * 10);//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqPopularity = new JsonObjectRequest(
@@ -127,8 +143,6 @@ public class SeedSetter extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 
 
     }
