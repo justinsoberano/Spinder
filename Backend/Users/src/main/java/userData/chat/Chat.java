@@ -1,8 +1,9 @@
-package userData.socketingthatweb;
+package userData.chat;
 
 
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 import javax.websocket.OnClose;
@@ -14,11 +15,22 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import userData.chat.Message.Message;
+import userData.chat.Message.MessageRepository;
+
 
 @ServerEndpoint("/{username}/chat/{friend}")
 @Component
 public class Chat {
+
+    private static MessageRepository msgRepo;
+
+    @Autowired
+    public void setMessageRepository(MessageRepository repo) {
+        msgRepo = repo;
+    }
 
     /**
      * Creates a session searchable by session
@@ -66,7 +78,6 @@ public class Chat {
 
             // Puts the session into the hashmap as key and value as username.
             chatSession.put(session, username);
-
             // Puts the username into the hashmap as key and value as HashMap for lookup.
             searchChat.put(username, session);
 
@@ -113,10 +124,12 @@ public class Chat {
         // First checks if the friend exists
         if(searchChat.get(friend_username) == null) {
             sendStatus(session, "User is not connected");
+            msgRepo.save(new Message(username, message, friend_username));
+            sendMessage(username, message);
         } else {
-
             // Sends message
             sendMessage(username, message);
+            msgRepo.save(new Message(username, message, friend_username));
         }
     }
 
@@ -132,11 +145,12 @@ public class Chat {
 
         // Try-Catch block required by 'sendText()'.
         try {
-
-            // Searches for chats with the user and friend and sends the message to both of them.
-            searchChat.get(username).getBasicRemote().sendText(m);
-            searchChat.get(friend_username).getBasicRemote().sendText(m);
-
+            if(searchChat.get(friend_username) == null) {
+                searchChat.get(username).getBasicRemote().sendText(m);
+            } else {
+                searchChat.get(username).getBasicRemote().sendText(m);
+                searchChat.get(friend_username).getBasicRemote().sendText(m);
+            }
         } catch(IOException e) {
             logger.info("[EXCEPTION] " + e.getMessage());
         }
@@ -169,6 +183,25 @@ public class Chat {
                 session.getBasicRemote().sendText(m);
             } catch(IOException e) {
                 logger.info("[EXCEPTION] " + e.getMessage());
+            }
+        }
+    }
+
+    void loadMessage(String fromUser, String content, String toUser) throws IOException {
+
+        String m = fromUser + ": " + content;
+        searchChat.get(toUser).getBasicRemote().sendText(content);
+
+    }
+
+    void getHistory(String username) {
+
+        List<Message> messages = msgRepo.findByUsername(username);
+        StringBuilder sb = new StringBuilder();
+
+        if(messages != null && messages.size() != 0) {
+            for(Message message : messages) {
+                loadMessage(message.getFromUser(), message.getContent(), message.getToUser());
             }
         }
     }
