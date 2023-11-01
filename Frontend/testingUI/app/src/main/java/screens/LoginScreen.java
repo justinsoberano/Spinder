@@ -35,7 +35,7 @@ public class LoginScreen extends AppCompatActivity {
     LinearLayout logoRelative;
     Button registerButton;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
-    String isUserValid;
+    String isUserValid = "false";
 
     private HashMap<String, String> userCredentials;
 
@@ -62,6 +62,8 @@ public class LoginScreen extends AppCompatActivity {
                 if(validateLogin(enteredUsername, enteredPassword)){
                     Intent intent = new Intent(LoginScreen.this, SeedSetter.class);
                     startActivity(intent);
+                }else{
+                    Toast.makeText(LoginScreen.this, "User Not Found", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -95,9 +97,6 @@ public class LoginScreen extends AppCompatActivity {
                             Toast.makeText(LoginScreen.this, "Please Register", Toast.LENGTH_SHORT).show();
                         }
 
-//                        Uri uri = Uri.parse("http://coms-309-056.class.las.iastate.edu:8080/register");
-//                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                        startActivity(intent);
                     }
                 });
             }
@@ -108,8 +107,7 @@ public class LoginScreen extends AppCompatActivity {
     public boolean validateLogin(String enteredUsername, String enteredPassword) {
         RequestQueue requestQueue = Volley.newRequestQueue(LoginScreen.this);
 
-        //CHANGE THIS TO BE WHATEVER I NEED TO SEND IT TO
-        String url = "http://coms-309-056.class.las.iastate.edu:8080/user/1/profile";
+        String url = "http://coms-309-056.class.las.iastate.edu:8080/user/" + enteredUsername + "/" + enteredPassword;
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,

@@ -82,7 +82,7 @@ public class SeedSetter extends AppCompatActivity {
                 if(GlobalVariables.userName == null){
                     return;
                 }
-                String volume = baseUrl + "user/" + GlobalVariables.userName + "/volume/" + seekBar.getProgress();//sends the volume as a string
+                String volume = baseUrl + "user/" + GlobalVariables.userName + "/volume/" + (seekBar.getProgress() * 10);//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqVolume = new JsonObjectRequest(
@@ -103,7 +103,7 @@ public class SeedSetter extends AppCompatActivity {
                 if(GlobalVariables.userName == null){
                     return;
                 }
-                String Tempo = baseUrl + "user/" + GlobalVariables.userName + "/tempo/" + seekBar.getProgress();//sends the volume as a string
+                String Tempo = baseUrl + "user/" + GlobalVariables.userName + "/tempo/" + (seekBar.getProgress() * 10);//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqTempo = new JsonObjectRequest(
@@ -124,7 +124,7 @@ public class SeedSetter extends AppCompatActivity {
                 if(GlobalVariables.userName == null){
                     return;
                 }
-                String Popularity = baseUrl + "user/" + GlobalVariables.userName + "/popularity/" + seekBar.getProgress();//sends the volume as a string
+                String Popularity = baseUrl + "user/" + GlobalVariables.userName + "/popularity/" + (seekBar.getProgress() * 10);//sends the volume as a string
                 JSONObject requestBody = new JSONObject();
 
                 JsonObjectRequest reqPopularity = new JsonObjectRequest(
