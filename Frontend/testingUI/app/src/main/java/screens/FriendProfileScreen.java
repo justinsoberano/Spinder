@@ -35,7 +35,6 @@ public class FriendProfileScreen extends AppCompatActivity {
         usernameF = findViewById(R.id.usernameF);
         profilePictureF = findViewById(R.id.profilePictureF);
 
-
         getUsername();
         getInfo(usernameF.getText().toString());
         navBar();
@@ -63,7 +62,6 @@ public class FriendProfileScreen extends AppCompatActivity {
         );
         requestQueue.add(stringRequest);
     }
-
 
     private void navBar(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -112,6 +110,7 @@ public class FriendProfileScreen extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Volley Response", response);
+
                         //bioF.setdra(response);//will need a set image
                     }
                 },

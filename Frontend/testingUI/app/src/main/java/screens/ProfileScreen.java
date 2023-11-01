@@ -1,4 +1,7 @@
 package screens;
+import static android.icu.util.LocaleData.getInstance;
+import static okhttp3.internal.Internal.instance;
+
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -24,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.as1.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import screens.GlobalVariables;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -31,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ProfileScreen extends AppCompatActivity {
+    public String userFriend = "";
 
     TextView bio;
     EditText editBio;
@@ -38,6 +43,7 @@ public class ProfileScreen extends AppCompatActivity {
     Button setBio;
     Button friendList;
     Button addFriend;
+    Button removeFriend;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
 
     @Override
@@ -50,6 +56,7 @@ public class ProfileScreen extends AppCompatActivity {
         setBio = findViewById(R.id.setBio);
         friendList = findViewById(R.id.friendList);
         addFriend = findViewById(R.id.addFriend);
+        removeFriend = findViewById(R.id.removeFriend);
         friendText = findViewById(R.id.friendText);
 
         setBio.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +65,7 @@ public class ProfileScreen extends AppCompatActivity {
                 String editBioString = editBio.getText().toString();
 
                 if (!editBioString.isEmpty()) {
-                    String url = baseUrl + "user/1/profile/" + editBioString;
+                    String url = baseUrl + "user/sumthing/profile/" + editBioString;
 
                     JSONObject requestBody = new JSONObject();
 
@@ -82,8 +89,22 @@ public class ProfileScreen extends AppCompatActivity {
         friendList.setOnClickListener(new View.OnClickListener() {//want this to send a username to friendprofile for it to build other user profile
             @Override
             public void onClick(View v) {
+                String editFriendString = friendText.getText().toString();
+                if (!editFriendString.isEmpty()) {
+                    String url = baseUrl + "user/" + editFriendString;//may need to be user/friend/ or however it is named
+                    JSONObject requestBody = new JSONObject();
+                    JsonObjectRequest request = new JsonObjectRequest(
+                            Request.Method.PUT, url, requestBody, null, null
+                    );
+
+                    Volley.newRequestQueue(ProfileScreen.this).add(request);
+
+                    Toast.makeText(ProfileScreen.this, "Request sent successfully open friend", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ProfileScreen.this, "Enter Friend Username", Toast.LENGTH_SHORT).show();
+                }
                 setContentView(R.layout.activity_friends);
-            }
+                }
         });
         addFriend.setOnClickListener(new View.OnClickListener() {//add the submitted username into users friend list
             @Override
@@ -104,6 +125,26 @@ public class ProfileScreen extends AppCompatActivity {
                 }
             }
         });
+        removeFriend.setOnClickListener(new View.OnClickListener() {//remove a friend from the user repository
+            @Override
+            public void onClick(View v) {
+                String editFriendString = friendText.getText().toString();
+                if (!editFriendString.isEmpty()) {
+                    String url = baseUrl + "user/friends/" + editFriendString;
+                    JSONObject requestBody = new JSONObject();
+                    JsonObjectRequest request = new JsonObjectRequest(
+                            Request.Method.PUT, url, requestBody, null, null
+                    );
+
+                    Volley.newRequestQueue(ProfileScreen.this).add(request);
+
+                    Toast.makeText(ProfileScreen.this, "Request sent successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ProfileScreen.this, "Enter Friend Username", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         getBio();
         navBar();
