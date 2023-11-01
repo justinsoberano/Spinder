@@ -46,6 +46,7 @@ public class MusicSwipe extends AppCompatActivity {
     RelativeLayout relativeLayout;
     private MediaPlayer mediaPlayer;
     private int currentSongIndex = 0;
+    String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
     private final ArrayList<String> songNames = new ArrayList<>();
     private final ArrayList<String> artistNames = new ArrayList<>();
     private final ArrayList<String> songImages = new ArrayList<>();
@@ -88,8 +89,11 @@ public class MusicSwipe extends AppCompatActivity {
 
     private void makeJSONRequest(){
         RequestQueue requestQueue = Volley.newRequestQueue(MusicSwipe.this);
-//        String url = "http://coms-309-056.class.las.iastate.edu:8080/user/1/1";
-        String url = "http://10.0.2.2:8080/user/1/1";
+        if(GlobalVariables.userName == null){
+            return;
+        }
+        String url = baseUrl + "user/" + GlobalVariables.userName + "/station";
+//        String url = "http://10.0.2.2:8080/user/1/1";
 
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
