@@ -1,38 +1,36 @@
 package userData.chat.ChatRoom;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import userData.users.UserRepository;
-
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
 public class ChatRoom {
 
-    @Autowired
-    UserRepository userRepository;
-
     @Id
-    private int roomId;
-
+    private int id;
     private String userTwo;
     private String userOne;
 
-    private List<String> messages;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String[]> messages = new ArrayList<>();
 
-    public ChatRoom() {};
+    public ChatRoom() {}
 
-    public ChatRoom(String userOne, String userTwo) {
+    public ChatRoom(int id, String userOne, String userTwo) {
         this.userOne = userOne;
         this.userTwo = userTwo;
+        this.id = id;
+    }
 
+    public int getId() {
+        return id;
+    }
 
-
-//        roomId = userOne + userTwo;
-
-
-
-
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUserOne() {
@@ -51,14 +49,12 @@ public class ChatRoom {
         return userTwo;
     }
 
-    public List<String> getContent() {
+    public List<String[]> getMessages() {
         return messages;
     }
 
-    public void setContent(String content) {
-        messages.add(content);
+    public void setContent(String user, String content) {
+        messages.add(new String[]{user, content});
     }
-
-
 }
 

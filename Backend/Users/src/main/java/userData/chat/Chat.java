@@ -1,6 +1,5 @@
 package userData.chat;
 
-
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.List;
@@ -13,6 +12,7 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,34 +25,20 @@ import userData.users.UserRepository;
 @Component
 public class Chat {
 
+    @Autowired
+    public void setChatRoomRepository(ChatRoomRepository repo) { chatRepo = repo;}
     private static ChatRoomRepository chatRepo;
 
     @Autowired
-    public void setChatRoomRepository(ChatRoomRepository repo) {
-        chatRepo = repo;
-    }
-
+    public void setUserRepository(UserRepository u) { userRepo = u; }
     private static UserRepository userRepo;
 
-    @Autowired
-    public void setUserRepository(UserRepository u) {
-        userRepo = u;
-    }
-
-    /**
-     * Creates a session searchable by session
-     */
     private static Map <Session, String> chatSession = new Hashtable<>();
 
-    /**
-     * Creates a session searchable by username.
-     */
     private static Map <String, Session> searchChat = new Hashtable<>();
 
-    // Username
+    private ChatRoom chat;
     private String username;
-
-    // Friend's Username
     private String friend_username;
 
     // Logger for terminal output and debugging
@@ -60,52 +46,42 @@ public class Chat {
 
     /**
      * Connects the user to the websocket.
-     * @param session
-     * @param username
-     * @param friend_username
-     * @throws IOException
      */
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String username, @PathParam("friend") String friend_username) throws IOException {
 
-        // Sets username
         this.username = username;
-
-        // Sets friends username
         this.friend_username = friend_username;
 
         /* Finds the id of each user and adds them together for the ChatRoom Id */
-        int userOneId = userRepo.findByUsername(username).getId();
-        int userTwoId = userRepo.findByUsername(friend_username).getId();
-        long id = userOneId + userTwoId;
+        // int userOneId = userRepo.findByUsername(username).getId();
+        // int userTwoId = userRepo.findByUsername(friend_username).getId();
 
-        if(!chatRepo.existsById(id)) {
-            logger.info("[CHAT CREATED]" + "id: " + id);
-            ChatRoom c = new ChatRoom(username, friend_username);
-            chatRepo.save(c);
+        int id = 0;
+        for(int i = 0; i < username.length(); i++) {
+            id += username.charAt(i);
         }
-        /* -------------------------------------------------------------------- */
-
-        // Outputs to the terminal
-        logger.info("[CONNECTED]" + username);
+        for(int i = 0; i < friend_username.length(); i++) {
+            id += friend_username.charAt(i);
+        }
 
         // Handle the case of a duplicate username
         if (searchChat.containsKey(username)) {
             session.getBasicRemote().sendText("Username already exists");
             session.close();
         } else {
-
-            // Puts the session into the hashmap as key and value as username.
             chatSession.put(session, username);
-            // Puts the username into the hashmap as key and value as HashMap for lookup.
             searchChat.put(username, session);
+        }
 
-            // Checks if the friend already has a chat in the HashMap. Sends Status.
-            if(!searchChat.containsKey(friend_username)) {
-                sendStatus(session, "Waiting for connection.");
-            } else {
-                sendStatus(session, "Connected");
-            }
+        if(!chatRepo.existsById(id)) {
+            logger.info("[CHAT CREATED]" + "id: " + id);
+            chat = new ChatRoom(id, username, friend_username);
+            chatRepo.save(chat);
+        } else {
+            logger.info("[CHAT OPENED]" + "id: " + id);
+            chat = chatRepo.findById(id);
+            loadHistory(session, chat);
         }
     }
 
@@ -120,7 +96,6 @@ public class Chat {
         String username = chatSession.get(session);
         logger.info("[DISCONNECTED] " + username);
 
-
         chatSession.remove(session);
         searchChat.remove(username);
     }
@@ -131,98 +106,49 @@ public class Chat {
      * @param message
      * @throws IOException
      */
+
     @OnMessage
     public void onMessage(Session session, String message) throws IOException {
-
         // Grabs the username of the current session.
-        String username = chatSession.get(session);
+        String sender = chatSession.get(session);
 
-        // Sends log to terminal.
-        logger.info("[MESSAGE]" + username + ": " + message);
+        // Log the message to the terminal.
+        logger.info("[MESSAGE] " + sender + ": " + message);
 
-        // First checks if the friend exists
-        if(searchChat.get(friend_username) == null) {
-            sendStatus(session, "User is not connected");
-            sendMessage(username, message);
-        } else {
-            // Sends message
-            sendMessage(username, message);
+        // Send the message to the sender, so they see their own message.
+        sendMessage(session, sender, message);
 
+        // If the friend is different and connected, send them the message.
+        if(!sender.equals(friend_username)) {
+            Session friendSession = searchChat.get(friend_username);
+            if(friendSession != null) {
+                sendMessage(friendSession, sender, message);
+            }
         }
+
+        // Store the message in the chat history.
+        chat.setContent(sender, message);
+        chatRepo.save(chat);
     }
 
     /**
      * Handles the message sending, called from 'onMessage'.
-     * @param username
      * @param message
      */
-    public void sendMessage(String username, String message) {
-
-        // Appends the username + message into a single string.
-        String m = username + ": " + message;
-
-        // Try-Catch block required by 'sendText()'.
-        try {
-            if(searchChat.get(friend_username) == null) {
-                searchChat.get(username).getBasicRemote().sendText(m);
-
-            } else {
-                searchChat.get(username).getBasicRemote().sendText(m);
-                searchChat.get(friend_username).getBasicRemote().sendText(m);
-            }
-        } catch(IOException e) {
-            logger.info("[EXCEPTION] " + e.getMessage());
-        }
+    public void sendMessage(Session session, String user, String message) throws IOException {
+        String formattedMessage = user + ": " + message;
+        session.getBasicRemote().sendText(formattedMessage);
     }
 
     /**
-     * Sends status updates to both the user and friend if available or only the current user.
-     * @param session
-     * @param message
+     * Allows previous messages to be sent to the users.
      */
-    public void sendStatus(Session session, String message) {
-
-        // Appends "[SYSTEM]" before the message.
-        String m = "[SYSTEM]: " + message;
-
-        // Checks if the friend's chat session exists.
-        if(searchChat.containsKey(friend_username)) {
-            try {
-
-                // Send status update to both.
-                searchChat.get(username).getBasicRemote().sendText(m);
-                searchChat.get(friend_username).getBasicRemote().sendText(m);
-            } catch(IOException e) {
-                logger.info("[EXCEPTION] " + e.getMessage());
-            }
-        } else {
-            try {
-
-                // Only send status update to the current session.
-                session.getBasicRemote().sendText(m);
-            } catch(IOException e) {
-                logger.info("[EXCEPTION] " + e.getMessage());
+    void loadHistory(Session session, ChatRoom chat) throws IOException {
+        // Initialize the messages collection if it is lazy-loaded
+        if (chat.getMessages() != null && Hibernate.isInitialized(chat.getMessages())) {
+            for(int i = 0; i < chat.getMessages().size(); i++) {
+                session.getBasicRemote().sendText(chat.getMessages().get(i)[0] + ": " + chat.getMessages().get(i)[1]);
             }
         }
     }
-
-    void loadMessage(String fromUser, String content, String toUser) throws IOException {
-        String m = fromUser + ": " + content;
-        searchChat.get(toUser).getBasicRemote().sendText(content);
-
-    }
-
-//    void getHistory(String username) {
-//
-//
-//
-//        if(chat != null) {
-//
-//            List<String> messages = chat.getContent();
-//            for(String message : messages) {
-//
-//            }
-//        }
-//
-//    }
 }
