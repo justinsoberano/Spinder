@@ -42,7 +42,7 @@ public class FriendProfileScreen extends AppCompatActivity {
 
     private void getUsername() {//will need a get request to retrieve username form profile screen
         RequestQueue requestQueue = Volley.newRequestQueue(FriendProfileScreen.this);//might need to grab request from ProfileScreen directly
-        String url = "http://coms-309-056.class.las.iastate.edu:8080/user/";
+        String url = baseUrl + "user/"; //make sure global variable stays the same for each user request
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET, url,
@@ -83,10 +83,10 @@ public class FriendProfileScreen extends AppCompatActivity {
         });
     }
 
-    private void getInfo(String username){
+    private void getInfo(String username){//will eventually get the bio and profile pic from spotify
         RequestQueue requestQueue = Volley.newRequestQueue(FriendProfileScreen.this);
-        String urlBio = "http://coms-309-056.class.las.iastate.edu:8080/user/"+ username + "/profile";
-        String urlImage = "http://coms-309-056.class.las.iastate.edu:8080/user/"+ username + "/image/url";
+        String urlBio = "http://coms-309-056.class.las.iastate.edu:8080/user/"+ username + "/profile/";
+        String urlImage = "http://coms-309-056.class.las.iastate.edu:8080/user/"+ username + "/image/url/";
         StringRequest stringRequestBio = new StringRequest(
                 Request.Method.GET, urlBio,
                 new Response.Listener<String>() {

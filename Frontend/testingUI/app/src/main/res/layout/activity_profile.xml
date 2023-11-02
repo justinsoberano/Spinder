@@ -10,6 +10,16 @@
     <!-- Profile Picture -->
 
     <Button
+        android:id="@+id/openChat"
+        android:layout_width="137dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editBio"
+        android:layout_marginLeft="157dp"
+        android:layout_marginTop="185dp"
+        android:layout_toRightOf="@id/setBio"
+        android:text="Open Chat with Friend" />
+
+    <Button
         android:id="@+id/removeFriend"
         android:layout_width="178dp"
         android:layout_height="wrap_content"
