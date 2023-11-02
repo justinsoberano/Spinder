@@ -86,6 +86,11 @@ public class FriendProfileScreen extends AppCompatActivity {
                     startActivity(profileIntent);
                     return true;
                 }
+                if(item.getItemId() == R.id.menu_discover){
+                    Intent profileIntent = new Intent(FriendProfileScreen.this, MusicSwipe.class);
+                    startActivity(profileIntent);
+                    return true;
+                }
                 return false;
             }
         });
