@@ -15,7 +15,7 @@ public class ChatRoom {
     private String userOne;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<String[]> messages = new ArrayList<>();
+    private List<Message> messages = new ArrayList<>();
 
     public ChatRoom() {}
 
@@ -49,12 +49,30 @@ public class ChatRoom {
         return userTwo;
     }
 
-    public List<String[]> getMessages() {
+    public List<Message> getMessages() {
         return messages;
     }
 
     public void setContent(String user, String content) {
-        messages.add(new String[]{user, content});
+        messages.add(new Message(user, content));
+    }
+
+    @Embeddable
+    public class Message {
+
+        private String user;
+        private String content;
+
+        public Message(String user, String content) {
+            this.user = user;
+            this.content = content;
+        }
+
+        public Message() {}
+
+        public String getUser() { return user; }
+
+        public String getContent() { return content; }
     }
 }
 

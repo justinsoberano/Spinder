@@ -5,10 +5,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
+import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
@@ -100,6 +97,17 @@ public class Chat {
         searchChat.remove(username);
     }
 
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+
+        // get the username from session-username mapping
+        String username = chatSession.get(session);
+
+        // do error handling here
+        logger.info("[onError]" + username + ": " + throwable.getMessage());
+    }
+
+
     /**
      * Connects the current session and sends the message.
      * @param session
@@ -147,7 +155,7 @@ public class Chat {
         // Initialize the messages collection if it is lazy-loaded
         if (chat.getMessages() != null && Hibernate.isInitialized(chat.getMessages())) {
             for(int i = 0; i < chat.getMessages().size(); i++) {
-                session.getBasicRemote().sendText(chat.getMessages().get(i)[0] + ": " + chat.getMessages().get(i)[1]);
+                session.getBasicRemote().sendText(chat.getMessages().get(i).getUser() + ": " + chat.getMessages().get(i).getContent());
             }
         }
     }
