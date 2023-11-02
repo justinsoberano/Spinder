@@ -30,7 +30,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "websockets",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -92,6 +92,7 @@
       <workItem from="1696291885438" duration="210000" />
       <workItem from="1696305693172" duration="4424000" />
       <workItem from="1696365984072" duration="13811000" />
+      <workItem from="1698438707044" duration="50000" />
     </task>
     <task id="LOCAL-00001" summary="profile picture controllers">
       <option name="closed" value="true" />
