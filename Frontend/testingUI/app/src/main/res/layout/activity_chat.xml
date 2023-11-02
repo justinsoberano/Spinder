@@ -7,7 +7,6 @@
     android:background="@drawable/gradient_background"
     android:id="@+id/relativeLayout">
 
-    <!-- Chat messages container (you can use a RecyclerView for dynamic messages) -->
     <ScrollView
         android:id="@+id/chatScrollView"
         android:layout_width="match_parent"
@@ -24,11 +23,9 @@
             android:layout_marginTop="24dp"
             android:textSize="20sp"
             android:textColor="#FFFFFF" />
-        <!-- Your chat messages content here -->
     </ScrollView>
 
 
-    <!-- Message input layout at the bottom -->
     <RelativeLayout
         android:id="@+id/messageInputLayout"
         android:layout_width="match_parent"
@@ -36,7 +33,6 @@
         android:layout_alignParentBottom="true"
         android:background="@color/white">
 
-        <!-- Message input EditText -->
         <EditText
             android:id="@+id/messageEditText"
             android:layout_width="match_parent"
@@ -45,7 +41,6 @@
             android:minHeight="48dp"
             android:padding="10dp" />
 
-        <!-- Send button -->
         <Button
             android:id="@+id/sendButton"
             android:layout_width="wrap_content"

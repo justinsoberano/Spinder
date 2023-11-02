@@ -24,26 +24,20 @@ public class ChatScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        // Initialize UI elements
         messageEditText = findViewById(R.id.messageEditText);
         sendButton = findViewById(R.id.sendButton);
         chatScrollView = findViewById(R.id.chatScrollView);
         chatTextView = findViewById(R.id.chatTextView);
 
-        // Set a click listener for the Send button
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Get the text from the EditText
                 String message = messageEditText.getText().toString();
 
-                // Append the message to the chatTextView
                 chatTextView.append("You: " + message + "\n");
 
-                // Clear the EditText
                 messageEditText.setText("");
 
-                // Scroll the ScrollView to the bottom to show the new message
                 chatScrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
