@@ -15,7 +15,7 @@ public class ChatRoom {
     private String userOne;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<String[]> messages = new ArrayList<>();
+    private List<String[]> messages = new ArrayList<String[]>();
 
     public ChatRoom() {}
 

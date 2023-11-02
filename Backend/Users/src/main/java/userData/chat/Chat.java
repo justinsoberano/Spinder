@@ -151,4 +151,8 @@ public class Chat {
             }
         }
     }
+
+    void getRoom(String u1, String u2){
+        chatRepo.findByUserOneAndUserTwo(u1, u2);
+    }
 }

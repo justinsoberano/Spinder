@@ -1,6 +1,7 @@
 package userData.users;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -52,6 +53,12 @@ public class UserController {
         return userRepository.findByUserName(username);
     }
 
+    @GetMapping(path = "user/{user}/username")
+    String getUsername(@PathVariable String user){
+        return userRepository.findByUserName(user).getUserName();
+    }
+
+
     /**
      * Post mapping for creating new users.
      * @param , request body(json) used for user creation
@@ -64,7 +71,7 @@ public class UserController {
         }
         Random r = new Random();
         User u = new User();
-        u.setId(r.nextInt());
+        u.setId(Math.abs(r.nextInt() % 100000));
         Station s = new Station(u.getId()); // same id as owner
         s.setTempo(50);
         s.setPopularity(50);
@@ -88,7 +95,7 @@ public class UserController {
      * @param song string to be used in seeding the station
      */
     @PutMapping(path = "user/{username}/station/{song}")
-    void setStationSeed(@PathVariable String username, @PathVariable String song){
+    void setStationSeed(@PathVariable String username, @PathVariable String song) {
         Track t;
         User u = userRepository.findByUserName(username);
         try {
@@ -186,15 +193,57 @@ public class UserController {
         }
     }
 
-    @PutMapping(path = "friends/{user1}/{user2}")
+    @PutMapping(path = "add/{user1}/{user2}")
     void addFriend(@PathVariable String user1, @PathVariable String user2){
         User u1 = userRepository.findByUserName(user1);
         User u2 = userRepository.findByUserName(user2);
+        if(u1 == null || u2 == null){
+            return;
+        }
         u1.addFriend(u2);
         u2.addFriend(u1);
         userRepository.save(u1);
         userRepository.save(u2);
     }
+
+    @PutMapping(path = "remove/{user1}/{user2}")
+    void removeFriend(@PathVariable String user1, @PathVariable String user2){
+        User u1 = userRepository.findByUserName(user1);
+        User u2 = userRepository.findByUserName(user2);
+        if(u1 == null || u2 == null){
+            return;
+        }
+        u1.removeFreind(u2);
+        u2.removeFreind(u1);
+        userRepository.save(u1);
+        userRepository.save(u2);
+    }
+
+    @GetMapping(path = "friends/{username}")
+    List<String> getFriendUserNames(@PathVariable String username){
+        List<String> names = new ArrayList<String>();
+        User u = userRepository.findByUserName(username);
+        if(u == null) {
+            return null;
+        }
+        for(User E : u.getFriends()){
+            names.add(E.getUserName());
+        }
+        return  names;
+
+    }
+
+    @GetMapping(path = "song/{name}")
+    Track getSong(@PathVariable String name) {
+        Track t;
+        try {
+            t = searchTrack(name).get(0);
+        } catch (NullPointerException E) {
+            return null;
+        }
+        return t;
+    }
+
 
     /**
      *
