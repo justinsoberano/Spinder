@@ -1,6 +1,5 @@
-package userData.chat.Message;
+package userData.chat.ChatRoom;
 
-import org.apache.catalina.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import userData.users.UserRepository;
 
@@ -27,9 +26,9 @@ public class ChatRoom {
         this.userOne = userOne;
         this.userTwo = userTwo;
 
-        u1 = userRepository.findByUserName
 
-        roomId = userOne + userTwo;
+
+//        roomId = userOne + userTwo;
 
 
 
@@ -52,7 +51,7 @@ public class ChatRoom {
         return userTwo;
     }
 
-    public List<String getContent() {
+    public List<String> getContent() {
         return messages;
     }
 

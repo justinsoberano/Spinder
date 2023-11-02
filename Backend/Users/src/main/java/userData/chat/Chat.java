@@ -17,19 +17,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import userData.chat.Message.Message;
-import userData.chat.Message.MessageRepository;
-
+import userData.chat.ChatRoom.ChatRoomRepository;
+import userData.chat.ChatRoom.ChatRoom;
+import userData.users.UserRepository;
 
 @ServerEndpoint("/{username}/chat/{friend}")
 @Component
 public class Chat {
 
-    private static MessageRepository msgRepo;
+    private static ChatRoomRepository chatRepo;
 
     @Autowired
-    public void setMessageRepository(MessageRepository repo) {
-        msgRepo = repo;
+    public void setChatRoomRepository(ChatRoomRepository repo) {
+        chatRepo = repo;
+    }
+
+    private static UserRepository userRepo;
+
+    @Autowired
+    public void setUserRepository(UserRepository u) {
+        userRepo = u;
     }
 
     /**
@@ -66,6 +73,18 @@ public class Chat {
 
         // Sets friends username
         this.friend_username = friend_username;
+
+        /* Finds the id of each user and adds them together for the ChatRoom Id */
+        int userOneId = userRepo.findByUsername(username).getId();
+        int userTwoId = userRepo.findByUsername(friend_username).getId();
+        long id = userOneId + userTwoId;
+
+        if(!chatRepo.existsById(id)) {
+            logger.info("[CHAT CREATED]" + "id: " + id);
+            ChatRoom c = new ChatRoom(username, friend_username);
+            chatRepo.save(c);
+        }
+        /* -------------------------------------------------------------------- */
 
         // Outputs to the terminal
         logger.info("[CONNECTED]" + username);
@@ -124,12 +143,11 @@ public class Chat {
         // First checks if the friend exists
         if(searchChat.get(friend_username) == null) {
             sendStatus(session, "User is not connected");
-            msgRepo.save(new Message(username, message, friend_username));
             sendMessage(username, message);
         } else {
             // Sends message
             sendMessage(username, message);
-            msgRepo.save(new Message(username, message, friend_username));
+
         }
     }
 
@@ -147,6 +165,7 @@ public class Chat {
         try {
             if(searchChat.get(friend_username) == null) {
                 searchChat.get(username).getBasicRemote().sendText(m);
+
             } else {
                 searchChat.get(username).getBasicRemote().sendText(m);
                 searchChat.get(friend_username).getBasicRemote().sendText(m);
@@ -188,21 +207,22 @@ public class Chat {
     }
 
     void loadMessage(String fromUser, String content, String toUser) throws IOException {
-
         String m = fromUser + ": " + content;
         searchChat.get(toUser).getBasicRemote().sendText(content);
 
     }
 
-    void getHistory(String username) {
-
-        List<Message> messages = msgRepo.findByUsername(username);
-        StringBuilder sb = new StringBuilder();
-
-        if(messages != null && messages.size() != 0) {
-            for(Message message : messages) {
-                loadMessage(message.getFromUser(), message.getContent(), message.getToUser());
-            }
-        }
-    }
+//    void getHistory(String username) {
+//
+//
+//
+//        if(chat != null) {
+//
+//            List<String> messages = chat.getContent();
+//            for(String message : messages) {
+//
+//            }
+//        }
+//
+//    }
 }
