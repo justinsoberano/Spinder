@@ -1,4 +1,6 @@
 package screens;
+import static android.icu.util.LocaleData.getInstance;
+import static okhttp3.internal.Internal.instance;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +18,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.as1.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 public class FriendProfileScreen extends AppCompatActivity {
 
@@ -31,26 +37,32 @@ public class FriendProfileScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
+
         bioF = findViewById(R.id.bioF);
         usernameF = findViewById(R.id.usernameF);
         profilePictureF = findViewById(R.id.profilePictureF);
 
-        getUsername();
-        getInfo(usernameF.getText().toString());
         navBar();
+        getUser(GlobalVariables.friendUserName);
+        Toast.makeText(FriendProfileScreen.this, GlobalVariables.friendUserName, Toast.LENGTH_SHORT).show();
+        getInfo(GlobalVariables.friendUserName);
     }
 
-    private void getUsername() {//will need a get request to retrieve username form profile screen
-        RequestQueue requestQueue = Volley.newRequestQueue(FriendProfileScreen.this);//might need to grab request from ProfileScreen directly
-        String url = baseUrl + "user/"; //make sure global variable stays the same for each user request
 
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.GET, url,
-                new Response.Listener<String>() {
+    private void getUser(String username) {//will need a get request to retrieve username form profile screen
+        RequestQueue requestQueue = Volley.newRequestQueue(FriendProfileScreen.this);//might need to grab request from ProfileScreen directly
+        String url = baseUrl + "user/" + username; //make sure global variable stays the same for each user request
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
-                        Log.d("Volley Response", response);
-                        usernameF.setText(response);
+                    public void onResponse(JSONObject res) {
+                        try {
+                            String yall = res.getString("userName");
+                            usernameF.setText(yall);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -60,7 +72,8 @@ public class FriendProfileScreen extends AppCompatActivity {
                     }
                 }
         );
-        requestQueue.add(stringRequest);
+
+        requestQueue.add(jsonObjectRequest);
     }
 
     private void navBar(){
@@ -68,14 +81,9 @@ public class FriendProfileScreen extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if(item.getItemId() == R.id.menu_discover){
-                    Intent discoverIntent = new Intent(FriendProfileScreen.this, MusicSwipe.class);
-                    startActivity(discoverIntent);
-                    return true;
-                }
                 if(item.getItemId() == R.id.menu_profile){
-                    Intent discoverIntent = new Intent(FriendProfileScreen.this, ProfileScreen.class);
-                    startActivity(discoverIntent);
+                    Intent profileIntent = new Intent(FriendProfileScreen.this, ProfileScreen.class);
+                    startActivity(profileIntent);
                     return true;
                 }
                 return false;
