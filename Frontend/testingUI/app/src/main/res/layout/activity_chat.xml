@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:id="@+id/relativeLayout">
+
+    <!-- Chat messages container (you can use a RecyclerView for dynamic messages) -->
+    <ScrollView
+        android:id="@+id/chatScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/messageInputLayout"
+        android:padding="16dp"
+        android:contentDescription="Chat Messages">
+
+        <TextView
+            android:id="@+id/chatTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF" />
+        <!-- Your chat messages content here -->
+    </ScrollView>
+
+
+    <!-- Message input layout at the bottom -->
+    <RelativeLayout
+        android:id="@+id/messageInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
+
+        <!-- Message input EditText -->
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Type your message"
+            android:minHeight="48dp"
+            android:padding="10dp" />
+
+        <!-- Send button -->
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp" />
+    </RelativeLayout>
+</RelativeLayout>
