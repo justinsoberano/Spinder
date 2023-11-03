@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import userData.chat.ChatRoom.ChatRoomRepository;
 import userData.chat.ChatRoom.ChatRoom;
 import userData.users.UserRepository;
+import userData.users.User;
 
 @ServerEndpoint("/{username}/chat/{friend}")
 @Component
@@ -36,7 +37,7 @@ public class Chat {
 
     private ChatRoom chat;
     private String username;
-    private String friend_username;
+    private String friendUsername;
 
     // Logger for terminal output and debugging
     private final Logger logger = LoggerFactory.getLogger(Chat.class);
@@ -45,39 +46,25 @@ public class Chat {
      * Connects the user to the websocket.
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username, @PathParam("friend") String friend_username) throws IOException {
+    public void onOpen(Session session, @PathParam("username") String username, @PathParam("friend") String friendUsername) throws IOException {
 
         this.username = username;
-        this.friend_username = friend_username;
+        this.friendUsername = friendUsername;
 
         /* Finds the id of each user and adds them together for the ChatRoom Id */
-        // int userOneId = userRepo.findByUsername(username).getId();
-        // int userTwoId = userRepo.findByUsername(friend_username).getId();
+         User u1 = userRepo.findByUserName(username);
+         User u2 = userRepo.findByUserName(friendUsername);
+         if(u1 == null || u2 == null){
+             return;
+         }
 
-        int id = 0;
-        for(int i = 0; i < username.length(); i++) {
-            id += username.charAt(i);
-        }
-        for(int i = 0; i < friend_username.length(); i++) {
-            id += friend_username.charAt(i);
-        }
-
-        // Handle the case of a duplicate username
-        if (searchChat.containsKey(username)) {
-            session.getBasicRemote().sendText("Username already exists");
-            session.close();
-        } else {
-            chatSession.put(session, username);
-            searchChat.put(username, session);
-        }
-
-        if(!chatRepo.existsById(id)) {
-            logger.info("[CHAT CREATED]" + "id: " + id);
-            chat = new ChatRoom(id, username, friend_username);
+        if(chatRepo.findByUserOneAndUserTwo(username, friendUsername) == null) {
+            logger.info("[CHAT CREATED]");
+            chat = new ChatRoom(username, friendUsername);
             chatRepo.save(chat);
         } else {
-            logger.info("[CHAT OPENED]" + "id: " + id);
-            chat = chatRepo.findById(id);
+            logger.info("[CHAT OPENED]");
+            chat = chatRepo.findByUserOneAndUserTwo(username, friendUsername);
             loadHistory(session, chat);
         }
     }
@@ -127,8 +114,8 @@ public class Chat {
         sendMessage(session, sender, message);
 
         // If the friend is different and connected, send them the message.
-        if(!sender.equals(friend_username)) {
-            Session friendSession = searchChat.get(friend_username);
+        if(!sender.equals(friendUsername)) {
+            Session friendSession = searchChat.get(friendUsername);
             if(friendSession != null) {
                 sendMessage(friendSession, sender, message);
             }
