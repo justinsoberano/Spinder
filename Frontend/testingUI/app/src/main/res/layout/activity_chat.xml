@@ -7,12 +7,37 @@
     android:background="@drawable/gradient_background"
     android:id="@+id/relativeLayout">
 
+    <RelativeLayout
+        android:id="@+id/chatConnect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/friendToChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="To:"
+            android:minHeight="48dp"
+            android:padding="10dp" />
+
+        <ImageView
+            android:id="@+id/connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/connect"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp" />
+    </RelativeLayout>
+
     <ScrollView
         android:id="@+id/chatScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/messageInputLayout"
         android:padding="16dp"
+        android:layout_below="@+id/chatConnect"
         android:contentDescription="Chat Messages">
 
         <LinearLayout
@@ -31,14 +56,6 @@
                 android:textColor="#FFFFFF" />
 
             <!-- Friend User TextView -->
-            <TextView
-                android:id="@+id/friendUserTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:textSize="20sp"
-                android:textColor="#FFFFFF" />
 
             <ImageView
                 android:id="@+id/songView"

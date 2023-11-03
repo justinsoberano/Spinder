@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,20 +34,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class ChatScreen extends AppCompatActivity {
+public class ChatScreen extends AppCompatActivity implements WebSocketListener{
 
     private EditText messageEditText;
     private ImageView sendButton;
     private ImageView sendSong;
     private ScrollView chatScrollView;
     private TextView currentUserTextView;
-    private TextView friendUserTextView;
     private TextView songName;
     private TextView artistName;
     private ImageView songView;
     private String songSnippet;
     private MediaPlayer mediaPlayer;
+    private EditText friendToChat;
+    private ImageView connect;
 
+    private String BASE_URL = "ws://coms-309-056.class.las.iastate.edu:8080/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,22 +60,39 @@ public class ChatScreen extends AppCompatActivity {
         sendButton = findViewById(R.id.sendButton);
         chatScrollView = findViewById(R.id.chatScrollView);
         currentUserTextView = findViewById(R.id.currentUserTextView);
-        friendUserTextView = findViewById(R.id.friendUserTextView);
         sendSong = findViewById(R.id.sendSong);
         songName = findViewById(R.id.songName);
         artistName = findViewById(R.id.artistName);
         songView = findViewById(R.id.songView);
+        friendToChat = findViewById(R.id.friendToChat);
+        connect = findViewById(R.id.connect);
 
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String message = messageEditText.getText().toString();
-                currentUserTextView.append("You: " + "\n" + message + "\n" + "\n");
-                messageEditText.setText("");
-                chatScrollView.fullScroll(View.FOCUS_DOWN);
+        connect.setOnClickListener(view -> {
+            String serverUrl = BASE_URL + GlobalVariables.userName + "/chat/" + friendToChat.getText().toString();
+
+            // Establish WebSocket connection and set listener
+            WebSocketManager.getInstance().connectWebSocket(serverUrl);
+            WebSocketManager.getInstance().setWebSocketListener(ChatScreen.this);
+        });
+
+        sendButton.setOnClickListener(v -> {
+            try {
+                WebSocketManager.getInstance().sendMessage(messageEditText.getText().toString());
+            } catch (Exception e) {
+                Log.d("ExceptionSendMessage:", e.getMessage().toString());
             }
         });
+
+//        sendButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String message = messageEditText.getText().toString();
+//                currentUserTextView.append("You: " + "\n" + message + "\n" + "\n");
+//                messageEditText.setText("");
+//                chatScrollView.fullScroll(View.FOCUS_DOWN);
+//            }
+//        });
         //song / name of song
         sendSong.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,4 +147,26 @@ public class ChatScreen extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
+    @Override
+    public void onWebSocketOpen(ServerHandshake handshakedata) {}
+
+    @Override
+    public void onWebSocketMessage(String message) {
+        runOnUiThread(() -> {
+            String s = currentUserTextView.getText().toString();
+            currentUserTextView.setText(s + "\n"+message);
+        });
+    }
+
+    @Override
+    public void onWebSocketClose(int code, String reason, boolean remote) {
+        String closedBy = remote ? "server" : "local";
+        runOnUiThread(() -> {
+            String s = currentUserTextView.getText().toString();
+            currentUserTextView.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
+        });
+    }
+
+    @Override
+    public void onWebSocketError(Exception ex) {}
 }
