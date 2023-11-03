@@ -17,8 +17,8 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AS1">
         <activity
-            android:name="screens.ChatScreen"
-            android:exported="true" />
+            android:name="screens.FriendProfileScreen"
+            android:exported="true"/>
         <activity
             android:name="screens.ProfileScreen"
             android:exported="true" />
