@@ -93,20 +93,8 @@ public class ProfileScreen extends AppCompatActivity {
         openChat.setOnClickListener(new View.OnClickListener() {//open a chat with the inputted username
             @Override
             public void onClick(View v) {
-                String editFriendString = friendText.getText().toString();
-                if (!editFriendString.isEmpty()) {
-                    String url = baseUrl + "user/" + GlobalVariables.userName + "/" + editFriendString; //user1 + user2
-                    JSONObject requestBody = new JSONObject();
-                    JsonObjectRequest request = new JsonObjectRequest(//will need to edit this for opening websocket
-                            Request.Method.PUT, url, requestBody, null, null
-                    );
-
-                    Volley.newRequestQueue(ProfileScreen.this).add(request);
-
-                    Toast.makeText(ProfileScreen.this, "Request sent successfully open friend chat", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ProfileScreen.this, "Enter Friend Username", Toast.LENGTH_SHORT).show();
-                }
+                Intent intent = new Intent(ProfileScreen.this, ChatScreen.class);
+                startActivity(intent);
                 //setContentView(R.layout.activity_friends);
             }
         });
