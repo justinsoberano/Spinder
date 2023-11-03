@@ -11,16 +11,16 @@ public class User {
     @Id
     private int id;
     private String userName;
+    private String password;
     private String profileStr; // text associated with a profile (bio, ect.)
     private String profilePicture; // url for pfp
     private String accessKey; // key for access to spotify data for this user
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "station_id")
     private Station station;
-//    @OneToMany
-//    private List<User> followers;
-//    @OneToMany
-//    private List<User> following;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<User> friends;
 
     public User() {
     }
@@ -51,6 +51,14 @@ public class User {
         this. userName = userName;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getProfileStr(){
         return profileStr;
     }
@@ -75,25 +83,19 @@ public class User {
 
     public void setStation(Station s){ this.station = s; }
 
-//    public void addStation(Station S) { this.stations.add(S); }
-//
-//    public void removeStation(Station S) { this.stations.remove(S); }
+    public void addFriend(User f){
+        this.friends.add(f);
+    }
 
-//    public void addFollower(User F){
-//        this.followers.add(F);
-//    }
-//
-//    public void removeFollower(User F){
-//        this.followers.remove(F);
-//    }
-//
-//    public void addFollowing(User F){
-//        this.following.add(F);
-//    }
-//
-//    public void removeFollwing(User F){
-//        this.following.remove(F);
-//    }
+    public void removeFreind(User f){
+        this.friends.remove(f);
+    }
+
+
+
+    public List<User> getFriends(){
+        return this.friends;
+    }
 
 
 }

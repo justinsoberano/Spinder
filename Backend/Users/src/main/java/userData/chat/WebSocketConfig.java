@@ -1,4 +1,4 @@
-package userData.socketingthatweb;
+package userData.chat;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
