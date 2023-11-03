@@ -19,7 +19,7 @@ import userData.chat.ChatRoom.ChatRoom;
 import userData.users.UserRepository;
 import userData.users.User;
 
-@ServerEndpoint("/{username}/chat/{friend}")
+@ServerEndpoint("/{userName}/chat/{friend}")
 @Component
 public class Chat {
 
@@ -36,7 +36,7 @@ public class Chat {
     private static Map <String, Session> searchChat = new Hashtable<>();
 
     private ChatRoom chat;
-    private String username;
+    private String userName;
     private String friendUsername;
 
     // Logger for terminal output and debugging
@@ -46,25 +46,28 @@ public class Chat {
      * Connects the user to the websocket.
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username, @PathParam("friend") String friendUsername) throws IOException {
+    public void onOpen(Session session, @PathParam("username") String userName, @PathParam("friend") String friendUsername) throws IOException {
 
-        this.username = username;
+        this.userName = userName;
         this.friendUsername = friendUsername;
 
         /* Finds the id of each user and adds them together for the ChatRoom Id */
-         User u1 = userRepo.findByUserName(username);
+         User u1 = userRepo.findByUserName(userName);
          User u2 = userRepo.findByUserName(friendUsername);
          if(u1 == null || u2 == null){
              return;
          }
 
-        if(chatRepo.findByUserOneAndUserTwo(username, friendUsername) == null) {
+         chatSession.put(session, userName);
+         searchChat.put(userName, session);
+
+        if(chatRepo.findByUserOneAndUserTwo(userName, friendUsername) == null) {
             logger.info("[CHAT CREATED]");
-            chat = new ChatRoom(username, friendUsername);
+            chat = new ChatRoom(userName, friendUsername);
             chatRepo.save(chat);
         } else {
             logger.info("[CHAT OPENED]");
-            chat = chatRepo.findByUserOneAndUserTwo(username, friendUsername);
+            chat = chatRepo.findByUserOneAndUserTwo(userName, friendUsername);
             loadHistory(session, chat);
         }
     }
@@ -77,21 +80,21 @@ public class Chat {
      */
     @OnClose
     public void onClose(Session session) throws IOException {
-        String username = chatSession.get(session);
-        logger.info("[DISCONNECTED] " + username);
+        String userName = chatSession.get(session);
+        logger.info("[DISCONNECTED] " + userName);
 
         chatSession.remove(session);
-        searchChat.remove(username);
+        searchChat.remove(userName);
     }
 
     @OnError
     public void onError(Session session, Throwable throwable) {
 
-        // get the username from session-username mapping
-        String username = chatSession.get(session);
+        // get the userName from session-userName mapping
+        String userName = chatSession.get(session);
 
         // do error handling here
-        logger.info("[onError]" + username + ": " + throwable.getMessage());
+        logger.info("[onError]" + userName + ": " + throwable.getMessage());
     }
 
 
