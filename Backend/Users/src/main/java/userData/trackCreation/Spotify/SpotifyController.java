@@ -94,7 +94,7 @@ public class SpotifyController {
         return null;
     }
 
-    public static List<Track> getRecommendationsByArtist(List<String> seeds, int numSongs/*, int popularity*/) {
+    public static List<Track> getRecommendationsByArtist(List<String> seeds, int numSongs, int popularity, int volume, int tempo) {
 
         /* int max = Math.min(popularity + 20, 100);
         int min = Math.max(popularity - 20, 0); */
@@ -106,8 +106,12 @@ public class SpotifyController {
                 .seed_artists(seeds.get(2))
                 .seed_artists(seeds.get(3))
                 .seed_artists(seeds.get(4))
-                // .max_popularity(max)
-                // .min_popularity(min)
+                .max_popularity(Math.min(popularity + 20, 100))
+                .min_popularity(Math.max(popularity - 20, 0))
+                .max_tempo((float)Math.min(volume + 20, 100))
+                .min_tempo((float)Math.max(volume - 20, 0))
+                .max_loudness((float)Math.min(tempo + 20, 100))
+                .min_loudness((float)Math.max(tempo - 20, 0))
                 .build();
 
         try {
