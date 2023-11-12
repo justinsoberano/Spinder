@@ -13,20 +13,32 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 
+
+/**
+ * This class is responsible for handling the authentication of the user.
+ */
 @RestController
 public class AuthController {
 
-    // Redirect URI used for the localhost to connect to the spotify login page
+    /**
+     * This is the redirect URI that Spotify will send the user to after they have logged in.
+     */
     private static final URI redirectURI = SpotifyHttpManager.makeUri("http://10.0.2.2:8080/login/api");
 
-    // Builds our app to the API, we now have a connection with their servers.
-    // TODO: Make this into a function maybe?
+    /**
+     * This is the Spotify API object that will be used to make requests to the Spotify API.
+     */
     private static final SpotifyApi spotifyAPI = new SpotifyApi.Builder()
             .setClientId("ae02bde4d6ef4bc395502d8f76e38f04")
             .setClientSecret("0d0a994ae7f842feb33dfa163b56bacd")
             .setRedirectUri(redirectURI)
             .build();
 
+    /**
+     * This method will redirect the user to the Spotify login page.
+     * @param response: The response object that will be used to redirect the user.
+     * @throws IOException: If the redirect fails.
+     */
     @GetMapping("login")
     @ResponseBody
     void spotifyLogin(HttpServletResponse response) throws IOException {
@@ -40,6 +52,13 @@ public class AuthController {
 
     }
 
+    /**
+     * This method will get the access code from Spotify and set the access token and refresh token in the Spotify API object.
+     * @param userCode The access code that Spotify sends back to the user.
+     * @param response The response object that will be used to redirect the user.
+     * @return spotifyAPI.getAccessToken() : The access token that will be used to make requests to the Spotify API.
+     * @throws IOException If the redirect fails.
+     */
     @GetMapping("login/api")
     public String getAccessCode(@RequestParam("code") String userCode, HttpServletResponse response) throws IOException {
         AuthorizationCodeRequest authorizationCodeRequest = spotifyAPI.authorizationCode(userCode)
@@ -56,6 +75,11 @@ public class AuthController {
         return spotifyAPI.getAccessToken();
     }
 
+    /**
+     * This method will redirect the user to the Spotify registration page.
+     * @param response: The response object that will be used to redirect the user.
+     * @throws IOException: If the redirect fails.
+     */
     @GetMapping("register")
     @ResponseBody
     void spotifyRegister(HttpServletResponse response) throws IOException {
@@ -68,6 +92,12 @@ public class AuthController {
         response.sendRedirect(uri.toString());
     }
 
+    /**
+     * This method will get the access code from Spotify and set the access token and refresh token in the Spotify API object.
+     * @param userCode The access code that Spotify sends back to the user.
+     * @return spotifyAPI.getAccessToken() : The access token that will be used to make requests to the Spotify API.
+     * @throws IOException If the redirect fails.
+     */
     @GetMapping("register/api")
     public String accessCode(@RequestParam("code") String userCode) throws IOException {
         AuthorizationCodeRequest authorizationCodeRequest = spotifyAPI.authorizationCode(userCode)

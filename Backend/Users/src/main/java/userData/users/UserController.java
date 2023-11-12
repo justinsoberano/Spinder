@@ -26,12 +26,21 @@ import static userData.trackCreation.Spotify.SpotifyController.searchTrack;
 @RestController
 public class UserController {
 
+    /**
+     * Autowired repository for user data
+     */
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Autowired repository for station data
+     */
     @Autowired
     StationRepository stationRepository;
 
+    /**
+     * Autowired repository for track data
+     */
     @Autowired
     TrackRepository trackRepository;
 
@@ -44,7 +53,7 @@ public class UserController {
     }
 
     /**
-     *
+     * Get mapping for getting user by id
      * @param username, the id of the user
      * @return json data of user of id
      */
@@ -53,16 +62,22 @@ public class UserController {
         return userRepository.findByUserName(username);
     }
 
+    /**
+     * Get mapping for getting user by id
+     * @param user the id of the user
+     * @return json data of user of id
+     */
     @GetMapping(path = "user/{user}/username")
     String getUsername(@PathVariable String user){
         return userRepository.findByUserName(user).getUserName();
     }
 
-
     /**
-     * Post mapping for creating new users.
-     * @param , request body(json) used for user creation
-     * @return String status
+     * Get mapping for getting user by id
+     * @param name the id of the user
+     * @param password the id of the user
+     * @return json data of user of id
+     * @throws IOException if user already exists
      */
     @PostMapping(path = "/user/{name}/{password}")
     String createUser(@PathVariable String name, @PathVariable String password) throws IOException {
@@ -84,15 +99,20 @@ public class UserController {
         return "success";
     }
 
+    /**
+     * Get mapping for getting user by id
+     * @param username the id of the user
+     * @return json data of user of id
+     */
     @GetMapping(path = "/login/{username}")
     String getUserId(@PathVariable String username){
         return String.valueOf(userRepository.findByUserName(username).getId());
     }
 
     /**
-     * Seed setting request for rec generation
-     *
-     * @param song string to be used in seeding the station
+     * Get mapping for getting user by id
+     * @param username the id of the user
+     * @param song the id of the user
      */
     @PutMapping(path = "user/{username}/station/{song}")
     void setStationSeed(@PathVariable String username, @PathVariable String song) {
@@ -108,6 +128,10 @@ public class UserController {
         trackRepository.save(t);
     }
 
+    /**
+     * Get mapping for getting user by id
+     * @param id the id of the users station
+     */
     @PutMapping(path = "user/{id}/station")
     void removeStationSeed(@PathVariable int id){
         User u = userRepository.findById(id);
@@ -116,7 +140,6 @@ public class UserController {
 
     /**
      * Request for getting users station
-     *
      * @param id of user refered to.
      * @return station of user
      */
@@ -125,6 +148,11 @@ public class UserController {
         return userRepository.findById(id).getStation();
     }
 
+    /**
+     * Request for getting users station
+     * @param username of user refered to.
+     * @param tempo of the station
+     */
     @PutMapping(path = "user/{username}/tempo/{tempo}")
     void setTempo(@PathVariable String username, @PathVariable int tempo){
         User u = userRepository.findByUserName(username);
@@ -134,6 +162,11 @@ public class UserController {
         userRepository.save(u);
     }
 
+    /**
+     * Request for getting users station
+     * @param username of user refered to.
+     * @param pop of the station
+     */
     @PutMapping(path = "user/{username}/popularity/{pop}")
     void setPopularity(@PathVariable String username, @PathVariable int pop){
         User u = userRepository.findByUserName(username);
@@ -143,6 +176,11 @@ public class UserController {
         userRepository.save(u);
     }
 
+    /**
+     * Request for getting users station
+     * @param username of user refered to.
+     * @param vol of the station
+     */
     @PutMapping(path = "user/{username}/volume/{vol}")
     void setVolume(@PathVariable String username, @PathVariable int vol){
         User u = userRepository.findByUserName(username);
@@ -153,9 +191,9 @@ public class UserController {
     }
 
     /**
-     *
-     * @param username
-     * @return
+     * Request for getting users profile
+     * @param username of user refered to.
+     * @return profile of user
      */
     @GetMapping(path = "user/{username}/profile")
     String getBio(@PathVariable String username){
@@ -163,9 +201,9 @@ public class UserController {
     }
 
     /**
-     *
-     * @param username
-     * @param string
+     * Request for setting users profile bio
+     * @param username of user refered to.
+     * @param string of bio
      */
     @PutMapping(path = "user/{username}/profile/{string}")
     void setBio(@PathVariable String username, @PathVariable String string){
@@ -174,6 +212,11 @@ public class UserController {
         userRepository.save(u);
     }
 
+    /**
+     * Request for setting users profile picture
+     * @param username of user refered to.
+     * @param string URL of the picture.
+     */
     @PutMapping(path = "user/{username}/picture/{string}")
     void setPfp(@PathVariable String username, @PathVariable String string){
         User u = userRepository.findByUserName(username);
@@ -181,11 +224,22 @@ public class UserController {
         userRepository.save(u);
     }
 
+    /**
+     * Request for getting users profile picture
+     * @param username of user refered to.
+     * @return URL of the picture.
+     */
     @GetMapping(path = "user/{username}/picture")
     String getPfp(@PathVariable String username){
         return userRepository.findByUserName(username).getProfilePicture();
     }
 
+    /**
+     * Request for logging in
+     * @param username of user refered to.
+     * @param password of user refered to.
+     * @return true if user exists and password is correct, false otherwise
+     */
     @GetMapping(path = "user/{username}/{password}")
     String loginAuth(@PathVariable String username, @PathVariable String password){
         User u = userRepository.findByUserName(username);
@@ -199,6 +253,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Request for adding a friend
+     * @param user1 of user refered to.
+     * @param user2 of the friend
+     */
     @PutMapping(path = "add/{user1}/{user2}")
     void addFriend(@PathVariable String user1, @PathVariable String user2){
         User u1 = userRepository.findByUserName(user1);
@@ -212,6 +271,11 @@ public class UserController {
         userRepository.save(u2);
     }
 
+    /**
+     * Request for removing a friend
+     * @param user1 of user refered to.
+     * @param user2 of the friend
+     */
     @PutMapping(path = "remove/{user1}/{user2}")
     void removeFriend(@PathVariable String user1, @PathVariable String user2){
         User u1 = userRepository.findByUserName(user1);
@@ -225,6 +289,11 @@ public class UserController {
         userRepository.save(u2);
     }
 
+    /**
+     * Request for getting a users friends
+     * @param username of user refered to.
+     * @return list of friends
+     */
     @GetMapping(path = "friends/{username}")
     List<String> getFriendUserNames(@PathVariable String username){
         List<String> names = new ArrayList<String>();
@@ -239,6 +308,11 @@ public class UserController {
 
     }
 
+    /**
+     * Request for getting a Track
+     * @param name Track song
+     * @return track
+     */
     @GetMapping(path = "song/{name}")
     Track getSong(@PathVariable String name) {
         Track t;
@@ -252,9 +326,9 @@ public class UserController {
 
 
     /**
-     *
-     * @param
-     * @return
+     * Request for deleting a user
+     * @param id of user refered to.
+     * @return success if user exists, failure otherwise
      */
     @Transactional
     @DeleteMapping(path = "/user/{id}")
@@ -274,6 +348,10 @@ public class UserController {
                 return "failure";
         }
     }
+
+    /**
+     * Request for deleting all users
+     */
     @Transactional
     @DeleteMapping("user/all")
     public void deleteAll(){

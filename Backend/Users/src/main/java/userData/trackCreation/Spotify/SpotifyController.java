@@ -24,19 +24,39 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * SpotifyController is a class that handles the Spotify API calls.
+ * It is used to search for tracks and get recommendations based on
+ * a list of seeds.
+ *
+ * @version 1.0
+ * @since 2023-10-29
+ */
 @RestController
 public class SpotifyController {
 
+    /**
+     * Gson object used to convert JSON to Java objects.
+     */
     static Gson gson = new Gson();
 
+    /**
+     * SpotifyApi object used to make API calls.
+     */
     private static final SpotifyApi spotifyAPI = new SpotifyApi.Builder()
             .setClientId("ae02bde4d6ef4bc395502d8f76e38f04")
             .setClientSecret("0d0a994ae7f842feb33dfa163b56bacd")
             .build();
 
+    /**
+     * ClientCredentialsRequest object used to get access token.
+     */
     private static final ClientCredentialsRequest credentials = spotifyAPI.clientCredentials()
             .build();
 
+    /**
+     * Method that gets called when the application starts.
+     */
     @PostConstruct
     public void clientCredentials() {
         try {
@@ -47,6 +67,11 @@ public class SpotifyController {
         }
     }
 
+    /**
+     * Method that searches for a track based on the track name.
+     * @param trackName Name of the track.
+     * @return List of tracks.
+     */
     public static List<Track> searchTrack(String trackName) {
 
         final SearchItemRequest search = spotifyAPI.searchItem(trackName, ModelObjectType.TRACK.getType())
@@ -65,7 +90,12 @@ public class SpotifyController {
         return null;
     }
 
-    // TODO: Make into a list of tracks
+    /**
+     * Method that gets recommendations based on a list of seeds.
+     * @param seeds List of seeds.
+     * @param numSongs Number of songs to get.
+     * @return List of tracks.
+     */
     public static List<Track> getRecommendations(String seeds, int numSongs/*, int popularity*/) {
 
         /* int max = Math.min(popularity + 20, 100);
@@ -94,6 +124,15 @@ public class SpotifyController {
         return null;
     }
 
+    /**
+     * Method that gets recommendations based on a list of seeds.
+     * @param seeds List of seeds.
+     * @param numSongs Number of songs to get.
+     * @param popularity Popularity of the songs.
+     * @param volume Volume of the songs.
+     * @param tempo Tempo of the songs.
+     * @return List of tracks.
+     */
     public static List<Track> getRecommendationsByArtist(List<String> seeds, int numSongs, int popularity, int volume, int tempo) {
 
         /* int max = Math.min(popularity + 20, 100);
@@ -126,6 +165,12 @@ public class SpotifyController {
         return null;
     }
 
+    /**
+     * Method that gets recommendations based on a list of seeds.
+     * @param seeds List of seeds.
+     * @param numSongs Number of songs to get.
+     * @return List of tracks.
+     */
     public static List<Track> getRecommendationsByGenre(List<String> seeds, int numSongs/*, int popularity*/) {
 
         /* int max = Math.min(popularity + 20, 100);

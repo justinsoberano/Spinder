@@ -8,9 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.reflect.Type;
 
+/**
+ * Maps the JSON file from the Spotify API to a Track object
+ */
 public class TrackMapper {
 
-    // Creates a GSON Object for JSON Mapping.
+    /**
+     * Gson object
+     */
     static Gson gson = new Gson();
 
     /**
