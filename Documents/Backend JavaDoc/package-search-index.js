@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"userData"},{"l":"userData.authentication"},{"l":"userData.chat"},{"l":"userData.chat.ChatRoom"},{"l":"userData.stations"},{"l":"userData.trackCreation.Spotify"},{"l":"userData.trackCreation.Track"},{"l":"userData.trackCreation.Track.mapper"},{"l":"userData.users"}];updateSearchResults();
