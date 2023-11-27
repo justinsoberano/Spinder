@@ -1,4 +1,4 @@
-stages:             # these stages (jobs) forms the CICD pipeline
+stages:             # these stages (jobs) forms the CICD
   - mavenbuild      # this is a JOB to build your Springboot application
   - maventest       # this is a JOB to run tests in your Springboot application (it's okay you don't have any test for now)
   - mavendeploy     # this is a JOB to deploy your Springboot application on your server
