@@ -146,4 +146,9 @@ public class Station {
         return SpotifyController.getRecommendations(seed.getId(), 50);
     }
 
+    public void addSeed(Track t) {
+    }
+
+    public void remove() {
+    }
 }
