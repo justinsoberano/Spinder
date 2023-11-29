@@ -61,7 +61,7 @@ public class FriendInteractions extends AppCompatActivity {
 
                     Toast.makeText(FriendInteractions.this, "Request sent successfully open friend", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(FriendInteractions.this, FriendInteractions.class);
+                    Intent intent = new Intent(FriendInteractions.this, FriendProfileScreen.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(FriendInteractions.this, "Enter Friend Username", Toast.LENGTH_SHORT).show();
