@@ -1,0 +1,29 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="1440dp"
+    android:height="320dp"
+    android:id="@+id/svg"
+    android:viewBox="0 0 1440 690">
+
+  <defs>
+    <linearGradient
+        android:id="@+id/gradient"
+        android:x1="2%"
+        android:y1="63%"
+        android:x2="98%"
+        android:y2="37%">
+      <stop android:offset="5%" android:stopColor="#9900ef"/>
+      <stop android:offset="95%" android:stopColor="#eb144c"/>
+    </linearGradient>
+  </defs>
+
+  <path
+      android:d="M 0,700 C 0,700 0,175 0,175 C 83.70334928229664,187.85167464114832 167.40669856459328,200.70334928229664 258,193 C 348.5933014354067,185.29665071770336 446.07655502392345,157.03827751196172 551,144 C 655.9234449760766,130.96172248803828 768.287081339713,133.14354066985646 865,137 C 961.712918660287,140.85645933014354 1042.7751196172248,146.38755980861245 1136,153 C 1229.2248803827752,159.61244019138755 1334.6124401913876,167.3062200956938 1440,175 C 1440,175 1440,700 1440,700 Z"
+      android:stroke="none"
+      android:strokeWidth="0"
+      android:fill="url(#gradient)"
+      android:fillOpacity="0.4"
+      android:transform="rotate(-180 720 350)"
+      android:class="transition-all duration-300 ease-in-out delay-150 path-0"/>
+
+
+</vector>

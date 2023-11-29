@@ -59,12 +59,15 @@ public class LoginScreen extends AppCompatActivity {
                 String enteredPassword = password.getText().toString();
                 GlobalVariables.userName = enteredUsername;
 
-                if(validateLogin(enteredUsername, enteredPassword)){
                     Intent intent = new Intent(LoginScreen.this, SeedSetter.class);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(LoginScreen.this, "User Not Found", Toast.LENGTH_SHORT).show();
-                }
+
+//                if(validateLogin(enteredUsername, enteredPassword)){
+//                    Intent intent = new Intent(LoginScreen.this, SeedSetter.class);
+//                    startActivity(intent);
+//                }else{
+//                    Toast.makeText(LoginScreen.this, "User Not Found", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 

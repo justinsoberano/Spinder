@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import screens.GlobalVariables;
 
 public class SeedSetter extends AppCompatActivity {
     EditText seed;
-    Button setSeed;
+    ImageView setSeed;
     Button musicSwipeSend;
     SeekBar volume;
     SeekBar tempo;
