@@ -140,7 +140,7 @@ public class Station {
 
     /**
      * Generates a list of tracks based on the seed track and the Station object's attributes.
-     * @return a List of Track objects.
+     * @return a List of Track object
      */
     public List<Track> generateTacks(){
         return SpotifyController.getRecommendations(seed.getId(), 50);
