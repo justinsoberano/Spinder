@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class ProfileScreen extends AppCompatActivity {
     Button openChat;
     Button addFriend;
     Button removeFriend;
+    ImageView profileSettings;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
 
     @Override
@@ -62,31 +64,13 @@ public class ProfileScreen extends AppCompatActivity {
         addFriend = findViewById(R.id.addFriend);
         removeFriend = findViewById(R.id.removeFriend);
         friendText = findViewById(R.id.friendText);
+        profileSettings = findViewById(R.id.profileSettings);
 
-        setBio.setOnClickListener(new View.OnClickListener() {
+        profileSettings.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String editBioString = editBio.getText().toString();
-
-                if (!editBioString.isEmpty()) {
-                    String url = baseUrl + "user/" + GlobalVariables.userName + "/profile/" + editBioString;
-
-                    JSONObject requestBody = new JSONObject();
-
-                    JsonObjectRequest request = new JsonObjectRequest(
-                            Request.Method.PUT,
-                            url,
-                            requestBody,
-                            null,
-                            null
-                    );
-
-                    Volley.newRequestQueue(ProfileScreen.this).add(request);
-
-                    Toast.makeText(ProfileScreen.this, "Request sent successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ProfileScreen.this, "Set A Bio", Toast.LENGTH_SHORT).show();
-                }
+            public void onClick(View view) {
+                Intent profSettings = new Intent(ProfileScreen.this, ProfileSettings.class);
+                startActivity(profSettings);
             }
         });
 
