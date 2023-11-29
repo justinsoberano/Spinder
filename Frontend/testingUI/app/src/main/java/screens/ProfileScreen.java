@@ -47,6 +47,7 @@ public class ProfileScreen extends AppCompatActivity {
     Button addFriend;
     Button removeFriend;
     ImageView profileSettings;
+    Button friends;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
 
     @Override
@@ -57,8 +58,7 @@ public class ProfileScreen extends AppCompatActivity {
         bio = findViewById(R.id.bio);
         username = findViewById(R.id.username);
         fullFriendList = findViewById(R.id.fullFriendList);
-        editBio = findViewById(R.id.editBio);
-        setBio = findViewById(R.id.setBio);
+        friends = findViewById(R.id.friends);
         friendList = findViewById(R.id.friendList);
         openChat = findViewById(R.id.openChat);
         addFriend = findViewById(R.id.addFriend);
@@ -71,6 +71,14 @@ public class ProfileScreen extends AppCompatActivity {
             public void onClick(View view) {
                 Intent profSettings = new Intent(ProfileScreen.this, ProfileSettings.class);
                 startActivity(profSettings);
+            }
+        });
+
+        friends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent friendStuff = new Intent(ProfileScreen.this, FriendInteractions.class);
+                startActivity(friendStuff);
             }
         });
 
