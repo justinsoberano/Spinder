@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d8d4359-54f7-40ed-b0e3-21e8abf401c6" name="Changes" comment="Added API Documentation for PO3">
-      <change beforePath="$PROJECT_DIR$/.gitlab-ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.gitlab-ci.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="3d8d4359-54f7-40ed-b0e3-21e8abf401c6" name="Changes" comment="Changed gitlab-cli.yml" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -113,7 +110,7 @@
       <workItem from="1699818461485" duration="370000" />
       <workItem from="1701214869064" duration="1476000" />
       <workItem from="1701289847364" duration="6000" />
-      <workItem from="1701289948005" duration="46000" />
+      <workItem from="1701289948005" duration="152000" />
     </task>
     <task id="LOCAL-00001" summary="profile picture controllers">
       <option name="closed" value="true" />
@@ -163,7 +160,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699818702700</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Changed gitlab-cli.yml">
+      <option name="closed" value="true" />
+      <created>1701290020088</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1701290020088</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,6 +179,7 @@
     <MESSAGE value="Changed to work with mySQL" />
     <MESSAGE value="Added document" />
     <MESSAGE value="Added API Documentation for PO3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added API Documentation for PO3" />
+    <MESSAGE value="Changed gitlab-cli.yml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed gitlab-cli.yml" />
   </component>
 </project>
