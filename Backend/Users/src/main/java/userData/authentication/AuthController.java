@@ -1,6 +1,7 @@
 package userData.authentication;
 
 import org.apache.hc.core5.http.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 import userData.authentication.InfoController;
+import userData.users.User;
+import userData.users.UserRepository;
 
 /**
  * This class is responsible for handling the authentication of the user.
@@ -20,10 +23,19 @@ import userData.authentication.InfoController;
 @RestController
 public class AuthController {
 
+
+    @Autowired
+    UserRepository userRepository;
+
+    /**
+     * This is the username of the user that is currently logged in.
+     */
+    private String username;
+
     /**
      * This is the redirect URI that Spotify will send the user to after they have logged in.
      */
-    private static final URI redirectURI = SpotifyHttpManager.makeUri("http://10.0.2.2:8080/login/api");
+    private static final URI redirectURI = SpotifyHttpManager.makeUri("http://localhost:8080/register/api");
 
     /**
      * This is the Spotify API object that will be used to make requests to the Spotify API.
@@ -80,14 +92,15 @@ public class AuthController {
      * @param response: The response object that will be used to redirect the user.
      * @throws IOException: If the redirect fails.
      */
-    @GetMapping("register")
+    @GetMapping("register/{username}")
     @ResponseBody
-    void spotifyRegister(HttpServletResponse response) throws IOException {
+    void spotifyRegister(HttpServletResponse response, @PathVariable String username) throws IOException {
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyAPI.authorizationCodeUri()
                 .scope("user-read-private, user-top-read")
                 .show_dialog(true)
                 .build();
 
+        this.username = username;
         final URI uri = authorizationCodeUriRequest.execute();
         response.sendRedirect(uri.toString());
     }
@@ -111,6 +124,10 @@ public class AuthController {
             System.out.println("ERROR: " + e.getMessage());
         }
 
-        return spotifyAPI.getAccessToken();
+        // User u = userRepository.findByUserName(username);
+        // u.setAccessKey(spotifyAPI.getAccessToken());
+
+        System.out.println("[DEBUG] | " + username + " has successfully registered. \n[DEBUG] | Access Token: " + spotifyAPI.getAccessToken());
+        return "You can now go back to the app.";
     }
 }
