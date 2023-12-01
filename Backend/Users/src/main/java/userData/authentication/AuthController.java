@@ -12,7 +12,7 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-
+import userData.authentication.InfoController;
 
 /**
  * This class is responsible for handling the authentication of the user.
@@ -110,8 +110,7 @@ public class AuthController {
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("ERROR: " + e.getMessage());
         }
+
         return spotifyAPI.getAccessToken();
-
     }
-
 }

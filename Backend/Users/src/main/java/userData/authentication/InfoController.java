@@ -1,6 +1,7 @@
 package userData.authentication;
 
 import org.apache.hc.core5.http.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
@@ -18,7 +19,6 @@ import java.io.IOException;
 public class InfoController {
 
     private static SpotifyApi playlistHandler = null;
-
     private static GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = null;
 
     void getCurrentUuid(User u) {
@@ -36,11 +36,10 @@ public class InfoController {
                     User user = getCurrentUsersProfileRequest.execute();
 
             final String uuid = user.getId();
-            // u.setUuid(uuid);
+            u.setUuid(uuid);
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        uuidHandler = null;
         getCurrentUsersProfileRequest = null;
     }
 
@@ -56,13 +55,12 @@ public class InfoController {
             final se.michaelthelin.spotify.model_objects.specification.User user = getCurrentUsersProfileRequest.execute();
             final String name = user.getDisplayName();
 
-            // u.setName(name);
+            u.setName(name);
 
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
         }
 
-        nameHandler = null;
         getCurrentUsersProfileRequest = null;
     }
 
@@ -87,12 +85,11 @@ public class InfoController {
             System.out.println("Error: " + e.getMessage());
         }
 
-        pictureHandler = null;
         getCurrentUsersProfileRequest = null;
     }
 
     void createSpinderFavorites(User u) {
-        String uuid = null; // u.getUuid();
+        String uuid = u.getUuid();
 
         playlistHandler = new SpotifyApi.Builder()
                 .setAccessToken(u.getAccessKey())

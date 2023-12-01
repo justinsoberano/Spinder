@@ -23,6 +23,11 @@ public class User {
     private String userName;
 
     /**
+     * User's real name
+     */
+    private String name;
+
+    /**
      * User password
      */
     private String password;
@@ -38,9 +43,19 @@ public class User {
     private String profilePicture;
 
     /**
+     * User UUID
+     */
+    private String uuid;
+
+    /**
      * User access key for Spotify API
      */
     private String accessKey;
+
+    /**
+     * User's favorites playlist ID on spotify
+     */
+    private String playlistId;
 
     /**
      * User stations
@@ -206,5 +221,52 @@ public class User {
         return this.friends;
     }
 
+    /**
+     * Sets the UUID of the user.
+     * @param uuid UUID of the user
+     */
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    /**
+     * Gets the UUID of the user.
+     * @return uuid
+     */
+    public String getUuid() {
+        return this.uuid;
+    }
+
+    /**
+     * Sets the name of the user.
+     * @param name Name of the user
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Gets the name of the user.
+     * @return name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Sets the playlist ID of the user.
+     * @param playlistId Playlist ID of the user
+     */
+    public void setPlaylistId(String playlistId) {
+        this.playlistId = playlistId;
+    }
+
+    /**
+     * Gets the playlist ID of the user.
+     * @return playlistId
+     */
+    public String getPlaylistId() {
+        return this.playlistId;
+    }
 
 }
