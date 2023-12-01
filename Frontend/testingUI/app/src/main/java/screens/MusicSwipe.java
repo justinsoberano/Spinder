@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
@@ -194,6 +196,14 @@ public class MusicSwipe extends AppCompatActivity {
 
                                 return true;
                             }
+                        } else {
+                            if (absY > threshold && Math.abs(velocityY) > velocityThreshold) {
+                                if (yDif < 0) {
+                                    // Perform action when swiped up
+                                    showToast("Swiped up");
+                                    return true;
+                                }
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -201,6 +211,7 @@ public class MusicSwipe extends AppCompatActivity {
                     return false;
                 }
             };
+
             gestureDetector = new GestureDetector(listener);
             view.setOnTouchListener(this);
         }
@@ -209,7 +220,12 @@ public class MusicSwipe extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             return gestureDetector.onTouchEvent(event);
         }
+
+        private void showToast(String message) {
+            Toast.makeText(MusicSwipe.this, message, Toast.LENGTH_SHORT).show();
+        }
     }
+
     @Override
     protected void onResume() {
         super.onResume();

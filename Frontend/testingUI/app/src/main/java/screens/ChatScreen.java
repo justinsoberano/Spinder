@@ -158,19 +158,15 @@ public class ChatScreen extends AppCompatActivity implements WebSocketListener{
     @Override
     public void onWebSocketMessage(String message) {
         runOnUiThread(() -> {
-            // Inflate the message layout
             View messageLayout = LayoutInflater.from(this).inflate(R.layout.message_layout, null);
 
-            // Set the message text
             TextView messageTextView = messageLayout.findViewById(R.id.messageTextView);
             messageTextView.setText(message);
 
-            // Add the message layout to the container (e.g., LinearLayout)
             textLayout.addView(messageLayout);
 
-            // Optionally, you can add margins or adjust layout params for spacing
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) messageLayout.getLayoutParams();
-            layoutParams.setMargins(16, 8, 16, 8); // Adjust margins as needed
+            layoutParams.setMargins(16, 8, 16, 8);
             messageLayout.setLayoutParams(layoutParams);
         });
     }

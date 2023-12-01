@@ -67,8 +67,6 @@
                 app:cornerRadius="20dp"
                 android:textSize="20sp" />
 
-            <!-- Friend User TextView -->
-
             <ImageView
                 android:id="@+id/songView"
                 android:layout_width="match_parent"
