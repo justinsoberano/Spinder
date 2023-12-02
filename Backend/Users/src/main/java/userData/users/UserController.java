@@ -123,19 +123,9 @@ public class UserController {
         } catch (NullPointerException E) {
             return;
         }
-        u.getStation().addSeed(t);
+        u.getStation().setSeed(t);
         userRepository.save(u);
         trackRepository.save(t);
-    }
-
-    /**
-     * Get mapping for getting user by id
-     * @param id the id of the users station
-     */
-    @PutMapping(path = "user/{id}/station")
-    void removeStationSeed(@PathVariable int id){
-        User u = userRepository.findById(id);
-        u.getStation().remove();
     }
 
     /**
