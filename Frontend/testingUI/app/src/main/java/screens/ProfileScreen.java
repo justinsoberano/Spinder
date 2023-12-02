@@ -37,13 +37,14 @@ import org.json.JSONObject;
 
 public class ProfileScreen extends AppCompatActivity {
     TextView bio;
+    ImageView profilePicture;
     TextView username;
     ImageView profileSettings;
     Button friends;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {//user:crevice     password:master    for testing
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
@@ -51,6 +52,7 @@ public class ProfileScreen extends AppCompatActivity {
         username = findViewById(R.id.username);
         friends = findViewById(R.id.friends);
         profileSettings = findViewById(R.id.profileSettings);
+        profilePicture = findViewById(R.id.profilePicture);
 
         profileSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +71,7 @@ public class ProfileScreen extends AppCompatActivity {
         });
 
         getBioInfo();
+        getProfilePicture();
         navBar();
     }
 
@@ -115,6 +118,30 @@ public class ProfileScreen extends AppCompatActivity {
         requestQueue.add(stringRequest);
         requestQueue.add(stringRequest2);
 
+    }
+
+    private void getProfilePicture(){
+        RequestQueue requestQueue = Volley.newRequestQueue(ProfileScreen.this);
+        String url = baseUrl + "user/" + GlobalVariables.userName + "/picture";
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Volley Response", response);
+                        Picasso.get().load(response).into(profilePicture);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        );
+        requestQueue.add(stringRequest);
     }
 
     private void navBar(){

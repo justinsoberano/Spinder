@@ -159,7 +159,7 @@ public class MusicSwipe extends AppCompatActivity {
         JSONObject requestBody = new JSONObject();
 
         JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.PUT,
+                Request.Method.POST,
                 url,
                 requestBody,
                 null,
