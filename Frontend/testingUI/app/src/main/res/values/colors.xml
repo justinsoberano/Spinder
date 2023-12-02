@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="tan">#89875e</color>
     <color name = "gray">#404A4949</color>
+    <color name = "lightgray">#409E9696</color>
 </resources>
+
+

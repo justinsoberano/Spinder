@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
+    <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d8d4359-54f7-40ed-b0e3-21e8abf401c6" name="Changes" comment="Changed gitlab-cli.yml" />
@@ -48,7 +48,7 @@
     &quot;spring.configuration.checksum&quot;: &quot;f9aae5fda8d810a29f12d1e61b4ab25f&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Application.userData.Main">
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-20" />

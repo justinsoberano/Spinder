@@ -17,11 +17,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
 
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.as1.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.android. volley.Request;
@@ -47,6 +50,7 @@ public class MusicSwipe extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private int currentSongIndex = 0;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
+    private final ArrayList<String> songIds = new ArrayList<>();
     private final ArrayList<String> songNames = new ArrayList<>();
     private final ArrayList<String> artistNames = new ArrayList<>();
     private final ArrayList<String> songImages = new ArrayList<>();
@@ -71,7 +75,6 @@ public class MusicSwipe extends AppCompatActivity {
     }
 
 
-
     private void setUpNavBar(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -92,9 +95,8 @@ public class MusicSwipe extends AppCompatActivity {
         if(GlobalVariables.userName == null){
             return;
         }
-        String url = baseUrl + "user/" + GlobalVariables.userName + "/station";
-//        String url = "http://10.0.2.2:8080/user/1/1";
 
+        String url = baseUrl + "user/" + GlobalVariables.userName + "/station";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -107,12 +109,14 @@ public class MusicSwipe extends AppCompatActivity {
                         try {
                             for(int i = 0; i < response.length(); i++){
                                 JSONObject songObject = response.getJSONObject(i);
+                                String songId = songObject.getString("id");
                                 String songName = songObject.getString("name");
                                 String artistName = songObject.getString("artist");
                                 String songImage = songObject.getString("image");
                                 String songSnippet = songObject.getString("preview");
 
                                 if(!songSnippet.equals("null")){
+                                    songIds.add(songId);
                                     songNames.add(songName);
                                     artistNames.add(artistName);
                                     songImages.add(songImage);
@@ -149,6 +153,21 @@ public class MusicSwipe extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
+    private void addSongToPlaylist(String songID){
+        String url = baseUrl + "add/" + GlobalVariables.userName + "/" + songID;
+
+        JSONObject requestBody = new JSONObject();
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                requestBody,
+                null,
+                null
+        );
+
+        Volley.newRequestQueue(MusicSwipe.this).add(request);
+    }
 
     private class SwipeListener implements View.OnTouchListener {
         GestureDetector gestureDetector;
@@ -179,7 +198,7 @@ public class MusicSwipe extends AppCompatActivity {
                                     currentSongIndex = (currentSongIndex + 1) % songImages.size();
                                 } else {
                                     currentSongIndex = (currentSongIndex - 1 + songImages.size()) % songImages.size();
-                                    // change info to say "you did not like this song"
+                                    // Goes Back to the previous song
                                 }
 
                                 if (mediaPlayer != null) {
@@ -194,6 +213,17 @@ public class MusicSwipe extends AppCompatActivity {
 
                                 return true;
                             }
+                        } else {
+                            if (absY > threshold && Math.abs(velocityY) > velocityThreshold) {
+                                if (yDif < 0) {
+                                    //adds song to playlist in their spotify account
+                                    String currentSongId;
+                                    currentSongId = songIds.get(currentSongIndex);
+                                    addSongToPlaylist(currentSongId);
+                                    showToast("Song Added to Playlist");
+                                    return true;
+                                }
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -201,6 +231,7 @@ public class MusicSwipe extends AppCompatActivity {
                     return false;
                 }
             };
+
             gestureDetector = new GestureDetector(listener);
             view.setOnTouchListener(this);
         }
@@ -209,7 +240,12 @@ public class MusicSwipe extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             return gestureDetector.onTouchEvent(event);
         }
+
+        private void showToast(String message) {
+            Toast.makeText(MusicSwipe.this, message, Toast.LENGTH_SHORT).show();
+        }
     }
+
     @Override
     protected void onResume() {
         super.onResume();

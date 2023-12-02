@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,125 +37,41 @@ import org.json.JSONObject;
 
 public class ProfileScreen extends AppCompatActivity {
     TextView bio;
+    ImageView profilePicture;
     TextView username;
-    TextView fullFriendList;
-    EditText editBio;
-    EditText friendText;
-    Button setBio;
-    Button friendList;
-    Button openChat;
-    Button addFriend;
-    Button removeFriend;
+    ImageView profileSettings;
+    Button friends;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {//user:crevice     password:master    for testing
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
         bio = findViewById(R.id.bio);
         username = findViewById(R.id.username);
-        fullFriendList = findViewById(R.id.fullFriendList);
-        editBio = findViewById(R.id.editBio);
-        setBio = findViewById(R.id.setBio);
-        friendList = findViewById(R.id.friendList);
-        openChat = findViewById(R.id.openChat);
-        addFriend = findViewById(R.id.addFriend);
-        removeFriend = findViewById(R.id.removeFriend);
-        friendText = findViewById(R.id.friendText);
+        friends = findViewById(R.id.friends);
+        profileSettings = findViewById(R.id.profileSettings);
+        profilePicture = findViewById(R.id.profilePicture);
 
-        setBio.setOnClickListener(new View.OnClickListener() {
+        profileSettings.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String editBioString = editBio.getText().toString();
-
-                if (!editBioString.isEmpty()) {
-                    String url = baseUrl + "user/" + GlobalVariables.userName + "/profile/" + editBioString;
-
-                    JSONObject requestBody = new JSONObject();
-
-                    JsonObjectRequest request = new JsonObjectRequest(
-                            Request.Method.PUT,
-                            url,
-                            requestBody,
-                            null,
-                            null
-                    );
-
-                    Volley.newRequestQueue(ProfileScreen.this).add(request);
-
-                    Toast.makeText(ProfileScreen.this, "Request sent successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ProfileScreen.this, "Set A Bio", Toast.LENGTH_SHORT).show();
-                }
+            public void onClick(View view) {
+                Intent profSettings = new Intent(ProfileScreen.this, ProfileSettings.class);
+                startActivity(profSettings);
             }
         });
 
-        openChat.setOnClickListener(new View.OnClickListener() {//open a chat with the inputted username
+        friends.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileScreen.this, ChatScreen.class);
-                startActivity(intent);
-                //setContentView(R.layout.activity_friends);
+            public void onClick(View view) {
+                Intent friendStuff = new Intent(ProfileScreen.this, FriendInteractions.class);
+                startActivity(friendStuff);
             }
         });
-        friendList.setOnClickListener(new View.OnClickListener() {//want this to send a username to friendprofilescreen for it to build other user profile
-            @Override   //if i want all friends friends/Global.username  will grab the list of all users added to friendslist
-            public void onClick(View v) {
-                GlobalVariables.friendUserName = friendText.getText().toString();
-                if (!GlobalVariables.friendUserName.isEmpty()) {
-
-                    Toast.makeText(ProfileScreen.this, "Request sent successfully open friend", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(ProfileScreen.this, FriendProfileScreen.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(ProfileScreen.this, "Enter Friend Username", Toast.LENGTH_SHORT).show();
-                }
-                }
-        });
-        addFriend.setOnClickListener(new View.OnClickListener() {//add the submitted username into users friend list
-            @Override
-            public void onClick(View v) {
-                String editFriendString = friendText.getText().toString();
-                if (!editFriendString.isEmpty()) {
-                    String url = baseUrl + "add/" + GlobalVariables.userName + "/" + editFriendString;
-                    JSONObject requestBody = new JSONObject();
-                    JsonObjectRequest request = new JsonObjectRequest(
-                            Request.Method.PUT, url, requestBody, null, null
-                    );
-
-                    Volley.newRequestQueue(ProfileScreen.this).add(request);
-
-                    Toast.makeText(ProfileScreen.this, "Request sent successfully"+ editFriendString, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ProfileScreen.this, "Enter Friend Username", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        removeFriend.setOnClickListener(new View.OnClickListener() {//remove a friend from the user repository
-            @Override
-            public void onClick(View v) {
-                String editFriendString = friendText.getText().toString();
-                if (!editFriendString.isEmpty()) {
-                    String url = baseUrl + "remove/" + GlobalVariables.userName + "/" + editFriendString;
-                    JSONObject requestBody = new JSONObject();
-                    JsonObjectRequest request = new JsonObjectRequest(
-                            Request.Method.PUT, url, requestBody, null, null
-                    );
-
-                    Volley.newRequestQueue(ProfileScreen.this).add(request);
-
-                    Toast.makeText(ProfileScreen.this, "Request sent successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ProfileScreen.this, "Enter Friend Username", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
 
         getBioInfo();
-        getFriendList();
+        getProfilePicture();
         navBar();
     }
 
@@ -203,17 +120,18 @@ public class ProfileScreen extends AppCompatActivity {
 
     }
 
-    private void getFriendList() {
+    private void getProfilePicture(){
         RequestQueue requestQueue = Volley.newRequestQueue(ProfileScreen.this);
-        String org = "http://coms-309-056.class.las.iastate.edu:8080/friends/" + GlobalVariables.userName;
+        String url = baseUrl + "user/" + GlobalVariables.userName + "/picture";
 
         StringRequest stringRequest = new StringRequest(
-                Request.Method.GET, org,
+                Request.Method.GET,
+                url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Volley Response", response);
-                        fullFriendList.setText(response);
+                        Picasso.get().load(response).into(profilePicture);
                     }
                 },
                 new Response.ErrorListener() {
@@ -225,12 +143,6 @@ public class ProfileScreen extends AppCompatActivity {
         );
         requestQueue.add(stringRequest);
     }
-
-
-
-
-
-
 
     private void navBar(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);

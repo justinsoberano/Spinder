@@ -19,6 +19,7 @@ import com.example.as1.R;
 import com.squareup.picasso.Picasso;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,6 +49,8 @@ public class ChatScreen extends AppCompatActivity implements WebSocketListener{
     private MediaPlayer mediaPlayer;
     private EditText friendToChat;
     private ImageView connect;
+    private LinearLayout textLayout;
+
 
     private String BASE_URL = "ws://coms-309-056.class.las.iastate.edu:8080/";
 
@@ -66,6 +69,7 @@ public class ChatScreen extends AppCompatActivity implements WebSocketListener{
         songView = findViewById(R.id.songView);
         friendToChat = findViewById(R.id.friendToChat);
         connect = findViewById(R.id.connect);
+        textLayout = findViewById(R.id.textLayout);
 
 
         connect.setOnClickListener(view -> {
@@ -79,6 +83,7 @@ public class ChatScreen extends AppCompatActivity implements WebSocketListener{
         sendButton.setOnClickListener(v -> {
             try {
                 WebSocketManager.getInstance().sendMessage(messageEditText.getText().toString());
+                messageEditText.setText("");
             } catch (Exception e) {
                 Log.d("ExceptionSendMessage:", e.getMessage().toString());
             }
@@ -153,10 +158,19 @@ public class ChatScreen extends AppCompatActivity implements WebSocketListener{
     @Override
     public void onWebSocketMessage(String message) {
         runOnUiThread(() -> {
-            String s = currentUserTextView.getText().toString();
-            currentUserTextView.setText(s + "\n"+message);
+            View messageLayout = LayoutInflater.from(this).inflate(R.layout.message_layout, null);
+
+            TextView messageTextView = messageLayout.findViewById(R.id.messageTextView);
+            messageTextView.setText(message);
+
+            textLayout.addView(messageLayout);
+
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) messageLayout.getLayoutParams();
+            layoutParams.setMargins(16, 8, 16, 8);
+            messageLayout.setLayoutParams(layoutParams);
         });
     }
+
 
     @Override
     public void onWebSocketClose(int code, String reason, boolean remote) {

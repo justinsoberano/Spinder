@@ -36,7 +36,6 @@ public class LoginScreen extends AppCompatActivity {
     Button registerButton;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
     String isUserValid = "false";
-
     private HashMap<String, String> userCredentials;
 
     @Override
@@ -58,6 +57,10 @@ public class LoginScreen extends AppCompatActivity {
                 String enteredUsername = username.getText().toString();
                 String enteredPassword = password.getText().toString();
                 GlobalVariables.userName = enteredUsername;
+
+                //ONLY USE WHEN SERVER ISNT RUNNING AND YOU NEED TO GET INTO THE APP ONLY FOR TESTING
+//                    Intent intent = new Intent(LoginScreen.this, SeedSetter.class);
+//                    startActivity(intent);
 
                 if(validateLogin(enteredUsername, enteredPassword)){
                     Intent intent = new Intent(LoginScreen.this, SeedSetter.class);
@@ -93,6 +96,12 @@ public class LoginScreen extends AppCompatActivity {
                             Volley.newRequestQueue(LoginScreen.this).add(request);
 
                             Toast.makeText(LoginScreen.this, "Registered Successful", Toast.LENGTH_SHORT).show();
+
+                            String spotifyRedirect = "http://coms-309-056.class.las.iastate.edu:8080/register/" + usernameSend;
+                            Uri uri = Uri.parse(spotifyRedirect);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+
                         } else {
                             Toast.makeText(LoginScreen.this, "Please Register", Toast.LENGTH_SHORT).show();
                         }

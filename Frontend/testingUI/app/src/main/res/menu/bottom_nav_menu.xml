@@ -3,10 +3,7 @@
         android:id="@+id/menu_discover"
         android:icon="@drawable/ic_discover"
         android:title="Discover" />
-    <item
-        android:id="@+id/menu_feed"
-        android:icon="@drawable/ic_feed"
-        android:title="Feed" />
+
     <item
         android:id="@+id/menu_profile"
         android:icon="@drawable/ic_profile"
