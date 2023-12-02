@@ -15,13 +15,18 @@ import se.michaelthelin.spotify.requests.data.playlists.GetListOfUsersPlaylistsR
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
 import userData.users.User;
 import java.io.IOException;
+import userData.users.UserRepository;
 
+@RestController
 public class InfoController {
+
+    @Autowired
+    UserRepository userRepository;
 
     private static SpotifyApi playlistHandler = null;
     private static GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = null;
 
-    void getCurrentUuid(User u) {
+    public void getCurrentUuid(User u) {
         SpotifyApi uuidHandler = new SpotifyApi.Builder()
                 .setAccessToken(u.getAccessKey())
                 .build();
@@ -43,7 +48,7 @@ public class InfoController {
         getCurrentUsersProfileRequest = null;
     }
 
-    void getCurrentName(User u) {
+    public void getCurrentName(User u) {
 
         SpotifyApi nameHandler = new SpotifyApi.Builder()
                 .setAccessToken(u.getAccessKey())
@@ -64,7 +69,7 @@ public class InfoController {
         getCurrentUsersProfileRequest = null;
     }
 
-    void getCurrentProfilePicture(User u) {
+    public void getCurrentProfilePicture(User u) {
 
         SpotifyApi pictureHandler = new SpotifyApi.Builder()
                 .setAccessToken(u.getAccessKey())
@@ -88,7 +93,7 @@ public class InfoController {
         getCurrentUsersProfileRequest = null;
     }
 
-    void createSpinderFavorites(User u) {
+    public void createSpinderFavorites(User u) {
         String uuid = u.getUuid();
 
         playlistHandler = new SpotifyApi.Builder()
@@ -104,7 +109,9 @@ public class InfoController {
         try {
             final Playlist playlist = createPlaylist.execute();
             final String playlistId = playlist.getId();
-            // u.setPlaylistID(playlistId);
+            u.setPlaylistId(playlistId);
+            userRepository.save(u);
+
 
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());

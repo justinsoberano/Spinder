@@ -16,7 +16,6 @@ import java.net.URI;
 import userData.authentication.InfoController;
 import userData.users.User;
 import userData.users.UserRepository;
-
 /**
  * This class is responsible for handling the authentication of the user.
  */
@@ -35,7 +34,7 @@ public class AuthController {
     /**
      * This is the redirect URI that Spotify will send the user to after they have logged in.
      */
-    private static final URI redirectURI = SpotifyHttpManager.makeUri("http://localhost:8080/register/api");
+    private static final URI redirectURI = SpotifyHttpManager.makeUri("http://coms-309-056.class.las.iastate.edu:8080/register/api");
 
     /**
      * This is the Spotify API object that will be used to make requests to the Spotify API.
@@ -124,8 +123,13 @@ public class AuthController {
             System.out.println("ERROR: " + e.getMessage());
         }
 
-        // User u = userRepository.findByUserName(username);
-        // u.setAccessKey(spotifyAPI.getAccessToken());
+        User u = userRepository.findByUserName(username);
+        u.setAccessKey(spotifyAPI.getAccessToken());
+        userRepository.save(u);
+
+        InfoController infoController = new InfoController();
+        infoController.getCurrentUuid(u);
+        infoController.createSpinderFavorites(u);
 
         System.out.println("[DEBUG] | " + username + " has successfully registered. \n[DEBUG] | Access Token: " + spotifyAPI.getAccessToken());
         return "You can now go back to the app.";
