@@ -123,31 +123,20 @@ public class UserController {
         } catch (NullPointerException E) {
             return;
         }
-        u.getStation().addSeed(t);
+        u.getStation().setSeed(t);
         userRepository.save(u);
         trackRepository.save(t);
     }
 
     /**
-     * Get mapping for getting user by id
-     * @param id the id of the users station
-     */
-    @PutMapping(path = "user/{id}/station")
-    void removeStationSeed(@PathVariable int id){
-        User u = userRepository.findById(id);
-        u.getStation().remove();
-    }
-
-    /**
      * Request for getting users station
-     * @param id of user refered to.
+     * @param username of user refered to.
      * @return station of user
      */
-    @GetMapping(path = "user/{id}/station")
-    Station getStation(@PathVariable int id){
-        return userRepository.findById(id).getStation();
+    @GetMapping(path = "user/{username}/station")
+    List<Track> getTracks(@PathVariable String username) {
+        return userRepository.findByUserName(username).getStation().generateTacks();
     }
-
     /**
      * Request for getting users station
      * @param username of user refered to.

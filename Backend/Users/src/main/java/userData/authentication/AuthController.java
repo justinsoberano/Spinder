@@ -1,11 +1,14 @@
 package userData.authentication;
 
 import org.apache.hc.core5.http.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
+import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
+import se.michaelthelin.spotify.model_objects.specification.Playlist;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 
@@ -13,17 +16,30 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 
-
+import se.michaelthelin.spotify.requests.data.playlists.AddItemsToPlaylistRequest;
+import se.michaelthelin.spotify.requests.data.playlists.CreatePlaylistRequest;
+import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
+import userData.users.User;
+import userData.users.UserRepository;
 /**
  * This class is responsible for handling the authentication of the user.
  */
 @RestController
 public class AuthController {
 
+
+    @Autowired
+    UserRepository userRepository;
+
+    /**
+     * This is the username of the user that is currently logged in.
+     */
+    private String username;
+
     /**
      * This is the redirect URI that Spotify will send the user to after they have logged in.
      */
-    private static final URI redirectURI = SpotifyHttpManager.makeUri("http://10.0.2.2:8080/login/api");
+    private static final URI redirectURI = SpotifyHttpManager.makeUri("http://coms-309-056.class.las.iastate.edu:8080/register/api");
 
     /**
      * This is the Spotify API object that will be used to make requests to the Spotify API.
@@ -80,14 +96,15 @@ public class AuthController {
      * @param response: The response object that will be used to redirect the user.
      * @throws IOException: If the redirect fails.
      */
-    @GetMapping("register")
+    @GetMapping("register/{username}")
     @ResponseBody
-    void spotifyRegister(HttpServletResponse response) throws IOException {
+    void spotifyRegister(HttpServletResponse response, @PathVariable String username) throws IOException {
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyAPI.authorizationCodeUri()
-                .scope("user-read-private, user-top-read")
+                .scope("user-read-private, user-top-read, playlist-modify-private")
                 .show_dialog(true)
                 .build();
 
+        this.username = username;
         final URI uri = authorizationCodeUriRequest.execute();
         response.sendRedirect(uri.toString());
     }
@@ -110,7 +127,101 @@ public class AuthController {
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("ERROR: " + e.getMessage());
         }
-        return spotifyAPI.getAccessToken();
 
+        User u = userRepository.findByUserName(username);
+        u.setAccessKey(spotifyAPI.getAccessToken());
+        userRepository.save(u);
+
+        getCurrentUuid(u);
+        getProfilePicture(u);
+        createSpinderFavorites(u);
+
+        System.out.println("[DEBUG] | " + username + " has successfully registered. \n[DEBUG] | Access Token: " + spotifyAPI.getAccessToken());
+        return "You can now go back to the app.";
+    }
+
+    public void getCurrentUuid(User u) {
+        GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyAPI.getCurrentUsersProfile()
+                .build();
+
+        try {
+
+            final se.
+                    michaelthelin.
+                    spotify.
+                    model_objects.
+                    specification.
+                    User user = getCurrentUsersProfileRequest.execute();
+            final String uuid = user.getId();
+            u.setUuid(uuid);
+            userRepository.save(u);
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void getProfilePicture(User u) {
+        GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyAPI.getCurrentUsersProfile()
+                .build();
+
+        try {
+            final se.michaelthelin.spotify.model_objects.specification.User user = getCurrentUsersProfileRequest.execute();
+            final String profilePicture = user.getImages()[0].getUrl();
+
+            u.setProfilePicture(profilePicture);
+            userRepository.save(u);
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void createSpinderFavorites(User u) {
+
+        String uuid = u.getUuid();
+
+        System.out.println("[DEBUG] | Creating playlist for " + uuid);
+
+        try {
+
+            CreatePlaylistRequest createPlaylist = spotifyAPI.createPlaylist(uuid, "Spinder Favs")
+                    .collaborative(false)
+                    .public_(false)
+                    .description("Generated with love on Spinder <3")
+                    .build();
+
+            final Playlist playlist = createPlaylist.execute();
+
+            System.out.println("[DEBUG] | Playlist created for " + u.getUserName() + " called, " + playlist.getName());
+
+
+            final String playlistId = playlist.getId();
+
+            System.out.println("[DEBUG] | Playlist ID: " + playlistId);
+
+            u.setPlaylistId(playlistId);
+            userRepository.save(u);
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("add/{username}/{track}")
+    public void addTrackToFavorites(@PathVariable String username, @PathVariable String track) {
+
+        User u = userRepository.findByUserName(username);
+
+        String[] trackUri = new String[]{"spotify:track:" + track};
+        String playlistId = u.getPlaylistId();
+
+        AddItemsToPlaylistRequest addTrack = spotifyAPI
+                .addItemsToPlaylist(playlistId, trackUri)
+                .build();
+        try {
+            final SnapshotResult executeAddTrack = addTrack.execute();
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }

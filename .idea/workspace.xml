@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d8d4359-54f7-40ed-b0e3-21e8abf401c6" name="Changes" comment="Changed to work with mySQL" />
+    <list default="true" id="3d8d4359-54f7-40ed-b0e3-21e8abf401c6" name="Changes" comment="Changed gitlab-cli.yml" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +12,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -25,24 +28,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "50-bug-related-to-seeds-lits-assoc-with-user",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "spring.configuration.checksum": "f9aae5fda8d810a29f12d1e61b4ab25f",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main-justin&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/jsobe/IdeaProjects/sd_323/Frontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;f9aae5fda8d810a29f12d1e61b4ab25f&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }]]></component>
   <component name="RunManager" selected="Application.userData.Main">
@@ -96,6 +100,17 @@
       <workItem from="1696365984072" duration="13811000" />
       <workItem from="1698438707044" duration="50000" />
       <workItem from="1698962433152" duration="7755000" />
+      <workItem from="1699304445159" duration="381000" />
+      <workItem from="1699316303892" duration="4000" />
+      <workItem from="1699316774183" duration="728000" />
+      <workItem from="1699318094665" duration="2000" />
+      <workItem from="1699318407004" duration="33000" />
+      <workItem from="1699319179623" duration="33000" />
+      <workItem from="1699818314392" duration="29000" />
+      <workItem from="1699818461485" duration="370000" />
+      <workItem from="1701214869064" duration="1476000" />
+      <workItem from="1701289847364" duration="6000" />
+      <workItem from="1701289948005" duration="152000" />
     </task>
     <task id="LOCAL-00001" summary="profile picture controllers">
       <option name="closed" value="true" />
@@ -129,7 +144,31 @@
       <option name="project" value="LOCAL" />
       <updated>1698970185212</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added document">
+      <option name="closed" value="true" />
+      <created>1699305780944</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1699305780944</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added API Documentation for PO3">
+      <option name="closed" value="true" />
+      <created>1699818702700</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1699818702700</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Changed gitlab-cli.yml">
+      <option name="closed" value="true" />
+      <created>1701290020088</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1701290020088</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -138,6 +177,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="profile picture controllers" />
     <MESSAGE value="Changed to work with mySQL" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed to work with mySQL" />
+    <MESSAGE value="Added document" />
+    <MESSAGE value="Added API Documentation for PO3" />
+    <MESSAGE value="Changed gitlab-cli.yml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed gitlab-cli.yml" />
   </component>
 </project>
