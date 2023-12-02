@@ -7,13 +7,18 @@ import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
+import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
+import se.michaelthelin.spotify.model_objects.specification.Playlist;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import userData.authentication.InfoController;
+
+import se.michaelthelin.spotify.requests.data.playlists.AddItemsToPlaylistRequest;
+import se.michaelthelin.spotify.requests.data.playlists.CreatePlaylistRequest;
+import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
 import userData.users.User;
 import userData.users.UserRepository;
 /**
@@ -95,7 +100,7 @@ public class AuthController {
     @ResponseBody
     void spotifyRegister(HttpServletResponse response, @PathVariable String username) throws IOException {
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyAPI.authorizationCodeUri()
-                .scope("user-read-private, user-top-read")
+                .scope("user-read-private, user-top-read, playlist-modify-private")
                 .show_dialog(true)
                 .build();
 
@@ -127,11 +132,96 @@ public class AuthController {
         u.setAccessKey(spotifyAPI.getAccessToken());
         userRepository.save(u);
 
-        InfoController infoController = new InfoController();
-        infoController.getCurrentUuid(u);
-        infoController.createSpinderFavorites(u);
+        getCurrentUuid(u);
+        getProfilePicture(u);
+        createSpinderFavorites(u);
 
         System.out.println("[DEBUG] | " + username + " has successfully registered. \n[DEBUG] | Access Token: " + spotifyAPI.getAccessToken());
         return "You can now go back to the app.";
+    }
+
+    public void getCurrentUuid(User u) {
+        GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyAPI.getCurrentUsersProfile()
+                .build();
+
+        try {
+
+            final se.
+                    michaelthelin.
+                    spotify.
+                    model_objects.
+                    specification.
+                    User user = getCurrentUsersProfileRequest.execute();
+            final String uuid = user.getId();
+            u.setUuid(uuid);
+            userRepository.save(u);
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void getProfilePicture(User u) {
+        GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyAPI.getCurrentUsersProfile()
+                .build();
+
+        try {
+            final se.michaelthelin.spotify.model_objects.specification.User user = getCurrentUsersProfileRequest.execute();
+            final String profilePicture = user.getImages()[0].getUrl();
+
+            u.setProfilePicture(profilePicture);
+            userRepository.save(u);
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void createSpinderFavorites(User u) {
+
+        String uuid = u.getUuid();
+
+        System.out.println("[DEBUG] | Creating playlist for " + uuid);
+
+        try {
+
+            CreatePlaylistRequest createPlaylist = spotifyAPI.createPlaylist(uuid, "Spinder Favs")
+                    .collaborative(false)
+                    .public_(false)
+                    .description("Generated with love on Spinder <3")
+                    .build();
+
+            final Playlist playlist = createPlaylist.execute();
+
+            System.out.println("[DEBUG] | Playlist created for " + u.getUserName() + " called, " + playlist.getName());
+
+
+            final String playlistId = playlist.getId();
+
+            System.out.println("[DEBUG] | Playlist ID: " + playlistId);
+
+            u.setPlaylistId(playlistId);
+            userRepository.save(u);
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("add/{username}/{track}")
+    public void addTrackToFavorites(@PathVariable String username, @PathVariable String track) {
+
+        User u = userRepository.findByUserName(username);
+
+        String[] trackUri = new String[]{"spotify:track:" + track};
+        String playlistId = u.getPlaylistId();
+
+        AddItemsToPlaylistRequest addTrack = spotifyAPI
+                .addItemsToPlaylist(playlistId, trackUri)
+                .build();
+        try {
+            final SnapshotResult executeAddTrack = addTrack.execute();
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }

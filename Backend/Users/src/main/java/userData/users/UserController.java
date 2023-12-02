@@ -130,14 +130,13 @@ public class UserController {
 
     /**
      * Request for getting users station
-     * @param id of user refered to.
+     * @param username of user refered to.
      * @return station of user
      */
-    @GetMapping(path = "user/{id}/station")
-    Station getStation(@PathVariable int id){
-        return userRepository.findById(id).getStation();
+    @GetMapping(path = "user/{username}/station")
+    List<Track> getTracks(@PathVariable String username) {
+        return userRepository.findByUserName(username).getStation().generateTacks();
     }
-
     /**
      * Request for getting users station
      * @param username of user refered to.
