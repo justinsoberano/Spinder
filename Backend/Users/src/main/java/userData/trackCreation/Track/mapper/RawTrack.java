@@ -172,7 +172,6 @@ public class RawTrack {
      * If there is more than one artist.
      */
     public static class Artist {
-
         /**
          * Artist ID
          */

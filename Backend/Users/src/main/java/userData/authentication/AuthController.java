@@ -209,7 +209,7 @@ public class AuthController {
             CreatePlaylistRequest createPlaylist = spotifyAPI.createPlaylist(uuid, "Spinder Favs")
                     .collaborative(false)
                     .public_(false)
-                    .description("Generated with love on Spinder <3")
+                    .description("Generated with love from the Spinder Team <3")
                     .build();
 
             final Playlist playlist = createPlaylist.execute();
