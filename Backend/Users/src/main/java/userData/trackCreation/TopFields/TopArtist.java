@@ -16,10 +16,6 @@ public class TopArtist {
     private String image;
     private String name;
 
-    @OneToOne
-    @JsonIgnore
-    private User user;
-
     public TopArtist(){
 
     }

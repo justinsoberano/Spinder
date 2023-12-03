@@ -2,7 +2,6 @@ package userData.users;
 
 import javax.persistence.*;
 
-import jdk.internal.joptsimple.internal.Strings;
 import userData.stations.Station;
 import userData.trackCreation.TopFields.TopArtist;
 import userData.trackCreation.TopFields.TopTrack;
@@ -63,11 +62,11 @@ public class User {
     private String playlistId;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "top_track_id")
+    @JoinColumn(name = "topArtist_id")
     private TopArtist topArtist;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "top_track_id")
+    @JoinColumn(name = "topTrack_id")
     private TopTrack topTrack;
 
     /**

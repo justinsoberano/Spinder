@@ -19,73 +19,31 @@ import userData.chat.ChatRoom.ChatRoom;
 import userData.users.UserRepository;
 import userData.users.User;
 
-/**
- * This class handles the chat functionality of the application.
- */
 @ServerEndpoint("/{userName}/chat/{friend}")
 @Component
 public class Chat {
 
-    /**
-     * Sets the repository for the chat room.
-     * @param repo The repository for the chat room.
-     */
     @Autowired
     public void setChatRoomRepository(ChatRoomRepository repo) { chatRepo = repo;}
-
-    /**
-     * The repository for the chat room.
-     */
     private static ChatRoomRepository chatRepo;
 
-    /**
-     * Sets the repository for the user.
-     * @param u The repository for the user.
-     */
     @Autowired
     public void setUserRepository(UserRepository u) { userRepo = u; }
-
-    /**
-     * The repository for the user.
-     */
     private static UserRepository userRepo;
 
-    /**
-     * The session of the chat.
-     */
     private static Map <Session, String> chatSession = new Hashtable<>();
 
-    /**
-     * The session of the chat.
-     */
     private static Map <String, Session> searchChat = new Hashtable<>();
 
-    /**
-     * The chat room.
-     */
     private ChatRoom chat;
-
-    /**
-     * The username of the user.
-     */
     private String userName;
-
-    /**
-     * The username of the friend.
-     */
     private String friendUsername;
 
-    /**
-     * The logger for the chat.
-     */
+    // Logger for terminal output and debugging
     private final Logger logger = LoggerFactory.getLogger(Chat.class);
 
     /**
-     * Opens the session and adds the users to the chat.
-     * @param session The session of the chat.
-     * @param userName The username of the user.
-     * @param friendUsername The username of the friend.
-     * @throws IOException Throws an exception if the user is not found.
+     * Connects the user to the websocket.
      */
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String userName, @PathParam("friend") String friendUsername) throws IOException {
@@ -117,8 +75,8 @@ public class Chat {
 
     /**
      * Removes the session from the HashMap when the user closes out of the session.
-     * @param session The session of the chat.
-     * @throws IOException Throws an exception if the user is not found.
+     * @param session
+     * @throws IOException
      */
     @OnClose
     public void onClose(Session session) throws IOException {
@@ -129,11 +87,6 @@ public class Chat {
         searchChat.remove(userName);
     }
 
-    /**
-     * Handles the error if the user disconnects.
-     * @param session The session of the chat.
-     * @param throwable The throwable of the chat.
-     */
     @OnError
     public void onError(Session session, Throwable throwable) {
 
@@ -147,10 +100,11 @@ public class Chat {
 
     /**
      * Connects the current session and sends the message.
-     * @param session The session of the chat.
-     * @param message The message of the chat.
-     * @throws IOException Throws an exception if the user is not found.
+     * @param session
+     * @param message
+     * @throws IOException
      */
+
     @OnMessage
     public void onMessage(Session session, String message) throws IOException {
         // Grabs the username of the current session.
@@ -177,7 +131,7 @@ public class Chat {
 
     /**
      * Handles the message sending, called from 'onMessage'.
-     * @param message The message of the chat.
+     * @param message
      */
     public void sendMessage(Session session, String user, String message) throws IOException {
         String formattedMessage = user + ": " + message;
@@ -185,10 +139,7 @@ public class Chat {
     }
 
     /**
-     * Loads the chat history.
-     * @param session The session of the chat.
-     * @param chat The chat room.
-     * @throws IOException Throws an exception if the user is not found.
+     * Allows previous messages to be sent to the users.
      */
     void loadHistory(Session session, ChatRoom chat) throws IOException {
         // Initialize the messages collection if it is lazy-loaded
@@ -199,11 +150,6 @@ public class Chat {
         }
     }
 
-    /**
-     * Gets the chat room.
-     * @param u1 The username of the user.
-     * @param u2 The username of the friend.
-     */
     void getRoom(String u1, String u2){
         chatRepo.findByUserOneAndUserTwo(u1, u2);
     }

@@ -334,18 +334,18 @@ public class UserController {
     @DeleteMapping(path = "/user/{id}")
     public String deleteUser(@PathVariable int id){
         if(userRepository.existsById(id)){
-                User u = userRepository.findById(id);
-                Station s = u.getStation();
-                Track t = s.getSeed();
-                s.setSeed(null);
-                u.setStation(null);
+            User u = userRepository.findById(id);
+            Station s = u.getStation();
+            Track t = s.getSeed();
+            s.setSeed(null);
+            u.setStation(null);
 
-                trackRepository.deleteById(t.getId());
-                stationRepository.deleteById(s.getId());
-                userRepository.deleteById(id);
-                return "success";
-            } else {
-                return "failure";
+            trackRepository.deleteById(t.getId());
+            stationRepository.deleteById(s.getId());
+            userRepository.deleteById(id);
+            return "success";
+        } else {
+            return "failure";
         }
     }
 
@@ -362,3 +362,4 @@ public class UserController {
         userRepository.deleteAll();
     }
 }
+

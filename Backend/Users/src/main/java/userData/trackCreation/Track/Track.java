@@ -7,70 +7,38 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import userData.stations.Station;
-import userData.users.User;
 
-/**
- * Track class that holds all the information about a song.
- */
 @Entity
 public class Track {
 
-    /**
-     * ID of the Track
-     */
     @Id
+    /* Track ID */
     private String id;
 
-    /**
-     * Name of the Track
-     */
+    /* Track name */
     private String name;
 
-    /**
-     * Name of the Album that the Track is associated with
-     */
+    /* Album name that Track is in */
     private String album;
 
-    /**
-     * Cover art of the Track
-     */
+    /* Image URL */
     private String image;
 
-    /**
-     * Artist of the Track
-     */
+    /* Artist name */
     private String artist;
 
-    /**
-     * Preview URL of the Track
-     */
+    /* Preview URL */
     private String preview;
 
-    /**
-     * Station that the Track is associated with
-     */
     @OneToOne
     @JsonIgnore
     private Station station;
 
-    @OneToOne
-    @JsonIgnore
-    private User user;
+    public Track(){
 
-    /**
-     * Default constructor
-     */
-    public Track(){}
+    }
 
-    /**
-     * Constructor for Track
-     * @param id ID of the Track
-     * @param name Name of the Track
-     * @param album Name of the Album that the Track is associated with
-     * @param artist Artist of the Track
-     * @param image Cover art of the Track
-     * @param preview Preview URL of the Track
-     */
+    /* Constructor */
     public Track(String id, String name, String album,
                  String artist, String image, String preview) {
 

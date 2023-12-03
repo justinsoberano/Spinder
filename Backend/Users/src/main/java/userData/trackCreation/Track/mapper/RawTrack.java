@@ -6,29 +6,19 @@ import java.util.List;
  */
 public class RawTrack {
 
-    /**
-     * ID of the track
-     */
+    /* Track ID */
     private String id;
 
-    /**
-     * Name of the track
-     */
+    /* Track name */
     private String name;
 
-    /**
-     * Album that the track is in
-     */
+    /* Album name that track is in */
     private Album album;
 
-    /**
-     * Artist that the track is by
-     */
+    /* Artist name */
     private List<Artist> artists;
 
-    /**
-     * Preview URL
-     */
+    /* Preview URL */
     private String previewUrl;
 
     /**
@@ -93,28 +83,18 @@ public class RawTrack {
      */
     public static class Album {
 
-        /**
-         * List of images
-         */
+        /* Returns a list of images */
         private List<AlbumImage> images;
 
-        /**
-         * Name of the album
-         */
+        /* Returns the name of the album */
         private String name;
 
-        /**
-         * Gets the list of images
-         * @return images
-         */
+        /* Returns a list of images */
         public List<AlbumImage> getImages() {
             return images;
         }
 
-        /**
-         * Gets the name of the album
-         * @return name
-         */
+        /* Returns the name of the album */
         public String getName() {
             return name;
         }
@@ -126,19 +106,13 @@ public class RawTrack {
      */
     public static class AlbumImage {
 
-        /**
-         * Store image height
-         */
+        /* Store image height */
         private int height;
 
-        /**
-         * Store image width
-         */
+        /* Store image width */
         private int width;
 
-        /**
-         * Store image url
-         */
+        /* Store image url */
         private String url;
 
         /**
@@ -172,14 +146,11 @@ public class RawTrack {
      * If there is more than one artist.
      */
     public static class Artist {
-        /**
-         * Artist ID
-         */
+
+        /* Artist ID */
         private String id;
 
-        /**
-         * Artist name
-         */
+        /* Artist name */
         private String name;
 
         /**
@@ -198,4 +169,5 @@ public class RawTrack {
             return id;
         }
     }
+
 }

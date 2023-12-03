@@ -266,8 +266,7 @@ public class AuthController {
 
 
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-
-
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -290,10 +289,8 @@ public class AuthController {
 
 
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-
-
+            System.out.println("Error: " + e.getMessage());
         }
     }
-
-
 }
+

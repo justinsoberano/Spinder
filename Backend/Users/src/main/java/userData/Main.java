@@ -11,27 +11,13 @@ import userData.trackCreation.Track.TrackRepository;
 import userData.users.User;
 import userData.users.UserRepository;
 
-/**
- * Main class for the Spring Boot application.
- */
 @SpringBootApplication
 class Main {
 
-    /**
-     * Main method for the Spring Boot application.
-     * @param args Command line arguments.
-     */
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
 
-    /**
-     * Initializes the database with a user, station, and seed track.
-     * @param userRepository The user repository.
-     * @param stationRepository The station repository.
-     * @param trackRepository The track repository.
-     * @return A command line runner.
-     */
     @Bean
     CommandLineRunner initUser(UserRepository userRepository, StationRepository stationRepository, TrackRepository trackRepository) {
         return args -> {
