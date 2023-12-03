@@ -4,9 +4,6 @@ stages:             # these stages (jobs) forms the CICD
   - mavendeploy     # this is a JOB to deploy your Springboot application on your server
   - androidbuild    # this is a JOB to build your Android application
   - androidtest     # this is a JOB to run tests in your Android application (it's okay you don't have any test for now)
-stages:
-  - mavenbuild
-  - maventest
 
 maven-build:            
   stage: mavenbuild     # one of the stages listed above
@@ -29,30 +26,22 @@ maven-test:
 
 auto-deploy:
   stage: mavendeploy    # one of the stages listed above
-maven-build:
-  stage: mavenbuild
   tags:
   - springboot_tag      # change to your runner's tag
   script:               # script to run the deployment service you created
-    - justin_tag      # <-- change to your runner's tag
-  script:
     - cd Backend/Users        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
     - sudo mv target/*.jar /target/web-demo.jar 
     - sudo systemctl stop system-web-demo
     - sudo systemctl start system-web-demo
-    - mvn package
 
 android-build:
   image: afirefly/android-ci:java17 # Docker image that has Android environments installed     gjandres/android-ci:latest
   stage: androidbuild               # one of the stages listed above
-maven-test:
-  stage: maventest
   tags:
    - android_tag                    # change to your runner's tag
   before_script:                    # enable gradlew, change 'Frontend' to where you have 'gradlew'
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - chmod +x ./Frontend/testingUI/gradlew
-    - justin_tag     # <-- change to your runner's tag
   script:
     - cd Frontend/testingUI                   # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
     - ./gradlew build               # gradle build
@@ -68,5 +57,3 @@ android-test:
    script:
      - cd Frontend/testingUI                  # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
      - ./gradlew test               # gradle test
-    - cd Backend/Users       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
-    - mvn test
