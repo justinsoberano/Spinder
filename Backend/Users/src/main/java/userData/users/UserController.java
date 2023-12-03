@@ -320,7 +320,7 @@ public class UserController {
         return userRepository.findByUserName(username).getTopTrack();
     }
 
-    @GetMapping(path="user/{username}/topTrack")
+    @GetMapping(path="user/{username}/topArtist")
     TopArtist getTopArist(@PathVariable String username){
         return userRepository.findByUserName(username).getTopArtist();
     }
