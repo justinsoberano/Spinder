@@ -11,6 +11,7 @@ import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
 import se.michaelthelin.spotify.model_objects.specification.Artist;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 
@@ -206,7 +207,7 @@ public class AuthController {
             CreatePlaylistRequest createPlaylist = spotifyAPI.createPlaylist(uuid, "Spinder Favs")
                     .collaborative(false)
                     .public_(false)
-                    .description("Generated with love on Spinder <3")
+                    .description("Generated with love from the Spinder Team <3")
                     .build();
 
             final Playlist playlist = createPlaylist.execute();
