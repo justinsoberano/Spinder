@@ -18,7 +18,7 @@ android-test:
    image: afirefly/android-ci:java17
    stage: androidtest
    tags:
-    - naymag_tag                  # <-- change to your runner's tag
+    - nayma_tag                  # <-- change to your runner's tag
    before_script:                   # change 'Frontend' to where you have 'gradlew'
      - export GRADLE_USER_HOME=`pwd`/.gradle
      - chmod +x ./Frontend/testingUI/gradlew
