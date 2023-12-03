@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URI;
 
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
+import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import se.michaelthelin.spotify.requests.data.playlists.AddItemsToPlaylistRequest;
 import se.michaelthelin.spotify.requests.data.playlists.CreatePlaylistRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
@@ -155,6 +156,7 @@ public class AuthController {
         getProfilePicture(u);
         createSpinderFavorites(u);
         topArtist();
+        topTrack();
 
         System.out.println("[DEBUG] | " + username + " has successfully registered. \n[DEBUG] | Access Token: " + spotifyAPI.getAccessToken());
         return "You can now go back to the app.";
@@ -268,4 +270,30 @@ public class AuthController {
 
         }
     }
+
+    public void topTrack() {
+        User u = userRepository.findByUserName(username);
+        GetUsersTopTracksRequest getTopTrack = spotifyAPI.getUsersTopTracks()
+                .limit(1)
+                .time_range("long_term")
+                .build();
+        try {
+            final Paging<Track> topTrack = getTopTrack.execute();
+            Track[] a;
+            a = topTrack.getItems();
+            TopTrack t = new TopTrack();
+            t.setName(a[0].getName());
+            t.setImage(a[0].getAlbum().getImages()[0].getUrl());
+            u.setTopTrack(t);
+            topTrackRepository.save(t);
+            userRepository.save(u);
+
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+
+
+        }
+    }
+
+
 }
