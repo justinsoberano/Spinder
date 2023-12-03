@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d8d4359-54f7-40ed-b0e3-21e8abf401c6" name="Changes" comment="Updated User to hold top tracks &amp;&amp; created request endpoints for spotify related fields">
-      <change beforePath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/authentication/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/authentication/AuthController.java" afterDir="false" />
+    <list default="true" id="3d8d4359-54f7-40ed-b0e3-21e8abf401c6" name="Changes" comment="made top artist/top track infastructuere">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,7 +160,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701634878398</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="made top artist/top track infastructuere">
+      <option name="closed" value="true" />
+      <created>1701635156644</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1701635156644</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,6 +178,7 @@
     <MESSAGE value="profile picture controllers" />
     <MESSAGE value="Changed to work with mySQL" />
     <MESSAGE value="Updated User to hold top tracks &amp;&amp; created request endpoints for spotify related fields" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated User to hold top tracks &amp;&amp; created request endpoints for spotify related fields" />
+    <MESSAGE value="made top artist/top track infastructuere" />
+    <option name="LAST_COMMIT_MESSAGE" value="made top artist/top track infastructuere" />
   </component>
 </project>
