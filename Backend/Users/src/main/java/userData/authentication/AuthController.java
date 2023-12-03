@@ -8,7 +8,9 @@ import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 
+import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import se.michaelthelin.spotify.requests.data.playlists.AddItemsToPlaylistRequest;
 import se.michaelthelin.spotify.requests.data.playlists.CreatePlaylistRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
@@ -187,7 +190,7 @@ public class AuthController {
             CreatePlaylistRequest createPlaylist = spotifyAPI.createPlaylist(uuid, "Spinder Favs")
                     .collaborative(false)
                     .public_(false)
-                    .description("Generated with love on Spinder <3")
+                    .description("Generated with love from the Spinder Team <3")
                     .build();
 
             final Playlist playlist = createPlaylist.execute();
@@ -223,5 +226,31 @@ public class AuthController {
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    /**
+     *
+     */
+    @GetMapping("toptrack")
+    public void getTopTrack() {
+
+        User u = userRepository.findByUserName(username);
+
+         GetUsersTopTracksRequest getTopTrack = spotifyAPI.getUsersTopTracks()
+                .limit(1)
+                .time_range("long_term")
+                .build();
+
+         try {
+             final Paging<Track> topTrack = getTopTrack.execute();
+             Track[] t = new Track[0];
+             t = topTrack.getItems();
+
+             t[0].getName();
+             t[0].getAlbum().getImages()[0].getUrl();
+
+         } catch (IOException | SpotifyWebApiException | ParseException e) {
+                System.out.println("Error: " + e.getMessage());
+         }
     }
 }
