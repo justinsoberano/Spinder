@@ -8,6 +8,8 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import userData.stations.Station;
+import userData.trackCreation.TopFields.TopArtist;
+import userData.trackCreation.TopFields.TopTrack;
 import userData.trackCreation.Track.TrackRepository;
 import userData.stations.StationRepository;
 //import userData.trackCreation.Spotify.SpotifyController;
@@ -314,10 +316,14 @@ public class UserController {
     }
 
     @GetMapping(path="user/{username}/topTrack")
-    Track getTopTrack(@PathVariable String username){
+    TopTrack getTopTrack(@PathVariable String username){
         return userRepository.findByUserName(username).getTopTrack();
     }
 
+    @GetMapping(path="user/{username}/topTrack")
+    TopArtist getTopArist(@PathVariable String username){
+        return userRepository.findByUserName(username).getTopArtist();
+    }
 
     /**
      * Request for deleting a user

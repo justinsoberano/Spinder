@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import jdk.internal.joptsimple.internal.Strings;
 import userData.stations.Station;
+import userData.trackCreation.TopFields.TopArtist;
+import userData.trackCreation.TopFields.TopTrack;
 import userData.trackCreation.Track.Track;
 
 import java.util.List;
@@ -60,11 +62,13 @@ public class User {
      */
     private String playlistId;
 
-    private String topArtist;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "top_track_id")
+    private TopArtist topArtist;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "track_id")
-    private Track topTrack;
+    @JoinColumn(name = "top_track_id")
+    private TopTrack topTrack;
 
     /**
      * User stations
@@ -278,13 +282,13 @@ public class User {
         return this.playlistId;
     }
 
-    public String getTopArtist() { return this.topArtist; }
+    public TopArtist getTopArtist() { return this.topArtist; }
 
-    public void setTopArtist(String topArtist) {
+    public void setTopArtist(TopArtist topArtist) {
         this.topArtist = topArtist;
     }
 
-    public Track getTopTrack() { return this.topTrack; }
+    public TopTrack getTopTrack() { return this.topTrack; }
 
-    public void setTopTrack(Track topTrack) { this.topTrack = topTrack; }
+    public void setTopTrack(TopTrack topTrack) { this.topTrack = topTrack; }
 }

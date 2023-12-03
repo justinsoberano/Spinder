@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d8d4359-54f7-40ed-b0e3-21e8abf401c6" name="Changes" comment="Changed to work with mySQL">
+    <list default="true" id="3d8d4359-54f7-40ed-b0e3-21e8abf401c6" name="Changes" comment="Updated User to hold top tracks &amp;&amp; created request endpoints for spotify related fields">
+      <change afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/trackCreation/TopFields/TopArtist.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/trackCreation/TopFields/TopArtistsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/trackCreation/TopFields/TopTrack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/trackCreation/TopFields/TopTrackRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/trackCreation/Track/Track.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/trackCreation/Track/Track.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/authentication/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/authentication/AuthController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/users/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/users/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/users/UserController.java" afterDir="false" />
     </list>
@@ -14,6 +18,14 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -139,7 +151,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701630913458</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Updated User to hold top tracks &amp;&amp; created request endpoints for spotify related fields">
+      <option name="closed" value="true" />
+      <created>1701632549096</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1701632549096</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,6 +168,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="profile picture controllers" />
     <MESSAGE value="Changed to work with mySQL" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed to work with mySQL" />
+    <MESSAGE value="Updated User to hold top tracks &amp;&amp; created request endpoints for spotify related fields" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated User to hold top tracks &amp;&amp; created request endpoints for spotify related fields" />
   </component>
 </project>
