@@ -38,6 +38,10 @@ import org.json.JSONObject;
 public class ProfileScreen extends AppCompatActivity {
     TextView bio;
     ImageView profilePicture;
+    ImageView topSongImage;
+    ImageView topArtistImage;
+    TextView topSongName;
+    TextView topArtistName;
     TextView username;
     ImageView profileSettings;
     Button friends;
@@ -53,6 +57,10 @@ public class ProfileScreen extends AppCompatActivity {
         friends = findViewById(R.id.friends);
         profileSettings = findViewById(R.id.profileSettings);
         profilePicture = findViewById(R.id.profilePicture);
+        topSongImage = findViewById(R.id.topSongImage);
+        topSongName = findViewById(R.id.topSongName);
+        topArtistImage = findViewById(R.id.topArtistImage);
+        topArtistName = findViewById(R.id.topArtistName);
 
         profileSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +82,8 @@ public class ProfileScreen extends AppCompatActivity {
         if(GlobalVariables.isGuestUser == false){
             getProfilePicture();
         }
+        getTopSong();
+        getTopArtist();
 
         navBar();
     }
@@ -145,6 +155,69 @@ public class ProfileScreen extends AppCompatActivity {
                 }
         );
         requestQueue.add(stringRequest);
+    }
+
+    private void getTopSong() {
+        RequestQueue requestQueue = Volley.newRequestQueue(ProfileScreen.this);
+        String url = baseUrl + "user/" + GlobalVariables.userName + "/topTrack";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String songImage = response.getString("image");
+                            String songName = response.getString("name");
+                            Picasso.get().load(songImage).into(topSongImage);
+                            topSongName.setText(songName);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        );
+        requestQueue.add(jsonObjectRequest);
+    }
+
+
+    private void getTopArtist(){
+        RequestQueue requestQueue = Volley.newRequestQueue(ProfileScreen.this);
+        String url = baseUrl + "user/" + GlobalVariables.userName + "/topArtist";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String songImage = response.getString("image");
+                            String songName = response.getString("name");
+                            Picasso.get().load(songImage).into(topArtistImage);
+                            topArtistName.setText(songName);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        );
+        requestQueue.add(jsonObjectRequest);
     }
 
     private void navBar(){
