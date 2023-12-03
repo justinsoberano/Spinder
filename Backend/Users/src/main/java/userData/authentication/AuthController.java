@@ -153,6 +153,7 @@ public class AuthController {
         getCurrentUuid(u);
         getProfilePicture(u);
         createSpinderFavorites(u);
+        topArtist();
 
         System.out.println("[DEBUG] | " + username + " has successfully registered. \n[DEBUG] | Access Token: " + spotifyAPI.getAccessToken());
         return "You can now go back to the app.";
