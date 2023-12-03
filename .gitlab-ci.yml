@@ -5,15 +5,15 @@ stages:
 maven-build:
   stage: mavenbuild
   tags:
-    - justin_tag      # <-- change to your runner's tag
+    - qusaielwazir_tag      # <-- change to your runner's tag
   script:
-    - cd Backend/Users        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+    - cd Backend/Users         # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
     - mvn package
 
 maven-test:
   stage: maventest
   tags:
-    - justin_tag     # <-- change to your runner's tag
+    - qusaielwazir_tag     # <-- change to your runner's tag
   script:
     - cd Backend/Users       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
     - mvn test
