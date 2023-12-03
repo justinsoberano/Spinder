@@ -214,13 +214,24 @@ public class MusicSwipe extends AppCompatActivity {
                                 return true;
                             }
                         } else {
-                            if (absY > threshold && Math.abs(velocityY) > velocityThreshold && GlobalVariables.isGuestUser) {
+                            if (absY > threshold && Math.abs(velocityY) > velocityThreshold && GlobalVariables.isGuestUser == false) {
                                 if (yDif < 0) {
                                     //adds song to playlist in their spotify account
                                     String currentSongId;
                                     currentSongId = songIds.get(currentSongIndex);
                                     addSongToPlaylist(currentSongId);
                                     showToast("Song Added to Playlist");
+                                    currentSongIndex = (currentSongIndex + 1) % songImages.size();
+
+                                    if (mediaPlayer != null) {
+                                        mediaPlayer.release();
+                                    }
+                                    mediaPlayer = MediaPlayer.create(MusicSwipe.this, Uri.parse(songSnippets.get(currentSongIndex)));
+
+                                    getColors();
+                                    songNameView.setText(songNames.get(currentSongIndex));
+                                    artistNameView.setText(artistNames.get(currentSongIndex));
+                                    mediaPlayer.start();
                                     return true;
                                 }
                             }
