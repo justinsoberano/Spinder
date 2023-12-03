@@ -71,7 +71,10 @@ public class ProfileScreen extends AppCompatActivity {
         });
 
         getBioInfo();
-        getProfilePicture();
+        if(GlobalVariables.isGuestUser == false){
+            getProfilePicture();
+        }
+
         navBar();
     }
 

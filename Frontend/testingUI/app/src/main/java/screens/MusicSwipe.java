@@ -214,7 +214,7 @@ public class MusicSwipe extends AppCompatActivity {
                                 return true;
                             }
                         } else {
-                            if (absY > threshold && Math.abs(velocityY) > velocityThreshold) {
+                            if (absY > threshold && Math.abs(velocityY) > velocityThreshold && GlobalVariables.isGuestUser) {
                                 if (yDif < 0) {
                                     //adds song to playlist in their spotify account
                                     String currentSongId;

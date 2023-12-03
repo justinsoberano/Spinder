@@ -93,7 +93,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:backgroundTint="@color/black"
-            android:text="Sign Up"
+            android:text="Sign Up With Spotify"
+            android:textSize="18sp"
+            app:cornerRadius="20dp" />
+        <Button
+            android:id="@+id/signUpGuest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:backgroundTint="@color/black"
+            android:text="Sign Up As Guest"
             android:textSize="18sp"
             app:cornerRadius="20dp" />
     </LinearLayout>
