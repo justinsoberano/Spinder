@@ -313,6 +313,11 @@ public class UserController {
         return t;
     }
 
+    @GetMapping(path="user/{username}/topTrack")
+    Track getTopTrack(@PathVariable String username){
+        return userRepository.findByUserName(username).getTopTrack();
+    }
+
 
     /**
      * Request for deleting a user
@@ -337,6 +342,8 @@ public class UserController {
                 return "failure";
         }
     }
+
+
 
     /**
      * Request for deleting all users

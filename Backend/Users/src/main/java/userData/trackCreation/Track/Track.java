@@ -7,6 +7,7 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import userData.stations.Station;
+import userData.users.User;
 
 /**
  * Track class that holds all the information about a song.
@@ -51,6 +52,10 @@ public class Track {
     @OneToOne
     @JsonIgnore
     private Station station;
+
+    @OneToOne
+    @JsonIgnore
+    private User user;
 
     /**
      * Default constructor
