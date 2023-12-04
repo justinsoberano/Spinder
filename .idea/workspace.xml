@@ -4,30 +4,81 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="27e646b4-560b-4dd1-92f0-8e24d22ce250" name="Changes" comment="made top artist/top track infastructuere">
+    <list default="true" id="27e646b4-560b-4dd1-92f0-8e24d22ce250" name="Changes" comment="Fixing everything">
+      <change afterPath="$PROJECT_DIR$/Backend/Users/src/test/application-logging-test.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Users/src/test/java/userData/SystemTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Users/src/test/resources/logback-test.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Users/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/authentication/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/authentication/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/trackCreation/TopFields/TopTrack.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/trackCreation/TopFields/TopTrack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/users/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/users/UserController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main-fix" />
+        <entry key="$PROJECT_DIR$" value="main-qusai" />
       </map>
     </option>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "main-qusai",
-    "node.js.selected.package.tslint": "(autodetect)"
+    "git-widget-placeholder": "main-qusai-testing",
+    "last_opened_file_path": "/Users/aisquaisqu/IdeaProjects/sd_323",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Backend/Users/src/test" />
+      <recent name="$PROJECT_DIR$/Backend/Users/src/test/java" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.SystemTest.reverseTest">
+    <configuration name="SystemTest.reverseTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Users" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="userData.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="myapp" />
+      <option name="MAIN_CLASS_NAME" value="userData.SystemTest" />
+      <option name="METHOD_NAME" value="reverseTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="Users" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="userData.Main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.SystemTest.reverseTest" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="TaskManager">
     <task id="LOCAL-00001" summary="added topTrack stuff">
       <option name="closed" value="true" />
@@ -37,12 +88,32 @@
       <option name="project" value="LOCAL" />
       <updated>1701640488945</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Fixing everything">
+      <option name="closed" value="true" />
+      <created>1701723215111</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1701723215111</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-websocket" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.persistence:jakarta.persistence-api" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.data:spring-data-commons" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-messaging" />
+    <option featureType="dependencySupport" implementationName="java:javax.validation:validation-api" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
+    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added topTrack stuff" />
     <MESSAGE value="made top artist/top track infastructuere" />
-    <option name="LAST_COMMIT_MESSAGE" value="made top artist/top track infastructuere" />
+    <MESSAGE value="Fixing everything" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing everything" />
   </component>
 </project>
