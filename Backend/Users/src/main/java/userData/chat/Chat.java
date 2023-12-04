@@ -19,7 +19,7 @@ import userData.chat.ChatRoom.ChatRoom;
 import userData.users.UserRepository;
 import userData.users.User;
 
-@ServerEndpoint("/{userName}/chat/{friend}")
+@ServerEndpoint("/{username}/chat/{friend}")
 @Component
 public class Chat {
 
