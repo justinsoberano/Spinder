@@ -87,45 +87,58 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="0dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/topSongImage"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="16dp"
-            android:contentDescription="Top Song Image"
-            app:civ_border_color="#FFFFFF"
-            app:civ_border_width="1dp" />
-
-        <TextView
-            android:id="@+id/topSongName"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/topSongImage"
-            android:layout_alignStart="@id/topSongImage"
-            android:layout_marginTop="8dp"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            android:id="@+id/topSong">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/topSongImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="Top Song Image"
+                app:civ_border_color="#FFFFFF"
+                app:civ_border_width="1dp" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/topArtistImage"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="16dp"
-            android:layout_toEndOf="@+id/topSongImage"
-            android:contentDescription="Top Song Image"
-            app:civ_border_color="#FFFFFF"
-            app:civ_border_width="1dp" />
+            <TextView
+                android:id="@+id/topSongName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/topSongImage"
+                android:layout_marginTop="8dp"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/topArtistName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/topArtistImage"
-            android:layout_alignStart="@id/topArtistImage"
-            android:layout_marginTop="8dp"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+      <RelativeLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_toEndOf="@+id/topSong"
+          android:layout_marginStart="60dp"
+
+          android:id="@+id/topArtist">
+          <de.hdodenhof.circleimageview.CircleImageView
+              android:id="@+id/topArtistImage"
+              android:layout_width="120dp"
+              android:layout_height="120dp"
+              android:layout_marginTop="16dp"
+              android:contentDescription="Top Song Image"
+              app:civ_border_color="#FFFFFF"
+              app:civ_border_width="1dp" />
+
+          <TextView
+              android:id="@+id/topArtistName"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerHorizontal="true"
+              android:layout_below="@+id/topArtistImage"
+              android:layout_marginTop="8dp"
+              android:textColor="#FFFFFF"
+              android:textSize="20sp" />
+      </RelativeLayout>
+
+
 
     </RelativeLayout>
 
