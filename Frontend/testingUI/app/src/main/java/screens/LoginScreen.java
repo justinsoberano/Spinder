@@ -60,7 +60,7 @@ public class LoginScreen extends AppCompatActivity {
                 String enteredPassword = password.getText().toString();
                 GlobalVariables.userName = enteredUsername;
 
-                //ONLY USE WHEN SERVER ISNT RUNNING AND YOU NEED TO GET INTO THE APP ONLY FOR TESTING
+                //ONLY USE WHEN SERVER ISNT RUNNING AND YOU NEED TO GET INTO THE APP ONLY FOR TESTING !!!
 //                    Intent intent = new Intent(LoginScreen.this, SeedSetter.class);
 //                    startActivity(intent);
 
