@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import userData.chat.ChatRoom.ChatRoomRepository;
 import userData.chat.ChatRoom.ChatRoom;
 import userData.users.UserRepository;
-import userData.users.User;
 
 @ServerEndpoint("/{username}/chat/{friend}")
 @Component
@@ -36,8 +35,8 @@ public class Chat {
     private static Map <String, Session> searchChat = new Hashtable<>();
 
     private ChatRoom chat;
-    private String userName;
-    private String friendUsername;
+    private String username;
+    private String friend_username;
 
     // Logger for terminal output and debugging
     private final Logger logger = LoggerFactory.getLogger(Chat.class);
@@ -46,28 +45,35 @@ public class Chat {
      * Connects the user to the websocket.
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String userName, @PathParam("friend") String friendUsername) throws IOException {
+    public void onOpen(Session session, @PathParam("username") String username, @PathParam("friend") String friend_username) throws IOException {
 
-        this.userName = userName;
-        this.friendUsername = friendUsername;
+        this.username = username;
+        this.friend_username = friend_username;
 
-        /* Finds the id of each user and adds them together for the ChatRoom Id */
-         User u1 = userRepo.findByUserName(userName);
-         User u2 = userRepo.findByUserName(friendUsername);
-         if(u1 == null || u2 == null){
-             return;
-         }
+        int id = 0;
+        for(int i = 0; i < username.length(); i++) {
+            id += username.charAt(i);
+        }
+        for(int i = 0; i < friend_username.length(); i++) {
+            id += friend_username.charAt(i);
+        }
 
-         chatSession.put(session, userName);
-         searchChat.put(userName, session);
+        // Handle the case of a duplicate username
+        if (searchChat.containsKey(username)) {
+            session.getBasicRemote().sendText("Username already exists");
+            session.close();
+        } else {
+            chatSession.put(session, username);
+            searchChat.put(username, session);
+        }
 
-        if(chatRepo.findByUserOneAndUserTwo(userName, friendUsername) == null) {
-            logger.info("[CHAT CREATED]");
-            chat = new ChatRoom(userName, friendUsername);
+        if(!chatRepo.existsById(id)) {
+            logger.info("[CHAT CREATED]" + "id: " + id);
+            chat = new ChatRoom(id, username, friend_username);
             chatRepo.save(chat);
         } else {
-            logger.info("[CHAT OPENED]");
-            chat = chatRepo.findByUserOneAndUserTwo(userName, friendUsername);
+            logger.info("[CHAT OPENED]" + "id: " + id);
+            chat = chatRepo.findById(id);
             loadHistory(session, chat);
         }
     }
@@ -80,21 +86,21 @@ public class Chat {
      */
     @OnClose
     public void onClose(Session session) throws IOException {
-        String userName = chatSession.get(session);
-        logger.info("[DISCONNECTED] " + userName);
+        String username = chatSession.get(session);
+        logger.info("[DISCONNECTED] " + username);
 
         chatSession.remove(session);
-        searchChat.remove(userName);
+        searchChat.remove(username);
     }
 
     @OnError
     public void onError(Session session, Throwable throwable) {
 
-        // get the userName from session-userName mapping
-        String userName = chatSession.get(session);
+        // get the username from session-username mapping
+        String username = chatSession.get(session);
 
         // do error handling here
-        logger.info("[onError]" + userName + ": " + throwable.getMessage());
+        logger.info("[onError]" + username + ": " + throwable.getMessage());
     }
 
 
@@ -117,8 +123,8 @@ public class Chat {
         sendMessage(session, sender, message);
 
         // If the friend is different and connected, send them the message.
-        if(!sender.equals(friendUsername)) {
-            Session friendSession = searchChat.get(friendUsername);
+        if(!sender.equals(friend_username)) {
+            Session friendSession = searchChat.get(friend_username);
             if(friendSession != null) {
                 sendMessage(friendSession, sender, message);
             }
@@ -149,8 +155,5 @@ public class Chat {
             }
         }
     }
-
-    void getRoom(String u1, String u2){
-        chatRepo.findByUserOneAndUserTwo(u1, u2);
-    }
 }
+

@@ -1,5 +1,8 @@
 package userData.chat.ChatRoom;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,14 +17,16 @@ public class ChatRoom {
     private String userTwo;
     private String userOne;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "message_id")
     private List<Message> messages = new ArrayList<>();
 
     public ChatRoom() {}
 
-    public ChatRoom( String userOne, String userTwo) {
+    public ChatRoom(int id, String userOne, String userTwo) {
         this.userOne = userOne;
         this.userTwo = userTwo;
+        this.id = id;
     }
 
     public int getId() {
@@ -56,22 +61,5 @@ public class ChatRoom {
         messages.add(new Message(user, content));
     }
 
-    @Embeddable
-    public class Message {
-
-        private String user;
-        private String content;
-
-        public Message(String user, String content) {
-            this.user = user;
-            this.content = content;
-        }
-
-        public Message() {}
-
-        public String getUser() { return user; }
-
-        public String getContent() { return content; }
-    }
 }
 

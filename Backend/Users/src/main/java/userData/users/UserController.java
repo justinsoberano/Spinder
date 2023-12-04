@@ -89,7 +89,7 @@ public class UserController {
         Random r = new Random();
         User u = new User();
         u.setId(Math.abs(r.nextInt() % 100000));
-        Station s = new Station(u.getId()); // same id as owner
+        Station s = new Station(u.getId() + 1); // same id as owner
         s.setTempo(50);
         s.setPopularity(50);
         s.setVolume(50);

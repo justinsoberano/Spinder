@@ -50,7 +50,7 @@ public class AuthController {
     /**
      * This is the username of the user that is currently logged in.
      */
-    private String username;
+    private String user;
 
     /**
      * This is the redirect URI that Spotify will send the user to after they have logged in.
@@ -123,7 +123,7 @@ public class AuthController {
                 .show_dialog(true)
                 .build();
 
-        this.username = username;
+        this.user = username;
         final URI uri = authorizationCodeUriRequest.execute();
         response.sendRedirect(uri.toString());
     }
@@ -148,7 +148,7 @@ public class AuthController {
             System.out.println("ERROR: " + e.getMessage());
         }
 
-        User u = userRepository.findByUserName(username);
+        User u = userRepository.findByUserName(user);
         u.setAccessKey(spotifyAPI.getAccessToken());
         userRepository.save(u);
 
@@ -158,16 +158,14 @@ public class AuthController {
         topArtist();
         topTrack();
 
-        System.out.println("[DEBUG] | " + username + " has successfully registered. \n[DEBUG] | Access Token: " + spotifyAPI.getAccessToken());
+        System.out.println("[DEBUG] | " + user + " has successfully registered. \n[DEBUG] | Access Token: " + spotifyAPI.getAccessToken());
         return "You can now go back to the app.";
     }
 
     public void getCurrentUuid(User u) {
         GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyAPI.getCurrentUsersProfile()
                 .build();
-
         try {
-
             final se.
                     michaelthelin.
                     spotify.
@@ -216,7 +214,6 @@ public class AuthController {
 
             System.out.println("[DEBUG] | Playlist created for " + u.getUserName() + " called, " + playlist.getName());
 
-
             final String playlistId = playlist.getId();
 
             System.out.println("[DEBUG] | Playlist ID: " + playlistId);
@@ -237,6 +234,8 @@ public class AuthController {
         String[] trackUri = new String[]{"spotify:track:" + track};
         String playlistId = u.getPlaylistId();
 
+        spotifyAPI.setAccessToken(u.getAccessKey());
+
         AddItemsToPlaylistRequest addTrack = spotifyAPI
                 .addItemsToPlaylist(playlistId, trackUri)
                 .build();
@@ -248,7 +247,7 @@ public class AuthController {
     }
 
     public void topArtist() {
-        User u = userRepository.findByUserName(username);
+        User u = userRepository.findByUserName(user);
         GetUsersTopArtistsRequest getTopAritst = spotifyAPI.getUsersTopArtists()
                 .limit(1)
                 .time_range("long_term")
@@ -271,7 +270,7 @@ public class AuthController {
     }
 
     public void topTrack() {
-        User u = userRepository.findByUserName(username);
+        User u = userRepository.findByUserName(user);
         GetUsersTopTracksRequest getTopTrack = spotifyAPI.getUsersTopTracks()
                 .limit(1)
                 .time_range("long_term")

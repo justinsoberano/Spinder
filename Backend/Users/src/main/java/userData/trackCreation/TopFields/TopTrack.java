@@ -1,11 +1,13 @@
 package userData.trackCreation.TopFields;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class TopTrack {
 
+    @GeneratedValue
     @Id
     int id;
     private String name;

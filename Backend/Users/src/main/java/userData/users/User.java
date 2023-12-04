@@ -2,6 +2,7 @@ package userData.users;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import userData.stations.Station;
 import userData.trackCreation.TopFields.TopArtist;
 import userData.trackCreation.TopFields.TopTrack;
@@ -79,6 +80,7 @@ public class User {
     /**
      * User friends
      */
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<User> friends;

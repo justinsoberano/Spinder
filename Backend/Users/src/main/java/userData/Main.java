@@ -18,22 +18,4 @@ class Main {
         SpringApplication.run(Main.class, args);
     }
 
-    @Bean
-    CommandLineRunner initUser(UserRepository userRepository, StationRepository stationRepository, TrackRepository trackRepository) {
-        return args -> {
-            User user1 = new User(1, "Qusai", "I love music", "https://media.wired.com/photos/598e35fb99d76447c4eb1f28/master/pass/phonepicutres-TA.jpg",
-                    "key");
-            Station station1 = new Station(1);
-            Track seed1 = new Track("","","","","","");
-
-            station1.setSeed(seed1);
-            user1.setStation(station1);
-
-            userRepository.save(user1);
-            trackRepository.save(seed1);
-            stationRepository.save(station1);
-        };
-    }
-
-
 }
