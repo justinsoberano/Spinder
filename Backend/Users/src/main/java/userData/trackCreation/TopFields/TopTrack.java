@@ -18,6 +18,10 @@ public class TopTrack {
 
     private String image;
 
+    private String preview;
+
+    private String artist;
+
     @OneToOne
     @JsonIgnore
     private User user;
@@ -48,5 +52,21 @@ public class TopTrack {
 
     public int getId() {
         return id;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setPreview(String preview) {
+        this.preview = preview;
+    }
+
+    public String getPreview() {
+        return preview;
     }
 }

@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="27e646b4-560b-4dd1-92f0-8e24d22ce250" name="Changes" comment="added topTrack stuff">
+    <list default="true" id="27e646b4-560b-4dd1-92f0-8e24d22ce250" name="Changes" comment="made top artist/top track infastructuere">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/authentication/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/authentication/AuthController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/trackCreation/TopFields/TopTrack.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Users/src/main/java/userData/trackCreation/TopFields/TopTrack.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -13,10 +14,17 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main-fix" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "main-qusai",
     "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
@@ -34,6 +42,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added topTrack stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="added topTrack stuff" />
+    <MESSAGE value="made top artist/top track infastructuere" />
+    <option name="LAST_COMMIT_MESSAGE" value="made top artist/top track infastructuere" />
   </component>
 </project>

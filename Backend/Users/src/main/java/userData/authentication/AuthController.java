@@ -282,6 +282,8 @@ public class AuthController {
             TopTrack t = new TopTrack();
             t.setName(a[0].getName());
             t.setImage(a[0].getAlbum().getImages()[0].getUrl());
+            t.setArtist(a[0].getAlbum().getArtists()[0].getName());
+            t.setPreview(a[0].getPreviewUrl());
             u.setTopTrack(t);
             topTrackRepository.save(t);
             userRepository.save(u);
