@@ -61,7 +61,7 @@ public class ProfileScreen extends AppCompatActivity {
         topArtistImage = findViewById(R.id.topArtistImage);
         topArtistName = findViewById(R.id.topArtistName);
         editProfile = findViewById(R.id.editProfile);
-        //get rif sfksofj
+        //get rif sf
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
