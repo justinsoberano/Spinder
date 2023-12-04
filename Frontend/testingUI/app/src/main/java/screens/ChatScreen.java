@@ -71,7 +71,6 @@ public class ChatScreen extends AppCompatActivity implements WebSocketListener{
         connect = findViewById(R.id.connect);
         textLayout = findViewById(R.id.textLayout);
 
-
         connect.setOnClickListener(view -> {
             String serverUrl = BASE_URL + GlobalVariables.userName + "/chat/" + friendToChat.getText().toString();
 

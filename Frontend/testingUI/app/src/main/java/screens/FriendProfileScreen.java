@@ -48,8 +48,7 @@ public class FriendProfileScreen extends AppCompatActivity {
         getInfo(GlobalVariables.friendUserName);
     }
 
-
-    private void getUser(String username) {//will need a get request to retrieve username form profile screen
+    private void getUser(String username) {//will need a get request to retrieve username from profile screen
         RequestQueue requestQueue = Volley.newRequestQueue(FriendProfileScreen.this);//might need to grab request from ProfileScreen directly
         String url = baseUrl + "user/" + username; //make sure global variable stays the same for each user request
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -99,7 +98,6 @@ public class FriendProfileScreen extends AppCompatActivity {
     private void getInfo(String username){//will eventually get the bio and profile pic from spotify
         RequestQueue requestQueue = Volley.newRequestQueue(FriendProfileScreen.this);
         String urlBio = "http://coms-309-056.class.las.iastate.edu:8080/user/"+ username + "/profile/";
-        //String urlImage = "http://coms-309-056.class.las.iastate.edu:8080/user/"+ username + "/image/url/";
         StringRequest stringRequestBio = new StringRequest(
                 Request.Method.GET, urlBio,
                 new Response.Listener<String>() {
@@ -117,24 +115,6 @@ public class FriendProfileScreen extends AppCompatActivity {
                 }
         );
         requestQueue.add(stringRequestBio);
-//        StringRequest stringRequestImage = new StringRequest( //will need to tweak this for image url
-//                Request.Method.GET, urlImage,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        Log.d("Volley Response", response);
-//
-//                        //bioF.setdra(response);//will need a set image
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        error.printStackTrace();
-//                    }
-//                }
-//        );
-//        requestQueue.add(stringRequestImage);
     }
 
 

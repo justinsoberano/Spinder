@@ -67,8 +67,6 @@ public class LoginScreen extends AppCompatActivity {
                 if(validateLogin(enteredUsername, enteredPassword)){
                     Intent intent = new Intent(LoginScreen.this, SeedSetter.class);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(LoginScreen.this, "User Not Found", Toast.LENGTH_SHORT).show();
                 }
             }
         });

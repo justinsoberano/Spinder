@@ -81,9 +81,9 @@ public class ProfileScreen extends AppCompatActivity {
         getBioInfo();
         if(GlobalVariables.isGuestUser == false){
             getProfilePicture();
+            getTopSong();
+            getTopArtist();
         }
-        getTopSong();
-        getTopArtist();
 
         navBar();
     }

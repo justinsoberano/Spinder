@@ -7,40 +7,45 @@
     android:id="@+id/relativeLayout"
     android:background="@color/black">
 
-    <!-- Profile Picture -->
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profilePictureF"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/profilekendall"
-        android:contentDescription="Profile Picture"
-        app:civ_border_width="1dp"
-        app:civ_border_color="#FFFFFF" />
+  <RelativeLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp">
+      <!-- Profile Picture -->
+      <de.hdodenhof.circleimageview.CircleImageView
+          android:id="@+id/profilePictureF"
+          android:layout_width="120dp"
+          android:layout_height="120dp"
+          android:layout_marginStart="16dp"
+          android:layout_marginTop="16dp"
+          android:src="@drawable/profilekendall"
+          android:contentDescription="Profile Picture"
+          app:civ_border_width="1dp"
+          app:civ_border_color="#FFFFFF" />
 
-    <!-- Username -->
-    <TextView
-        android:id="@+id/usernameF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_toEndOf="@+id/profilePictureF"
-        android:text="Friend"
-        android:textColor="#FFFFFF"
-        android:textSize="50sp" />
+      <!-- Username -->
+      <TextView
+          android:id="@+id/usernameF"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="16dp"
+          android:layout_marginTop="24dp"
+          android:layout_toEndOf="@+id/profilePictureF"
+          android:text="Friend"
+          android:textColor="#FFFFFF"
+          android:textSize="50sp" />
 
-    <!-- Bio TextView -->
-    <TextView
-        android:id="@+id/bioF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profilePictureF"
-        android:layout_alignStart="@id/profilePictureF"
-        android:layout_marginTop="8dp"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp" />
+      <!-- Bio TextView -->
+      <TextView
+          android:id="@+id/bioF"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/profilePictureF"
+          android:layout_alignStart="@id/profilePictureF"
+          android:layout_marginTop="8dp"
+          android:textColor="#FFFFFF"
+          android:textSize="20sp" />
+  </RelativeLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
