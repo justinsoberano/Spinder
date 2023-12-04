@@ -19,7 +19,8 @@ public class ChatRoom {
 
     public ChatRoom() {}
 
-    public ChatRoom( String userOne, String userTwo) {
+    public ChatRoom(int id, String userOne, String userTwo) {
+        this.id = id;
         this.userOne = userOne;
         this.userTwo = userTwo;
     }
