@@ -1,8 +1,12 @@
 package userData.trackCreation.TopFields;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import userData.users.User;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class TopTrack {
@@ -13,6 +17,10 @@ public class TopTrack {
     private String name;
 
     private String image;
+
+    @OneToOne
+    @JsonIgnore
+    private User user;
 
     public TopTrack(){
 
