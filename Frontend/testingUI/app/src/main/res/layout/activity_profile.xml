@@ -105,6 +105,14 @@
                     app:civ_border_color="#FFFFFF"
                     app:civ_border_width="1dp" />
 
+                <ImageView
+                    android:id="@+id/playSnippet"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="Play Snippet Image"
+                    android:src="@drawable/play_snippet" />
+
                 <TextView
                     android:id="@+id/topSongName"
                     android:layout_width="wrap_content"

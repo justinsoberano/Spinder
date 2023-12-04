@@ -8,7 +8,7 @@
     android:background="@color/black">
 
   <RelativeLayout
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="20dp">
       <!-- Profile Picture -->
@@ -45,6 +45,99 @@
           android:layout_marginTop="8dp"
           android:textColor="#FFFFFF"
           android:textSize="20sp" />
+
+
+      <RelativeLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/bioF"
+          android:layout_centerHorizontal="true"
+          android:layout_marginStart="1dp"
+          android:layout_marginTop="20dp">
+
+          <RelativeLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/topSongF">
+
+              <TextView
+                  android:id="@+id/topSongTextF"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerHorizontal="true"
+                  android:layout_above="@+id/topSongImageF"
+                  android:layout_marginBottom="-40dp"
+                  android:text="Top Song"
+                  android:textColor="@color/white"
+                  android:textSize="20sp" />
+
+              <de.hdodenhof.circleimageview.CircleImageView
+                  android:id="@+id/topSongImageF"
+                  android:layout_width="150dp"
+                  android:layout_height="150dp"
+                  android:layout_marginTop="50dp"
+                  android:contentDescription="Top Song Image"
+                  app:civ_border_color="#FFFFFF"
+                  app:civ_border_width="1dp" />
+
+              <ImageView
+                  android:id="@+id/playSnippetF"
+                  android:layout_width="48dp"
+                  android:layout_height="48dp"
+                  android:layout_centerInParent="true"
+                  android:contentDescription="Play Snippet Image"
+                  android:src="@drawable/play_snippet" />
+
+              <TextView
+                  android:id="@+id/topSongNameF"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerHorizontal="true"
+                  android:layout_below="@+id/topSongImageF"
+                  android:layout_marginTop="8dp"
+                  android:textColor="#FFFFFF"
+                  android:textSize="20sp" />
+          </RelativeLayout>
+
+          <RelativeLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_toEndOf="@+id/topSongF"
+              android:layout_marginStart="60dp"
+              android:id="@+id/topArtistF">
+
+              <TextView
+                  android:id="@+id/topArtistTextF"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerHorizontal="true"
+                  android:layout_above="@+id/topArtistImageF"
+                  android:layout_marginBottom="-40dp"
+                  android:text="Top Artist"
+                  android:textColor="@color/white"
+                  android:textSize="20sp" />
+
+              <de.hdodenhof.circleimageview.CircleImageView
+                  android:id="@+id/topArtistImageF"
+                  android:layout_width="150dp"
+                  android:layout_height="150dp"
+                  android:layout_marginTop="50dp"
+                  android:contentDescription="Top Song Image"
+                  app:civ_border_color="#FFFFFF"
+                  app:civ_border_width="1dp" />
+
+              <TextView
+                  android:id="@+id/topArtistNameF"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerHorizontal="true"
+                  android:layout_below="@+id/topArtistImageF"
+                  android:layout_marginTop="8dp"
+                  android:textColor="#FFFFFF"
+                  android:textSize="20sp" />
+          </RelativeLayout>
+      </RelativeLayout>
+
   </RelativeLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

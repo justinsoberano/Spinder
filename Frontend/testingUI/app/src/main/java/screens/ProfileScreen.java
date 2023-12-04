@@ -45,7 +45,10 @@ public class ProfileScreen extends AppCompatActivity {
     TextView username;
     Button editProfile;
     Button friends;
+    ImageView playSnippet;
+    private MediaPlayer mediaPlayer;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
+    String topSongPreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +64,14 @@ public class ProfileScreen extends AppCompatActivity {
         topArtistImage = findViewById(R.id.topArtistImage);
         topArtistName = findViewById(R.id.topArtistName);
         editProfile = findViewById(R.id.editProfile);
-        //get rif sf
+        playSnippet = findViewById(R.id.playSnippet);
+
+        playSnippet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playSnippet();
+            }
+        });
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +97,11 @@ public class ProfileScreen extends AppCompatActivity {
         }
 
         navBar();
+    }
+
+    private void playSnippet(){
+        mediaPlayer = MediaPlayer.create(ProfileScreen.this, Uri.parse(topSongPreview));
+        mediaPlayer.start();
     }
 
     private void getBioInfo(){
@@ -172,6 +187,8 @@ public class ProfileScreen extends AppCompatActivity {
                         try {
                             String songImage = response.getString("image");
                             String songName = response.getString("name");
+                            String songSnippet = response.getString("preview");
+                            topSongPreview = songSnippet;
                             Picasso.get().load(songImage).into(topSongImage);
                             topSongName.setText(songName);
                         } catch (JSONException e) {
@@ -188,7 +205,6 @@ public class ProfileScreen extends AppCompatActivity {
         );
         requestQueue.add(jsonObjectRequest);
     }
-
 
     private void getTopArtist(){
         RequestQueue requestQueue = Volley.newRequestQueue(ProfileScreen.this);
@@ -227,6 +243,9 @@ public class ProfileScreen extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId() == R.id.menu_discover){
+                    if (mediaPlayer != null) {
+                        mediaPlayer.release();
+                    }
                     Intent discoverIntent = new Intent(ProfileScreen.this, MusicSwipe.class);
                     startActivity(discoverIntent);
                     return true;
