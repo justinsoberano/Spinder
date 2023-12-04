@@ -7,140 +7,136 @@
     android:id="@+id/relativeLayout"
     android:background="@color/black">
 
-    <!-- Profile Picture -->
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profilePicture"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/profilekendall"
-        android:contentDescription="Profile Picture"
-        app:civ_border_width="1dp"
-        app:civ_border_color="#FFFFFF" />
-
-    <!-- Friends Button -->
-    <Button
-        android:id="@+id/friends"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/username"
-        android:layout_toEndOf="@+id/profilePicture"
-        android:backgroundTint="@color/gray"
-        android:text="Friends"
-        android:textSize="15sp"
-        app:cornerRadius="20dp" />
-
-    <Button
-        android:id="@+id/editProfile"
-        android:layout_width="145dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/username"
-        android:layout_marginLeft="5dp"
-        android:layout_toEndOf="@+id/friends"
-        android:backgroundTint="@color/gray"
-        android:text="Edit Profile"
-        android:textSize="15sp"
-        app:cornerRadius="20dp" />
-
-    <!-- Username -->
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_toEndOf="@+id/profilePicture"
-        android:text="Kendall"
-        android:textColor="#FFFFFF"
-        android:textSize="50sp" />
-
-    <ImageView
-        android:id="@+id/profileSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/profile_settings"
-        android:contentDescription="Profile Settings Icon"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"/>
-
-    <!-- Bio TextView -->
-    <TextView
-        android:id="@+id/bio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profilePicture"
-        android:layout_alignStart="@id/profilePicture"
-        android:layout_marginTop="8dp"
-        android:text="You're cute jeans"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp" />
-
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bio"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="0dp">
+        android:layout_marginTop="10dp">
+        <!-- Profile Picture -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/profilekendall"
+            android:contentDescription="Profile Picture"
+            app:civ_border_width="1dp"
+            app:civ_border_color="#FFFFFF" />
+
+        <!-- Friends Button -->
+        <Button
+            android:id="@+id/friends"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username"
+            android:layout_toEndOf="@+id/profilePicture"
+            android:backgroundTint="@color/gray"
+            android:text="Friends"
+            android:textSize="15sp"
+            app:cornerRadius="20dp" />
+
+        <Button
+            android:id="@+id/editProfile"
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/friends"
+            android:backgroundTint="@color/gray"
+            android:text="Edit Profile"
+            android:textSize="15sp"
+            app:cornerRadius="20dp" />
+
+        <!-- Username -->
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_toEndOf="@+id/profilePicture"
+            android:text="Kendall"
+            android:textColor="#FFFFFF"
+            android:textSize="50sp" />
+
+        <!-- Bio TextView -->
+        <TextView
+            android:id="@+id/bio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profilePicture"
+            android:layout_alignStart="@id/profilePicture"
+            android:layout_marginTop="8dp"
+            android:text="You're cute jeans"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/topSong">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/topSongImage"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="Top Song Image"
-                app:civ_border_color="#FFFFFF"
-                app:civ_border_width="1dp" />
+            android:layout_below="@+id/bio"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="0dp">
 
-            <TextView
-                android:id="@+id/topSongName"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/topSongImage"
-                android:layout_marginTop="8dp"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp" />
+                android:id="@+id/topSong">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/topSongImage"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="16dp"
+                    android:contentDescription="Top Song Image"
+                    app:civ_border_color="#FFFFFF"
+                    app:civ_border_width="1dp" />
+
+                <TextView
+                    android:id="@+id/topSongName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/topSongImage"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/topSong"
+                android:layout_marginStart="60dp"
+
+                android:id="@+id/topArtist">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/topArtistImage"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="16dp"
+                    android:contentDescription="Top Song Image"
+                    app:civ_border_color="#FFFFFF"
+                    app:civ_border_width="1dp" />
+
+                <TextView
+                    android:id="@+id/topArtistName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/topArtistImage"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+
+
         </RelativeLayout>
-
-      <RelativeLayout
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_toEndOf="@+id/topSong"
-          android:layout_marginStart="60dp"
-
-          android:id="@+id/topArtist">
-          <de.hdodenhof.circleimageview.CircleImageView
-              android:id="@+id/topArtistImage"
-              android:layout_width="150dp"
-              android:layout_height="150dp"
-              android:layout_marginTop="16dp"
-              android:contentDescription="Top Song Image"
-              app:civ_border_color="#FFFFFF"
-              app:civ_border_width="1dp" />
-
-          <TextView
-              android:id="@+id/topArtistName"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_centerHorizontal="true"
-              android:layout_below="@+id/topArtistImage"
-              android:layout_marginTop="8dp"
-              android:textColor="#FFFFFF"
-              android:textSize="20sp" />
-      </RelativeLayout>
-
-
-
     </RelativeLayout>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

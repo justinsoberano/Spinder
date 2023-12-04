@@ -43,7 +43,7 @@ public class ProfileScreen extends AppCompatActivity {
     TextView topSongName;
     TextView topArtistName;
     TextView username;
-    ImageView profileSettings;
+    Button editProfile;
     Button friends;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
 
@@ -55,14 +55,14 @@ public class ProfileScreen extends AppCompatActivity {
         bio = findViewById(R.id.bio);
         username = findViewById(R.id.username);
         friends = findViewById(R.id.friends);
-        profileSettings = findViewById(R.id.profileSettings);
         profilePicture = findViewById(R.id.profilePicture);
         topSongImage = findViewById(R.id.topSongImage);
         topSongName = findViewById(R.id.topSongName);
         topArtistImage = findViewById(R.id.topArtistImage);
         topArtistName = findViewById(R.id.topArtistName);
+        editProfile = findViewById(R.id.editProfile);
 
-        profileSettings.setOnClickListener(new View.OnClickListener() {
+        editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent profSettings = new Intent(ProfileScreen.this, ProfileSettings.class);
