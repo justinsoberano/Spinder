@@ -83,9 +83,9 @@ public class UserController {
      */
 
     @PostMapping(path = "/user/{name}/{password}")
-    User createUser(@PathVariable String name, @PathVariable String password) throws IOException {
+    String createUser(@PathVariable String name, @PathVariable String password) throws IOException {
         if (userRepository.findByUserName(name) != null) {
-            return null;
+            return "Post Request Failed";
         }
         Random r = new Random();
         User u = new User();
@@ -99,27 +99,8 @@ public class UserController {
         u.setStation(s);
         stationRepository.save(s);
         userRepository.save(u);
-        return u;
+        return "success";
     }
-//    @PostMapping(path = "/user/{name}/{password}")
-//    String createUser(@PathVariable String name, @PathVariable String password) throws IOException {
-//        if (userRepository.findByUserName(name) != null) {
-//            return "Post Request Failed";
-//        }
-//        Random r = new Random();
-//        User u = new User();
-//        u.setId(Math.abs(r.nextInt() % 100000));
-//        Station s = new Station(u.getId() + 1); // same id as owner
-//        s.setTempo(50);
-//        s.setPopularity(50);
-//        s.setVolume(50);
-//        u.setUserName(name);
-//        u.setPassword(password);
-//        u.setStation(s);
-//        stationRepository.save(s);
-//        userRepository.save(u);
-//        return "success";
-//    }
 
     /**
      * Get mapping for getting user by id

@@ -34,14 +34,15 @@ public class SystemTest {
         RestAssured.baseURI = "http://localhost";
     }
 
+
     @Test
-    public void reverseTest() {
+    public void userCreateTest() {
         // Send request and receive response
         Response response = RestAssured.given().
                 header("Content-Type", "text/plain").
                 header("charset","utf-8").
                 when().
-                post("/user/test1/test1");
+                post("/user/testUser/testUser");
 
 
         // Check status code
@@ -50,13 +51,50 @@ public class SystemTest {
 
         // Check response body for correct response
         String returnString = response.getBody().asString();
-        try {
-            JSONArray returnArr = new JSONArray(returnString);
-            JSONObject returnObj = returnArr.getJSONObject(returnArr.length()-1);
-            assertEquals("test1", returnObj.get("user_name"));
-//            assertEquals("test1", returnObj.get("password"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        assertEquals("success", returnString);
+
     }
+
+    @Test
+    public void getUsernameTest() {
+        // Send request and receive response
+        Response response = RestAssured.given().
+                header("Content-Type", "text/plain").
+                header("charset","utf-8").
+                when().
+                get("/user/testUser/username");
+
+
+        // Check status code
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+
+        // Check response body for correct response
+        String returnString = response.getBody().asString();
+        assertEquals("testUser", returnString);
+
+    }
+
+//    @Test
+//    public void getUsernameTest() {
+//        // Send request and receive response
+//        Response response = RestAssured.given().
+//                header("Content-Type", "text/plain").
+//                header("charset","utf-8").
+//                when().
+//                get("/user/testUser/username");
+//
+//
+//        // Check status code
+//        int statusCode = response.getStatusCode();
+//        assertEquals(200, statusCode);
+//
+//        // Check response body for correct response
+//        String returnString = response.getBody().asString();
+//        assertEquals("testUser", returnString);
+//
+//    }
+
+
+
 }
