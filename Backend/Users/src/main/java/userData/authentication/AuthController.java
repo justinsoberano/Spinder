@@ -82,7 +82,6 @@ public class AuthController {
 
         final URI uri = authorizationCodeUriRequest.execute();
         response.sendRedirect(uri.toString());
-
     }
 
     /**
@@ -105,7 +104,6 @@ public class AuthController {
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("ERROR: " + e.getMessage());
         }
-//        response.sendRedirect("http://localhost:8080/top-artists");
         return spotifyAPI.getAccessToken();
     }
 
@@ -196,7 +194,11 @@ public class AuthController {
         }
     }
 
-    public void createSpinderFavorites(User u) {
+    public User createSpinderFavorites(User u) {
+
+        if(u == null) {
+            return null;
+        }
 
         String uuid = u.getUuid();
 
@@ -224,6 +226,8 @@ public class AuthController {
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
         }
+
+        return u;
     }
 
     @PostMapping("add/{username}/{track}")
