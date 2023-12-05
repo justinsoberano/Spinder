@@ -1,29 +1,43 @@
 package screens;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.core.content.ContextCompat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.as1.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendInteractions extends AppCompatActivity {
 
@@ -34,6 +48,8 @@ public class FriendInteractions extends AppCompatActivity {
     Button removeFriend;
     TextView fullFriendList;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
+    private final ArrayList<String> friendNames = new ArrayList<>();
+    private final ArrayList<String> friendPfps = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +59,7 @@ public class FriendInteractions extends AppCompatActivity {
         addFriend = findViewById(R.id.addFriend);
         removeFriend = findViewById(R.id.removeFriend);
         friendText = findViewById(R.id.friendUsername);
-        fullFriendList = findViewById(R.id.fullFriendList);
+//        fullFriendList = findViewById(R.id.fullFriendList);
 
         openChat.setOnClickListener(new View.OnClickListener() {//open a chat with the inputted username
             @Override
@@ -112,15 +128,70 @@ public class FriendInteractions extends AppCompatActivity {
 
     private void getFriendList() {
         RequestQueue requestQueue = Volley.newRequestQueue(FriendInteractions.this);
-        String org = "http://coms-309-056.class.las.iastate.edu:8080/friends/" + GlobalVariables.userName;
+        String org = baseUrl + "friendslist/" + GlobalVariables.userName;
 
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.GET, org,
-                new Response.Listener<String>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET, org, null,
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(String response) {
-                        Log.d("Volley Response", response);
-                        fullFriendList.setText(response);
+                    public void onResponse(JSONArray response) {
+                        try {
+                            Log.d("Volley Response", response.toString());
+
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject friendObject = response.getJSONObject(i);
+                                String friendName = friendObject.getString("userName");
+                                String friendPfp = friendObject.getString("profilePicture");
+
+                                friendNames.add(friendName);
+                                friendPfps.add(friendPfp);
+                            }
+
+                            LinearLayout containerLayout = findViewById(R.id.friendsContainer);
+
+                            for (int i = 0; i < friendNames.size(); i++) {
+                                // Create a RelativeLayout for each friend
+                                RelativeLayout friendLayout = new RelativeLayout(FriendInteractions.this);
+                                friendLayout.setLayoutParams(new RelativeLayout.LayoutParams(
+                                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                        RelativeLayout.LayoutParams.WRAP_CONTENT));
+
+                                // Center the RelativeLayout horizontally within the LinearLayout
+                                ((RelativeLayout.LayoutParams) friendLayout.getLayoutParams()).addRule(RelativeLayout.CENTER_HORIZONTAL);
+                                // Create CircleImageView for profile picture
+                                CircleImageView profilePicture = new CircleImageView(FriendInteractions.this);
+                                profilePicture.setId(View.generateViewId());
+                                profilePicture.setLayoutParams(new RelativeLayout.LayoutParams(120, 120));
+                                Picasso.get().load(friendPfps.get(i)).into(profilePicture);
+                                profilePicture.setBorderWidth(1);
+                                profilePicture.setBorderColor(Color.WHITE);
+
+                                // Create TextView for userName
+                                TextView textView = new TextView(FriendInteractions.this);
+                                textView.setLayoutParams(new RelativeLayout.LayoutParams(
+                                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                        RelativeLayout.LayoutParams.WRAP_CONTENT));
+                                textView.setText(friendNames.get(i));
+                                textView.setTextColor(Color.WHITE);
+
+                                // Add views to the RelativeLayout
+                                friendLayout.addView(profilePicture);
+                                friendLayout.addView(textView);
+
+                                // Set layout parameters for TextView relative to profilePicture
+                                RelativeLayout.LayoutParams textParams = (RelativeLayout.LayoutParams) textView.getLayoutParams();
+                                textParams.addRule(RelativeLayout.END_OF, profilePicture.getId());
+                                textParams.addRule(RelativeLayout.CENTER_VERTICAL);
+                                textParams.setMarginStart(16); // Replace with your desired margin
+
+                                // Add the RelativeLayout to the container
+                                containerLayout.addView(friendLayout);
+
+                                Log.d("Friend Names", friendNames.toString());
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -130,8 +201,12 @@ public class FriendInteractions extends AppCompatActivity {
                     }
                 }
         );
-        requestQueue.add(stringRequest);
+        requestQueue.add(jsonArrayRequest);
     }
+
+
+
+
 
     private void navBar(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
