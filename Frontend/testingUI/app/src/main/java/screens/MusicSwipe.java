@@ -317,4 +317,10 @@ public class MusicSwipe extends AppCompatActivity {
     }
 
 
+    //FOR TESTING
+    public int getCurrentSongIndex(){
+        return currentSongIndex;
+    }
+
+
 }
