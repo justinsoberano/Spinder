@@ -1,5 +1,4 @@
 package com.example.as1;
-
 import android.view.View;
 import android.widget.ImageView;
 
@@ -26,43 +25,24 @@ import androidx.test.espresso.action.Press;
 import androidx.test.espresso.action.Swipe;
 import android.media.MediaPlayer;
 import static org.junit.Assert.assertEquals;
-import screens.MusicSwipe;
 
+import screens.MusicSwipe;
+import screens.SeedSetter;
 
 @RunWith(AndroidJUnit4.class)
-public class MusicSwipeTest {
+public class SeedSetterTest {
 
     @Rule
-    public ActivityTestRule<MusicSwipe> activityRule =
-            new ActivityTestRule<>(MusicSwipe.class);
+    public ActivityTestRule<SeedSetter> activityRule =
+            new ActivityTestRule<>(SeedSetter.class);
 
     @Test
-    public void testSwipeRight_IncrementCurrentSongIndex() {
-        int initialCurrentSongIndex = activityRule.getActivity().getCurrentSongIndex();
-
-        onView(withId(R.id.relativeLayout)).perform(swipeRight());
-
-        int updatedCurrentSongIndex = activityRule.getActivity().getCurrentSongIndex();
-
-        assertEquals(initialCurrentSongIndex, updatedCurrentSongIndex);
-    }
-
-    @Test
-    public void testOpenSeedSetter() {
+    public void testOpenMusicSwipe() {
         // Click the friends button
-        onView(withId(R.id.changePreferences)).perform(click());
+        onView(withId(R.id.musicSwipeSend)).perform(click());
 
         // Verify that the FriendInteractions activity is opened
-        onView(withId(R.id.seedSetter)).check(matches(isDisplayed()));
+        onView(withId(R.id.cardImage)).check(matches(isDisplayed()));
     }
 
-    private ViewAction swipeRight() {
-        return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER_LEFT,
-                GeneralLocation.CENTER_RIGHT, Press.FINGER);
-    }
-
-    private ViewAction swipeUp() {
-        return new GeneralSwipeAction(Swipe.SLOW, GeneralLocation.BOTTOM_CENTER,
-                GeneralLocation.TOP_CENTER, Press.FINGER);
-    }
 }

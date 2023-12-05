@@ -19,7 +19,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileScreenTest {
-
     @Rule
     public ActivityTestRule<ProfileScreen> activityRule =
             new ActivityTestRule<>(ProfileScreen.class);
