@@ -38,10 +38,17 @@ import org.json.JSONObject;
 public class ProfileScreen extends AppCompatActivity {
     TextView bio;
     ImageView profilePicture;
+    ImageView topSongImage;
+    ImageView topArtistImage;
+    TextView topSongName;
+    TextView topArtistName;
     TextView username;
-    ImageView profileSettings;
+    Button editProfile;
     Button friends;
+    ImageView playSnippet;
+    private MediaPlayer mediaPlayer;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
+    String topSongPreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +58,22 @@ public class ProfileScreen extends AppCompatActivity {
         bio = findViewById(R.id.bio);
         username = findViewById(R.id.username);
         friends = findViewById(R.id.friends);
-        profileSettings = findViewById(R.id.profileSettings);
         profilePicture = findViewById(R.id.profilePicture);
+        topSongImage = findViewById(R.id.topSongImage);
+        topSongName = findViewById(R.id.topSongName);
+        topArtistImage = findViewById(R.id.topArtistImage);
+        topArtistName = findViewById(R.id.topArtistName);
+        editProfile = findViewById(R.id.editProfile);
+        playSnippet = findViewById(R.id.playSnippet);
 
-        profileSettings.setOnClickListener(new View.OnClickListener() {
+        playSnippet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playSnippet();
+            }
+        });
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent profSettings = new Intent(ProfileScreen.this, ProfileSettings.class);
@@ -73,9 +92,16 @@ public class ProfileScreen extends AppCompatActivity {
         getBioInfo();
         if(GlobalVariables.isGuestUser == false){
             getProfilePicture();
+            getTopSong();
+            getTopArtist();
         }
 
         navBar();
+    }
+
+    private void playSnippet(){
+        mediaPlayer = MediaPlayer.create(ProfileScreen.this, Uri.parse(topSongPreview));
+        mediaPlayer.start();
     }
 
     private void getBioInfo(){
@@ -147,12 +173,79 @@ public class ProfileScreen extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    private void getTopSong() {
+        RequestQueue requestQueue = Volley.newRequestQueue(ProfileScreen.this);
+        String url = baseUrl + "user/" + GlobalVariables.userName + "/topTrack";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String songImage = response.getString("image");
+                            String songName = response.getString("name");
+                            String songSnippet = response.getString("preview");
+                            topSongPreview = songSnippet;
+                            Picasso.get().load(songImage).into(topSongImage);
+                            topSongName.setText(songName);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        );
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void getTopArtist(){
+        RequestQueue requestQueue = Volley.newRequestQueue(ProfileScreen.this);
+        String url = baseUrl + "user/" + GlobalVariables.userName + "/topArtist";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String songImage = response.getString("image");
+                            String songName = response.getString("name");
+                            Picasso.get().load(songImage).into(topArtistImage);
+                            topArtistName.setText(songName);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        );
+        requestQueue.add(jsonObjectRequest);
+    }
+
     private void navBar(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId() == R.id.menu_discover){
+                    if (mediaPlayer != null) {
+                        mediaPlayer.release();
+                    }
                     Intent discoverIntent = new Intent(ProfileScreen.this, MusicSwipe.class);
                     startActivity(discoverIntent);
                     return true;
