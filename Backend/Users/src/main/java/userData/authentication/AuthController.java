@@ -8,7 +8,10 @@ import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
+import se.michaelthelin.spotify.model_objects.specification.Artist;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 
@@ -16,9 +19,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 
+import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
+import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import se.michaelthelin.spotify.requests.data.playlists.AddItemsToPlaylistRequest;
 import se.michaelthelin.spotify.requests.data.playlists.CreatePlaylistRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
+import userData.trackCreation.TopFields.TopArtist;
+import userData.trackCreation.TopFields.TopArtistsRepository;
+import userData.trackCreation.TopFields.TopTrack;
+import userData.trackCreation.TopFields.TopTrackRepository;
 import userData.users.User;
 import userData.users.UserRepository;
 /**
@@ -30,6 +39,13 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    TopArtistsRepository topArtistsRepository;
+
+    @Autowired
+    TopTrackRepository topTrackRepository;
+
 
     /**
      * This is the username of the user that is currently logged in.
@@ -52,6 +68,7 @@ public class AuthController {
 
     /**
      * This method will redirect the user to the Spotify login page.
+     *
      * @param response: The response object that will be used to redirect the user.
      * @throws IOException: If the redirect fails.
      */
@@ -70,6 +87,7 @@ public class AuthController {
 
     /**
      * This method will get the access code from Spotify and set the access token and refresh token in the Spotify API object.
+     *
      * @param userCode The access code that Spotify sends back to the user.
      * @param response The response object that will be used to redirect the user.
      * @return spotifyAPI.getAccessToken() : The access token that will be used to make requests to the Spotify API.
@@ -93,6 +111,7 @@ public class AuthController {
 
     /**
      * This method will redirect the user to the Spotify registration page.
+     *
      * @param response: The response object that will be used to redirect the user.
      * @throws IOException: If the redirect fails.
      */
@@ -111,6 +130,7 @@ public class AuthController {
 
     /**
      * This method will get the access code from Spotify and set the access token and refresh token in the Spotify API object.
+     *
      * @param userCode The access code that Spotify sends back to the user.
      * @return spotifyAPI.getAccessToken() : The access token that will be used to make requests to the Spotify API.
      * @throws IOException If the redirect fails.
@@ -135,6 +155,8 @@ public class AuthController {
         getCurrentUuid(u);
         getProfilePicture(u);
         createSpinderFavorites(u);
+        topArtist();
+        topTrack();
 
         System.out.println("[DEBUG] | " + username + " has successfully registered. \n[DEBUG] | Access Token: " + spotifyAPI.getAccessToken());
         return "You can now go back to the app.";
@@ -187,7 +209,7 @@ public class AuthController {
             CreatePlaylistRequest createPlaylist = spotifyAPI.createPlaylist(uuid, "Spinder Favs")
                     .collaborative(false)
                     .public_(false)
-                    .description("Generated with love on Spinder <3")
+                    .description("Generated with love from the Spinder Team <3")
                     .build();
 
             final Playlist playlist = createPlaylist.execute();
@@ -224,4 +246,54 @@ public class AuthController {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
+    public void topArtist() {
+        User u = userRepository.findByUserName(username);
+        GetUsersTopArtistsRequest getTopAritst = spotifyAPI.getUsersTopArtists()
+                .limit(1)
+                .time_range("long_term")
+                .build();
+        try {
+            final Paging<Artist> topArtist = getTopAritst.execute();
+            Artist[] a;
+            a = topArtist.getItems();
+            TopArtist t = new TopArtist();
+            t.setName(a[0].getName());
+            t.setImage(a[0].getImages()[0].getUrl());
+            u.setTopArtist(t);
+            topArtistsRepository.save(t);
+            userRepository.save(u);
+
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+
+
+        }
+    }
+
+    public void topTrack() {
+        User u = userRepository.findByUserName(username);
+        GetUsersTopTracksRequest getTopTrack = spotifyAPI.getUsersTopTracks()
+                .limit(1)
+                .time_range("long_term")
+                .build();
+        try {
+            final Paging<Track> topTrack = getTopTrack.execute();
+            Track[] a;
+            a = topTrack.getItems();
+            TopTrack t = new TopTrack();
+            t.setName(a[0].getName());
+            t.setImage(a[0].getAlbum().getImages()[0].getUrl());
+            u.setTopTrack(t);
+            topTrackRepository.save(t);
+            userRepository.save(u);
+
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+
+
+        }
+    }
+
+
 }

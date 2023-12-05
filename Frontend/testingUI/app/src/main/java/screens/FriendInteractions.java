@@ -107,6 +107,7 @@ public class FriendInteractions extends AppCompatActivity {
             }
         });
         getFriendList();
+        navBar();
     }
 
     private void getFriendList() {

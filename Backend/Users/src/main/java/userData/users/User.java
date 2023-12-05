@@ -2,7 +2,12 @@ package userData.users;
 
 import javax.persistence.*;
 
+import jdk.internal.joptsimple.internal.Strings;
 import userData.stations.Station;
+import userData.trackCreation.TopFields.TopArtist;
+import userData.trackCreation.TopFields.TopTrack;
+import userData.trackCreation.Track.Track;
+
 import java.util.List;
 
 /**
@@ -56,6 +61,14 @@ public class User {
      * User's favorites playlist ID on spotify
      */
     private String playlistId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "top_track_id")
+    private TopArtist topArtist;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "top_track_id")
+    private TopTrack topTrack;
 
     /**
      * User stations
@@ -269,4 +282,13 @@ public class User {
         return this.playlistId;
     }
 
+    public TopArtist getTopArtist() { return this.topArtist; }
+
+    public void setTopArtist(TopArtist topArtist) {
+        this.topArtist = topArtist;
+    }
+
+    public TopTrack getTopTrack() { return this.topTrack; }
+
+    public void setTopTrack(TopTrack topTrack) { this.topTrack = topTrack; }
 }
