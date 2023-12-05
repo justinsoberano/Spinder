@@ -5,25 +5,33 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.as1.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class FriendInteractions extends AppCompatActivity {
 
@@ -34,6 +42,8 @@ public class FriendInteractions extends AppCompatActivity {
     Button removeFriend;
     TextView fullFriendList;
     String baseUrl = "http://coms-309-056.class.las.iastate.edu:8080/";
+    private final ArrayList<String> friendNames = new ArrayList<>();
+    private final ArrayList<String> friendPfps = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +53,7 @@ public class FriendInteractions extends AppCompatActivity {
         addFriend = findViewById(R.id.addFriend);
         removeFriend = findViewById(R.id.removeFriend);
         friendText = findViewById(R.id.friendUsername);
-        fullFriendList = findViewById(R.id.fullFriendList);
+//        fullFriendList = findViewById(R.id.fullFriendList);
 
         openChat.setOnClickListener(new View.OnClickListener() {//open a chat with the inputted username
             @Override
@@ -112,15 +122,50 @@ public class FriendInteractions extends AppCompatActivity {
 
     private void getFriendList() {
         RequestQueue requestQueue = Volley.newRequestQueue(FriendInteractions.this);
-        String org = "http://coms-309-056.class.las.iastate.edu:8080/friends/" + GlobalVariables.userName;
+        String org = baseUrl + "friendslist/" + GlobalVariables.userName;
 
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.GET, org,
-                new Response.Listener<String>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET, org, null,
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(String response) {
-                        Log.d("Volley Response", response);
-                        fullFriendList.setText(response);
+                    public void onResponse(JSONArray response) {
+                        try {
+                            Log.d("Volley Response", response.toString());
+
+                            friendNames.clear();
+                            friendPfps.clear();
+
+                            for(int i = 0; i < response.length(); i++){
+                                JSONObject friendObject = response.getJSONObject(i);
+                                String friendName = friendObject.getString("userName");
+                                String friendPfp = friendObject.getString("profilePicture");
+
+                                friendNames.add(friendName);
+                                friendPfps.add(friendPfp);
+                            }
+
+                            LinearLayout containerLayout = findViewById(R.id.friendsContainer);
+
+                            for (String name : friendNames) {
+                                CardView cardView = new CardView(FriendInteractions.this);
+                                TextView textView = new TextView(FriendInteractions.this);
+
+                                cardView.setLayoutParams(new CardView.LayoutParams(
+                                        CardView.LayoutParams.MATCH_PARENT,
+                                        CardView.LayoutParams.WRAP_CONTENT));
+                                cardView.setCardElevation(8);
+                                cardView.setRadius(8);
+                                textView.setText(name);
+
+                                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cardView.getLayoutParams();
+                                layoutParams.bottomMargin = 16;
+
+                                cardView.addView(textView);
+                                containerLayout.addView(cardView);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -130,7 +175,7 @@ public class FriendInteractions extends AppCompatActivity {
                     }
                 }
         );
-        requestQueue.add(stringRequest);
+        requestQueue.add(jsonArrayRequest);
     }
 
     private void navBar(){
