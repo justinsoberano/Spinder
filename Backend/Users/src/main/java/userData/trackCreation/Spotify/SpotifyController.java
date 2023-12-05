@@ -47,8 +47,8 @@ public class SpotifyController {
         }
     }
 
-    public static List<Track> searchTrack(String trackName) {
 
+    public static List<Track> searchTrack(String trackName) {
         final SearchItemRequest search = spotifyAPI.searchItem(trackName, ModelObjectType.TRACK.getType())
                 .market(CountryCode.US)
                 .limit(5)
@@ -65,7 +65,6 @@ public class SpotifyController {
         return null;
     }
 
-    // TODO: Make into a list of tracks
     public static List<Track> getRecommendations(String seeds, int numSongs/*, int popularity*/) {
 
         /* int max = Math.min(popularity + 20, 100);

@@ -227,7 +227,7 @@ public class AuthController {
     }
 
     @PostMapping("add/{username}/{track}")
-    public void addTrackToFavorites(@PathVariable String username, @PathVariable String track) {
+    public String addTrackToFavorites(@PathVariable String username, @PathVariable String track) {
 
         User u = userRepository.findByUserName(username);
 
@@ -243,7 +243,10 @@ public class AuthController {
             final SnapshotResult executeAddTrack = addTrack.execute();
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
+            return "error";
         }
+
+        return "success";
     }
 
     public void topArtist() {

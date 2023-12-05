@@ -83,7 +83,7 @@ public class UserController {
      */
 
     @PostMapping(path = "/user/{name}/{password}")
-    User createUser(@PathVariable String name, @PathVariable String password) throws IOException {
+    String createUser(@PathVariable String name, @PathVariable String password) throws IOException {
         if (userRepository.findByUserName(name) != null) {
             return null;
         }
@@ -99,7 +99,7 @@ public class UserController {
         u.setStation(s);
         stationRepository.save(s);
         userRepository.save(u);
-        return u;
+        return "success";
     }
 //    @PostMapping(path = "/user/{name}/{password}")
 //    String createUser(@PathVariable String name, @PathVariable String password) throws IOException {

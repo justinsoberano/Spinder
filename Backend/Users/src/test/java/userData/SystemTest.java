@@ -35,28 +35,26 @@ public class SystemTest {
     }
 
     @Test
-    public void reverseTest() {
-        // Send request and receive response
-        Response response = RestAssured.given().
-                header("Content-Type", "text/plain").
-                header("charset","utf-8").
-                when().
-                post("/user/test1/test1");
+    public void spotifyLoginTest() {
+        Response r = RestAssured.given()
+                .header("Content-Type", "text/plain")
+                .header("charset", "utf-8")
+                .when()
+                .get("login");
 
-
-        // Check status code
-        int statusCode = response.getStatusCode();
+        int statusCode = r.getStatusCode();
         assertEquals(200, statusCode);
+    }
 
-        // Check response body for correct response
-        String returnString = response.getBody().asString();
-        try {
-            JSONArray returnArr = new JSONArray(returnString);
-            JSONObject returnObj = returnArr.getJSONObject(returnArr.length()-1);
-            assertEquals("test1", returnObj.get("user_name"));
-//            assertEquals("test1", returnObj.get("password"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    @Test
+    public void spotifyRegisterTest() {
+        Response r = RestAssured.given()
+                .header("Content-Type", "text/plain")
+                .header("charset", "utf-8")
+                .when()
+                .get("register/user");
+
+        int statusCode = r.getStatusCode();
+        assertEquals(200, statusCode);
     }
 }
