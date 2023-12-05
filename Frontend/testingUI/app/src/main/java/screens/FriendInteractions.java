@@ -1,6 +1,7 @@
 package screens;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -9,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.core.content.ContextCompat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,12 +29,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.as1.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendInteractions extends AppCompatActivity {
 
@@ -132,10 +138,7 @@ public class FriendInteractions extends AppCompatActivity {
                         try {
                             Log.d("Volley Response", response.toString());
 
-                            friendNames.clear();
-                            friendPfps.clear();
-
-                            for(int i = 0; i < response.length(); i++){
+                            for (int i = 0; i < response.length(); i++) {
                                 JSONObject friendObject = response.getJSONObject(i);
                                 String friendName = friendObject.getString("userName");
                                 String friendPfp = friendObject.getString("profilePicture");
@@ -146,22 +149,45 @@ public class FriendInteractions extends AppCompatActivity {
 
                             LinearLayout containerLayout = findViewById(R.id.friendsContainer);
 
-                            for (String name : friendNames) {
-                                CardView cardView = new CardView(FriendInteractions.this);
+                            for (int i = 0; i < friendNames.size(); i++) {
+                                // Create a RelativeLayout for each friend
+                                RelativeLayout friendLayout = new RelativeLayout(FriendInteractions.this);
+                                friendLayout.setLayoutParams(new RelativeLayout.LayoutParams(
+                                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                        RelativeLayout.LayoutParams.WRAP_CONTENT));
+
+                                // Center the RelativeLayout horizontally within the LinearLayout
+                                ((RelativeLayout.LayoutParams) friendLayout.getLayoutParams()).addRule(RelativeLayout.CENTER_HORIZONTAL);
+                                // Create CircleImageView for profile picture
+                                CircleImageView profilePicture = new CircleImageView(FriendInteractions.this);
+                                profilePicture.setId(View.generateViewId());
+                                profilePicture.setLayoutParams(new RelativeLayout.LayoutParams(120, 120));
+                                Picasso.get().load(friendPfps.get(i)).into(profilePicture);
+                                profilePicture.setBorderWidth(1);
+                                profilePicture.setBorderColor(Color.WHITE);
+
+                                // Create TextView for userName
                                 TextView textView = new TextView(FriendInteractions.this);
+                                textView.setLayoutParams(new RelativeLayout.LayoutParams(
+                                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                        RelativeLayout.LayoutParams.WRAP_CONTENT));
+                                textView.setText(friendNames.get(i));
+                                textView.setTextColor(Color.WHITE);
 
-                                cardView.setLayoutParams(new CardView.LayoutParams(
-                                        CardView.LayoutParams.MATCH_PARENT,
-                                        CardView.LayoutParams.WRAP_CONTENT));
-                                cardView.setCardElevation(8);
-                                cardView.setRadius(8);
-                                textView.setText(name);
+                                // Add views to the RelativeLayout
+                                friendLayout.addView(profilePicture);
+                                friendLayout.addView(textView);
 
-                                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cardView.getLayoutParams();
-                                layoutParams.bottomMargin = 16;
+                                // Set layout parameters for TextView relative to profilePicture
+                                RelativeLayout.LayoutParams textParams = (RelativeLayout.LayoutParams) textView.getLayoutParams();
+                                textParams.addRule(RelativeLayout.END_OF, profilePicture.getId());
+                                textParams.addRule(RelativeLayout.CENTER_VERTICAL);
+                                textParams.setMarginStart(16); // Replace with your desired margin
 
-                                cardView.addView(textView);
-                                containerLayout.addView(cardView);
+                                // Add the RelativeLayout to the container
+                                containerLayout.addView(friendLayout);
+
+                                Log.d("Friend Names", friendNames.toString());
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -177,6 +203,10 @@ public class FriendInteractions extends AppCompatActivity {
         );
         requestQueue.add(jsonArrayRequest);
     }
+
+
+
+
 
     private void navBar(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);

@@ -1,6 +1,7 @@
 package screens;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -101,8 +102,10 @@ public class ChatScreen extends AppCompatActivity implements WebSocketListener{
         sendSong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String songNametoSend = messageEditText.getText().toString();
-                getSong(songNametoSend);
+//                String songNametoSend = messageEditText.getText().toString();
+//                getSong(songNametoSend);
+                Intent back = new Intent(ChatScreen.this, ProfileScreen.class);
+                startActivity(back);
             }
         });
 
