@@ -50,6 +50,10 @@ public class Track {
         this.preview = preview != null ? preview : "null";
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * Returns song ID.
      * @return id

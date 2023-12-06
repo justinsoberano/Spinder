@@ -90,7 +90,6 @@ public class User {
      */
     public User() {}
 
-
     /**
      * Constructor for User
      * @param id user id

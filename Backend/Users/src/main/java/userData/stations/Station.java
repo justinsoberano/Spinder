@@ -1,11 +1,14 @@
 package userData.stations;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.hc.core5.http.ParseException;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import userData.trackCreation.Spotify.SpotifyController;
 import userData.trackCreation.Track.Track;
 import userData.users.User;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.util.List;
 
 @Entity
@@ -72,7 +75,7 @@ public class Station {
         return volume;
     }
 
-    public List<Track> generateTacks(){
+    public List<Track> generateTacks() throws IOException, ParseException, SpotifyWebApiException {
         return SpotifyController.getRecommendations(seed.getId(), 50);
     }
 
