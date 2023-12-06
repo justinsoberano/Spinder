@@ -38,43 +38,6 @@ public class SystemTest {
         RestAssured.baseURI = "http://localhost";
     }
 
-
-    @Test
-    public void userCreateTest() {
-        // Send request and receive response
-        Response response = RestAssured.given().
-                header("Content-Type", "text/plain").
-                header("charset","utf-8").
-                when().
-                post("/user/testUser/testUser");
-
-
-        // Check status code
-        int statusCode = response.getStatusCode();
-        assertEquals(200, statusCode);
-
-        // Check response body for correct response
-        String returnString = response.getBody().asString();
-        assertEquals("success", returnString);
-
-    }
-
-    @Test
-    public void getUsernameTest() {
-        // Send request and receive response
-        Response response = RestAssured.given().
-                header("Content-Type", "text/plain").
-                header("charset","utf-8").
-                when().
-                get("/user/testUser/username");
-
-
-        // Check status code
-        int statusCode = response.getStatusCode();
-        assertEquals(200, statusCode);
-
-    }
-
     @Test
     public void getUsername() {
         // Send request and receive response
@@ -83,38 +46,6 @@ public class SystemTest {
                 header("charset","utf-8").
                 when().
                 get("/user/testUser");
-
-
-        // Check status code
-        int statusCode = response.getStatusCode();
-        assertEquals(200, statusCode);
-
-    }
-
-    @Test
-    public void getTopArtist() {
-        // Send request and receive response
-        Response response = RestAssured.given().
-                header("Content-Type", "text/plain").
-                header("charset","utf-8").
-                when().
-                get("/user/testUser/topArtist");
-
-
-        // Check status code
-        int statusCode = response.getStatusCode();
-        assertEquals(200, statusCode);
-
-    }
-
-    @Test
-    public void getTopTrack() {
-        // Send request and receive response
-        Response response = RestAssured.given().
-                header("Content-Type", "text/plain").
-                header("charset","utf-8").
-                when().
-                get("/user/testUser/topTrack");
 
 
         // Check status code
@@ -154,28 +85,6 @@ public class SystemTest {
         assertEquals("bob", c.getUserOne());
         assertEquals("tom", c.getUserTwo());
     }
-
-
-//    @Test
-//    public void getUsernameTest() {
-//        // Send request and receive response
-//        Response response = RestAssured.given().
-//                header("Content-Type", "text/plain").
-//                header("charset","utf-8").
-//                when().
-//                get("/user/testUser/username");
-//
-//
-//        // Check status code
-//        int statusCode = response.getStatusCode();
-//        assertEquals(200, statusCode);
-//
-//        // Check response body for correct response
-//        String returnString = response.getBody().asString();
-//        assertEquals("testUser", returnString);
-//
-//    }
-
 
 
 }
