@@ -1,0 +1,464 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > UserController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">userData.users</a>
+</div>
+
+<h1>Coverage Summary for Class: UserController (userData.users)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserController</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.9%
+  </span>
+  <span class="absValue">
+    (17/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    56.4%
+  </span>
+  <span class="absValue">
+    (53/94)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">UserController$$EnhancerBySpringCGLIB$$7f85cd32</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    73.9%
+  </span>
+  <span class="absValue">
+    (17/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    56.4%
+  </span>
+  <span class="absValue">
+    (53/94)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package userData.users;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Random;
+&nbsp;
+&nbsp;import org.apache.hc.core5.http.ParseException;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+&nbsp;import userData.stations.Station;
+&nbsp;import userData.trackCreation.TopFields.TopArtist;
+&nbsp;import userData.trackCreation.TopFields.TopTrack;
+&nbsp;import userData.trackCreation.Track.TrackRepository;
+&nbsp;import userData.stations.StationRepository;
+&nbsp;//import userData.trackCreation.Spotify.SpotifyController;
+&nbsp;import userData.trackCreation.Track.Track;
+&nbsp;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import javax.transaction.Transactional;
+&nbsp;
+&nbsp;import userData.authentication.AuthController;
+&nbsp;import static userData.trackCreation.Spotify.SpotifyController.searchTrack;
+&nbsp;//import static userData.trackCreation.Spotify.SpotifyController.searchTrack;
+&nbsp;
+&nbsp;/**
+&nbsp; * Controller used for all user action requests
+&nbsp; */
+&nbsp;@RestController
+<b class="fc">&nbsp;public class UserController {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Autowired repository for user data
+&nbsp;     */
+&nbsp;    @Autowired
+&nbsp;    UserRepository userRepository;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Autowired repository for station data
+&nbsp;     */
+&nbsp;    @Autowired
+&nbsp;    StationRepository stationRepository;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Autowired repository for track data
+&nbsp;     */
+&nbsp;    @Autowired
+&nbsp;    TrackRepository trackRepository;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return list of all users in database
+&nbsp;     */
+&nbsp;    @GetMapping(path = &quot;/user&quot;)
+&nbsp;    public List&lt;User&gt; getAllUsers(){
+<b class="fc">&nbsp;        return userRepository.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get mapping for getting user by id
+&nbsp;     * @param username, the id of the user
+&nbsp;     * @return json data of user of id
+&nbsp;     */
+&nbsp;    @GetMapping(path = &quot;/user/{username}&quot;)
+&nbsp;    public User getUserById( @PathVariable String  username){
+<b class="fc">&nbsp;        return userRepository.findByUserName(username);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get mapping for getting user by id
+&nbsp;     * @param user the id of the user
+&nbsp;     * @return json data of user of id
+&nbsp;     */
+&nbsp;    @GetMapping(path = &quot;user/{user}/username&quot;)
+&nbsp;    public String getUsername(@PathVariable String user){
+<b class="nc">&nbsp;        return userRepository.findByUserName(user).getUserName();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get mapping for getting user by id
+&nbsp;     * @param name the id of the user
+&nbsp;     * @param password the id of the user
+&nbsp;     * @return json data of user of id
+&nbsp;     * @throws IOException if user already exists
+&nbsp;     */
+&nbsp;
+&nbsp;    @PostMapping(path = &quot;/user/{name}/{password}&quot;)
+&nbsp;    public String createUser(@PathVariable String name, @PathVariable String password) throws IOException {
+<b class="fc">&nbsp;        if (userRepository.findByUserName(name) != null) {</b>
+<b class="fc">&nbsp;            return null;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Random r = new Random();</b>
+<b class="fc">&nbsp;        User u = new User();</b>
+<b class="fc">&nbsp;        u.setId(Math.abs(r.nextInt() % 100000));</b>
+<b class="fc">&nbsp;        Station s = new Station(u.getId() + 1); // same id as owner</b>
+<b class="fc">&nbsp;        s.setTempo(50);</b>
+<b class="fc">&nbsp;        s.setPopularity(50);</b>
+<b class="fc">&nbsp;        s.setVolume(50);</b>
+<b class="fc">&nbsp;        u.setUserName(name);</b>
+<b class="fc">&nbsp;        u.setPassword(password);</b>
+<b class="fc">&nbsp;        u.setStation(s);</b>
+<b class="fc">&nbsp;        stationRepository.save(s);</b>
+<b class="fc">&nbsp;        userRepository.save(u);</b>
+<b class="fc">&nbsp;        return &quot;success&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get mapping for getting user by id
+&nbsp;     * @param username the id of the user
+&nbsp;     * @return json data of user of id
+&nbsp;     */
+&nbsp;    @GetMapping(path = &quot;/login/{username}&quot;)
+&nbsp;    public String getUserId(@PathVariable String username){
+<b class="fc">&nbsp;        return String.valueOf(userRepository.findByUserName(username).getId());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get mapping for getting user by id
+&nbsp;     * @param username the id of the user
+&nbsp;     * @param song the id of the user
+&nbsp;     */
+&nbsp;    @PutMapping(path = &quot;user/{username}/station/{song}&quot;)
+&nbsp;    public void setStationSeed(@PathVariable String username, @PathVariable String song) throws IOException, SpotifyWebApiException, ParseException {
+&nbsp;        Track t;
+<b class="nc">&nbsp;        User u = userRepository.findByUserName(username);</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            t = searchTrack(song).get(0);</b>
+<b class="nc">&nbsp;        } catch (NullPointerException E) {</b>
+&nbsp;            return;
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        u.getStation().setSeed(t);</b>
+<b class="nc">&nbsp;        userRepository.save(u);</b>
+<b class="nc">&nbsp;        trackRepository.save(t);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for getting users station
+&nbsp;     * @param username of user refered to.
+&nbsp;     * @return station of user
+&nbsp;     */
+&nbsp;    @GetMapping(path = &quot;user/{username}/station&quot;)
+&nbsp;    public List&lt;Track&gt; getTracks(@PathVariable String username) throws IOException, SpotifyWebApiException, ParseException {
+<b class="nc">&nbsp;        return userRepository.findByUserName(username).getStation().generateTacks();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Request for getting users station
+&nbsp;     * @param username of user refered to.
+&nbsp;     * @param tempo of the station
+&nbsp;     */
+&nbsp;    @PutMapping(path = &quot;user/{username}/tempo/{tempo}&quot;)
+&nbsp;    public void setTempo(@PathVariable String username, @PathVariable int tempo){
+<b class="fc">&nbsp;        User u = userRepository.findByUserName(username);</b>
+<b class="fc">&nbsp;        Station s = u.getStation();</b>
+<b class="fc">&nbsp;        s.setTempo(tempo);</b>
+<b class="fc">&nbsp;        stationRepository.save(s);</b>
+<b class="fc">&nbsp;        userRepository.save(u);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for getting users station
+&nbsp;     * @param username of user refered to.
+&nbsp;     * @param pop of the station
+&nbsp;     */
+&nbsp;    @PutMapping(path = &quot;user/{username}/popularity/{pop}&quot;)
+&nbsp;    public void setPopularity(@PathVariable String username, @PathVariable int pop){
+<b class="fc">&nbsp;        User u = userRepository.findByUserName(username);</b>
+<b class="fc">&nbsp;        Station s = u.getStation();</b>
+<b class="fc">&nbsp;        s.setPopularity(pop);</b>
+<b class="fc">&nbsp;        stationRepository.save(s);</b>
+<b class="fc">&nbsp;        userRepository.save(u);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for getting users station
+&nbsp;     * @param username of user refered to.
+&nbsp;     * @param vol of the station
+&nbsp;     */
+&nbsp;    @PutMapping(path = &quot;user/{username}/volume/{vol}&quot;)
+&nbsp;    public void setVolume(@PathVariable String username, @PathVariable int vol){
+<b class="fc">&nbsp;        User u = userRepository.findByUserName(username);</b>
+<b class="fc">&nbsp;        Station s = u.getStation();</b>
+<b class="fc">&nbsp;        s.setVolume(vol);</b>
+<b class="fc">&nbsp;        stationRepository.save(s);</b>
+<b class="fc">&nbsp;        userRepository.save(u);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for getting users profile
+&nbsp;     * @param username of user refered to.
+&nbsp;     * @return profile of user
+&nbsp;     */
+&nbsp;    @GetMapping(path = &quot;user/{username}/profile&quot;)
+&nbsp;    public String getBio(@PathVariable String username){
+<b class="fc">&nbsp;        return userRepository.findByUserName(username).getProfileStr();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for setting users profile bio
+&nbsp;     * @param username of user refered to.
+&nbsp;     * @param string of bio
+&nbsp;     */
+&nbsp;    @PutMapping(path = &quot;user/{username}/profile/{string}&quot;)
+&nbsp;    public void setBio(@PathVariable String username, @PathVariable String string){
+<b class="fc">&nbsp;        User u = userRepository.findByUserName(username);</b>
+<b class="fc">&nbsp;        u.setProfileStr(string);</b>
+<b class="fc">&nbsp;        userRepository.save(u);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for setting users profile picture
+&nbsp;     * @param username of user refered to.
+&nbsp;     * @param string URL of the picture.
+&nbsp;     */
+&nbsp;    @PutMapping(path = &quot;user/{username}/picture/{string}&quot;)
+&nbsp;    public void setPfp(@PathVariable String username, @PathVariable String string){
+<b class="fc">&nbsp;        User u = userRepository.findByUserName(username);</b>
+<b class="fc">&nbsp;        u.setProfilePicture(string);</b>
+<b class="fc">&nbsp;        userRepository.save(u);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for getting users profile picture
+&nbsp;     * @param username of user refered to.
+&nbsp;     * @return URL of the picture.
+&nbsp;     */
+&nbsp;    @GetMapping(path = &quot;user/{username}/picture&quot;)
+&nbsp;    public String getPfp(@PathVariable String username){
+<b class="fc">&nbsp;        return userRepository.findByUserName(username).getProfilePicture();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for logging in
+&nbsp;     * @param username of user refered to.
+&nbsp;     * @param password of user refered to.
+&nbsp;     * @return true if user exists and password is correct, false otherwise
+&nbsp;     */
+&nbsp;    @GetMapping(path = &quot;user/{username}/{password}&quot;)
+&nbsp;    public String loginAuth(@PathVariable String username, @PathVariable String password){
+<b class="fc">&nbsp;        User u = userRepository.findByUserName(username);</b>
+<b class="fc">&nbsp;        if(u == null){</b>
+<b class="nc">&nbsp;            return &quot;error: user not found&quot;;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(u.getPassword().equals(password)){</b>
+<b class="fc">&nbsp;            return &quot;true&quot;;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            return &quot;false&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for adding a friend
+&nbsp;     * @param user1 of user refered to.
+&nbsp;     * @param user2 of the friend
+&nbsp;     */
+&nbsp;    @PutMapping(path = &quot;add/{user1}/{user2}&quot;)
+&nbsp;    public void addFriend(@PathVariable String user1, @PathVariable String user2){
+<b class="nc">&nbsp;        User u1 = userRepository.findByUserName(user1);</b>
+<b class="nc">&nbsp;        User u2 = userRepository.findByUserName(user2);</b>
+<b class="nc">&nbsp;        if(u1 == null || u2 == null){</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        u1.addFriend(u2);</b>
+<b class="nc">&nbsp;        u2.addFriend(u1);</b>
+<b class="nc">&nbsp;        userRepository.save(u1);</b>
+<b class="nc">&nbsp;        userRepository.save(u2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for removing a friend
+&nbsp;     * @param user1 of user refered to.
+&nbsp;     * @param user2 of the friend
+&nbsp;     */
+&nbsp;    @PutMapping(path = &quot;remove/{user1}/{user2}&quot;)
+&nbsp;    public void removeFriend(@PathVariable String user1, @PathVariable String user2){
+<b class="fc">&nbsp;        User u1 = userRepository.findByUserName(user1);</b>
+<b class="fc">&nbsp;        User u2 = userRepository.findByUserName(user2);</b>
+<b class="fc">&nbsp;        if(u1 == null || u2 == null){</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        u1.removeFreind(u2);</b>
+<b class="nc">&nbsp;        u2.removeFreind(u1);</b>
+<b class="nc">&nbsp;        userRepository.save(u1);</b>
+<b class="nc">&nbsp;        userRepository.save(u2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for getting a users friends
+&nbsp;     * @param username of user refered to.
+&nbsp;     * @return list of friends
+&nbsp;     */
+&nbsp;    @GetMapping(path = &quot;friends/{username}&quot;)
+&nbsp;    public List&lt;String&gt; getFriendUserNames(@PathVariable String username){
+<b class="nc">&nbsp;        List&lt;String&gt; names = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;        User u = userRepository.findByUserName(username);</b>
+<b class="nc">&nbsp;        if(u == null) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for(User E : u.getFriends()){</b>
+<b class="nc">&nbsp;            names.add(E.getUserName());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return  names;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for getting a Track
+&nbsp;     * @param name Track song
+&nbsp;     * @return track
+&nbsp;     */
+&nbsp;    @GetMapping(path = &quot;song/{name}&quot;)
+&nbsp;    public Track getSong(@PathVariable String name) throws IOException, SpotifyWebApiException, ParseException {
+&nbsp;        Track t;
+<b class="nc">&nbsp;        t = searchTrack(name).get(0);</b>
+<b class="nc">&nbsp;        return t;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(path=&quot;user/{username}/topTrack&quot;)
+&nbsp;    public TopTrack getTopTrack(@PathVariable String username){
+<b class="fc">&nbsp;        return userRepository.findByUserName(username).getTopTrack();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(path=&quot;user/{username}/topArtist&quot;)
+&nbsp;    public TopArtist getTopArist(@PathVariable String username){
+<b class="fc">&nbsp;        return userRepository.findByUserName(username).getTopArtist();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for deleting a user
+&nbsp;     * @param id of user refered to.
+&nbsp;     * @return success if user exists, failure otherwise
+&nbsp;     */
+&nbsp;    @Transactional
+&nbsp;    @DeleteMapping(path = &quot;/user/{id}&quot;)
+&nbsp;    public String deleteUser(@PathVariable int id){
+<b class="fc">&nbsp;        if(userRepository.existsById(id)){</b>
+<b class="nc">&nbsp;            User u = userRepository.findById(id);</b>
+<b class="nc">&nbsp;            Station s = u.getStation();</b>
+<b class="nc">&nbsp;            Track t = s.getSeed();</b>
+<b class="nc">&nbsp;            s.setSeed(null);</b>
+<b class="nc">&nbsp;            u.setStation(null);</b>
+&nbsp;
+<b class="nc">&nbsp;            trackRepository.deleteById(t.getId());</b>
+<b class="nc">&nbsp;            stationRepository.deleteById(s.getId());</b>
+<b class="nc">&nbsp;            userRepository.deleteById(id);</b>
+<b class="nc">&nbsp;            return &quot;success&quot;;</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            return &quot;failure&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-06 10:51</div>
+</div>
+</body>
+</html>
