@@ -8,8 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 import static userData.chat.Chat.chatSession;
-import static userData.trackCreation.Spotify.SpotifyController.getRecommendations;
-import static userData.trackCreation.Spotify.SpotifyController.searchTrack;
+import static userData.trackCreation.Spotify.SpotifyController.*;
 
 import org.apache.hc.core5.http.ParseException;
 import org.junit.runner.RunWith;
@@ -729,5 +728,17 @@ public class SystemTest {
     public void testRecommendations() throws IOException, SpotifyWebApiException, ParseException {
         List<Track> tracks = getRecommendations("11dFghVXANMlKmJXsNCbNl", 1);
         assertNotNull(tracks);
+    }
+
+    @Test
+    public void testAnalysis() throws IOException, SpotifyWebApiException, ParseException {
+        List<String> analysis = trackAnalysis("11dFghVXANMlKmJXsNCbNl");
+        assertNotNull(analysis);
+    }
+
+    @Test
+    public void testFeatures() throws IOException, SpotifyWebApiException, ParseException {
+        List<String> features = trackFeatures("11dFghVXANMlKmJXsNCbNl");
+        assertNotNull(features);
     }
 }
