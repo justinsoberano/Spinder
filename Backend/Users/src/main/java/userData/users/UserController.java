@@ -301,6 +301,12 @@ public class UserController {
         return  names;
     }
 
+     @GetMapping(path = "friendslist/{username}")
+    List<User> getFriends(@PathVariable String username){
+        User u = userRepository.findByUserName(username);
+        return u.getFriends();
+    }
+
     /**
      * Request for getting a Track
      * @param name Track song
