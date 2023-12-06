@@ -76,6 +76,9 @@ public class ProfileScreen extends AppCompatActivity {
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mediaPlayer != null) {
+                    mediaPlayer.release();
+                }
                 Intent profSettings = new Intent(ProfileScreen.this, ProfileSettings.class);
                 startActivity(profSettings);
             }
@@ -84,6 +87,9 @@ public class ProfileScreen extends AppCompatActivity {
         friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mediaPlayer != null) {
+                    mediaPlayer.release();
+                }
                 Intent friendStuff = new Intent(ProfileScreen.this, FriendInteractions.class);
                 startActivity(friendStuff);
             }
@@ -249,6 +255,10 @@ public class ProfileScreen extends AppCompatActivity {
                     Intent discoverIntent = new Intent(ProfileScreen.this, MusicSwipe.class);
                     startActivity(discoverIntent);
                     return true;
+                }else{
+                    if (mediaPlayer != null) {
+                        mediaPlayer.release();
+                    }
                 }
                 return false;
             }
