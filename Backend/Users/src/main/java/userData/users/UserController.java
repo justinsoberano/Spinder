@@ -89,7 +89,7 @@ public class UserController {
         Random r = new Random();
         User u = new User();
         u.setId(Math.abs(r.nextInt() % 100000));
-        Station s = new Station(u.getId()); // same id as owner
+        Station s = new Station(u.getId() + 1); // same id as owner
         s.setTempo(50);
         s.setPopularity(50);
         s.setVolume(50);
@@ -334,18 +334,18 @@ public class UserController {
     @DeleteMapping(path = "/user/{id}")
     public String deleteUser(@PathVariable int id){
         if(userRepository.existsById(id)){
-                User u = userRepository.findById(id);
-                Station s = u.getStation();
-                Track t = s.getSeed();
-                s.setSeed(null);
-                u.setStation(null);
+            User u = userRepository.findById(id);
+            Station s = u.getStation();
+            Track t = s.getSeed();
+            s.setSeed(null);
+            u.setStation(null);
 
-                trackRepository.deleteById(t.getId());
-                stationRepository.deleteById(s.getId());
-                userRepository.deleteById(id);
-                return "success";
-            } else {
-                return "failure";
+            trackRepository.deleteById(t.getId());
+            stationRepository.deleteById(s.getId());
+            userRepository.deleteById(id);
+            return "success";
+        } else {
+            return "failure";
         }
     }
 
@@ -362,3 +362,4 @@ public class UserController {
         userRepository.deleteAll();
     }
 }
+

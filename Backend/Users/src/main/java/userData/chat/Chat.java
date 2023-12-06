@@ -17,99 +17,63 @@ import org.springframework.stereotype.Component;
 import userData.chat.ChatRoom.ChatRoomRepository;
 import userData.chat.ChatRoom.ChatRoom;
 import userData.users.UserRepository;
-import userData.users.User;
 
-/**
- * This class handles the chat functionality of the application.
- */
-@ServerEndpoint("/{userName}/chat/{friend}")
+@ServerEndpoint("/{username}/chat/{friend}")
 @Component
 public class Chat {
 
-    /**
-     * Sets the repository for the chat room.
-     * @param repo The repository for the chat room.
-     */
     @Autowired
     public void setChatRoomRepository(ChatRoomRepository repo) { chatRepo = repo;}
-
-    /**
-     * The repository for the chat room.
-     */
     private static ChatRoomRepository chatRepo;
 
-    /**
-     * Sets the repository for the user.
-     * @param u The repository for the user.
-     */
     @Autowired
     public void setUserRepository(UserRepository u) { userRepo = u; }
-
-    /**
-     * The repository for the user.
-     */
     private static UserRepository userRepo;
 
-    /**
-     * The session of the chat.
-     */
     private static Map <Session, String> chatSession = new Hashtable<>();
 
-    /**
-     * The session of the chat.
-     */
     private static Map <String, Session> searchChat = new Hashtable<>();
 
-    /**
-     * The chat room.
-     */
     private ChatRoom chat;
+    private String username;
+    private String friend_username;
 
-    /**
-     * The username of the user.
-     */
-    private String userName;
-
-    /**
-     * The username of the friend.
-     */
-    private String friendUsername;
-
-    /**
-     * The logger for the chat.
-     */
+    // Logger for terminal output and debugging
     private final Logger logger = LoggerFactory.getLogger(Chat.class);
 
     /**
-     * Opens the session and adds the users to the chat.
-     * @param session The session of the chat.
-     * @param userName The username of the user.
-     * @param friendUsername The username of the friend.
-     * @throws IOException Throws an exception if the user is not found.
+     * Connects the user to the websocket.
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String userName, @PathParam("friend") String friendUsername) throws IOException {
+    public void onOpen(Session session, @PathParam("username") String username, @PathParam("friend") String friend_username) throws IOException {
 
-        this.userName = userName;
-        this.friendUsername = friendUsername;
+        this.username = username;
+        this.friend_username = friend_username;
 
-        /* Finds the id of each user and adds them together for the ChatRoom Id */
-         User u1 = userRepo.findByUserName(userName);
-         User u2 = userRepo.findByUserName(friendUsername);
-         if(u1 == null || u2 == null){
-             return;
-         }
+        int id = 0;
+        for(int i = 0; i < username.length(); i++) {
+            id += username.charAt(i);
+        }
+        for(int i = 0; i < friend_username.length(); i++) {
+            id += friend_username.charAt(i);
+        }
 
-         chatSession.put(session, userName);
-         searchChat.put(userName, session);
+        // Handle the case of a duplicate username
+        if (searchChat.containsKey(username)) {
+            session.getBasicRemote().sendText("Username already exists");
+            session.close();
+        } else {
+            chatSession.put(session, username);
+            searchChat.put(username, session);
+        }
 
-        if(chatRepo.findByUserOneAndUserTwo(userName, friendUsername) == null) {
-            logger.info("[CHAT CREATED]");
-            chat = new ChatRoom(userName, friendUsername);
+        if(!chatRepo.existsById(id)) {
+            logger.info("[CHAT CREATED]" + "id: " + id);
+            chat = new ChatRoom(id, username, friend_username);
             chatRepo.save(chat);
         } else {
-            logger.info("[CHAT OPENED]");
-            chat = chatRepo.findByUserOneAndUserTwo(userName, friendUsername);
+            logger.info("[CHAT OPENED]" + "id: " + id);
+            chat = chatRepo.findById(id);
             loadHistory(session, chat);
         }
     }
@@ -117,40 +81,36 @@ public class Chat {
 
     /**
      * Removes the session from the HashMap when the user closes out of the session.
-     * @param session The session of the chat.
-     * @throws IOException Throws an exception if the user is not found.
+     * @param session
+     * @throws IOException
      */
     @OnClose
     public void onClose(Session session) throws IOException {
-        String userName = chatSession.get(session);
-        logger.info("[DISCONNECTED] " + userName);
+        String username = chatSession.get(session);
+        logger.info("[DISCONNECTED] " + username);
 
         chatSession.remove(session);
-        searchChat.remove(userName);
+        searchChat.remove(username);
     }
 
-    /**
-     * Handles the error if the user disconnects.
-     * @param session The session of the chat.
-     * @param throwable The throwable of the chat.
-     */
     @OnError
     public void onError(Session session, Throwable throwable) {
 
-        // get the userName from session-userName mapping
-        String userName = chatSession.get(session);
+        // get the username from session-username mapping
+        String username = chatSession.get(session);
 
         // do error handling here
-        logger.info("[onError]" + userName + ": " + throwable.getMessage());
+        logger.info("[onError]" + username + ": " + throwable.getMessage());
     }
 
 
     /**
      * Connects the current session and sends the message.
-     * @param session The session of the chat.
-     * @param message The message of the chat.
-     * @throws IOException Throws an exception if the user is not found.
+     * @param session
+     * @param message
+     * @throws IOException
      */
+
     @OnMessage
     public void onMessage(Session session, String message) throws IOException {
         // Grabs the username of the current session.
@@ -163,8 +123,8 @@ public class Chat {
         sendMessage(session, sender, message);
 
         // If the friend is different and connected, send them the message.
-        if(!sender.equals(friendUsername)) {
-            Session friendSession = searchChat.get(friendUsername);
+        if(!sender.equals(friend_username)) {
+            Session friendSession = searchChat.get(friend_username);
             if(friendSession != null) {
                 sendMessage(friendSession, sender, message);
             }
@@ -177,7 +137,7 @@ public class Chat {
 
     /**
      * Handles the message sending, called from 'onMessage'.
-     * @param message The message of the chat.
+     * @param message
      */
     public void sendMessage(Session session, String user, String message) throws IOException {
         String formattedMessage = user + ": " + message;
@@ -185,10 +145,7 @@ public class Chat {
     }
 
     /**
-     * Loads the chat history.
-     * @param session The session of the chat.
-     * @param chat The chat room.
-     * @throws IOException Throws an exception if the user is not found.
+     * Allows previous messages to be sent to the users.
      */
     void loadHistory(Session session, ChatRoom chat) throws IOException {
         // Initialize the messages collection if it is lazy-loaded
@@ -198,13 +155,5 @@ public class Chat {
             }
         }
     }
-
-    /**
-     * Gets the chat room.
-     * @param u1 The username of the user.
-     * @param u2 The username of the friend.
-     */
-    void getRoom(String u1, String u2){
-        chatRepo.findByUserOneAndUserTwo(u1, u2);
-    }
 }
+
