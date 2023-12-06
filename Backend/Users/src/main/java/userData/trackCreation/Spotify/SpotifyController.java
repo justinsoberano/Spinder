@@ -38,49 +38,32 @@ public class SpotifyController {
             .build();
 
     @PostConstruct
-    public void clientCredentials() {
-        try {
-            final ClientCredentials client = credentials.execute();
-            spotifyAPI.setAccessToken(client.getAccessToken());
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Oops! " + e.getMessage());
-        }
+    public void clientCredentials() throws IOException, SpotifyWebApiException, ParseException {
+        final ClientCredentials client = credentials.execute();
+        spotifyAPI.setAccessToken(client.getAccessToken());
     }
 
-
-    public static List<Track> searchTrack(String trackName) {
+    public static List<Track> searchTrack(String trackName) throws IOException, SpotifyWebApiException, ParseException {
         final SearchItemRequest search = spotifyAPI.searchItem(trackName, ModelObjectType.TRACK.getType())
                 .market(CountryCode.US)
                 .limit(5)
                 .build();
 
-        try {
-            final SearchResult searchResult = search.execute();
-            String jsonOutput = gson.toJson(searchResult.getTracks().getItems());
-            return TrackMapper.trackData(jsonOutput);
+        final SearchResult searchResult = search.execute();
+        String jsonOutput = gson.toJson(searchResult.getTracks().getItems());
+        return TrackMapper.trackData(jsonOutput);
 
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-        return null;
     }
 
-    public static List<Track> getRecommendations(String seeds, int numSongs/*, int popularity*/) {
+    public static List<Track> getRecommendations(String seeds, int numSongs/*, int popularity*/) throws IOException, SpotifyWebApiException, ParseException {
 
         final GetRecommendationsRequest request = spotifyAPI.getRecommendations()
                 .limit(numSongs)
                 .seed_tracks(seeds)
                 .build();
 
-        try {
-
-            final Recommendations recommendations = request.execute();
-            String jsonOutput = gson.toJson(recommendations.getTracks());
-            return TrackMapper.trackData(jsonOutput);
-
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Oh no :( " + e.getMessage());
-        }
-        return null;
+        final Recommendations recommendations = request.execute();
+        String jsonOutput = gson.toJson(recommendations.getTracks());
+        return TrackMapper.trackData(jsonOutput);
     }
 }

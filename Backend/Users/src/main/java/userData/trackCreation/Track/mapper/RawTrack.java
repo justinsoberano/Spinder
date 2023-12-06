@@ -7,19 +7,19 @@ import java.util.List;
 public class RawTrack {
 
     /* Track ID */
-    private String id;
+    public String id;
 
     /* Track name */
-    private String name;
+    public String name;
 
     /* Album name that track is in */
-    private Album album;
+    public Album album;
 
     /* Artist name */
-    private List<Artist> artists;
+    public List<Artist> artists;
 
     /* Preview URL */
-    private String previewUrl;
+    public String previewUrl;
 
     /**
      * Returns song ID.
@@ -84,10 +84,10 @@ public class RawTrack {
     public static class Album {
 
         /* Returns a list of images */
-        private List<AlbumImage> images;
+        public List<AlbumImage> images;
 
         /* Returns the name of the album */
-        private String name;
+        public String name;
 
         /* Returns a list of images */
         public List<AlbumImage> getImages() {
@@ -107,13 +107,13 @@ public class RawTrack {
     public static class AlbumImage {
 
         /* Store image height */
-        private int height;
+        public int height;
 
         /* Store image width */
-        private int width;
+        public int width;
 
         /* Store image url */
-        private String url;
+        public String url;
 
         /**
          * gets the height of the image
@@ -148,10 +148,10 @@ public class RawTrack {
     public static class Artist {
 
         /* Artist ID */
-        private String id;
+        public String id;
 
         /* Artist name */
-        private String name;
+        public String name;
 
         /**
          * Gets the name of the artist

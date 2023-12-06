@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import userData.stations.Station;
 import userData.trackCreation.TopFields.TopArtist;
 import userData.trackCreation.TopFields.TopTrack;
@@ -50,7 +52,7 @@ public class UserController {
      * @return list of all users in database
      */
     @GetMapping(path = "/user")
-    List<User> getAllUsers(){
+    public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
@@ -60,7 +62,7 @@ public class UserController {
      * @return json data of user of id
      */
     @GetMapping(path = "/user/{username}")
-    User getUserById( @PathVariable String  username){
+    public User getUserById( @PathVariable String  username){
         return userRepository.findByUserName(username);
     }
 
@@ -70,7 +72,7 @@ public class UserController {
      * @return json data of user of id
      */
     @GetMapping(path = "user/{user}/username")
-    String getUsername(@PathVariable String user){
+    public String getUsername(@PathVariable String user){
         return userRepository.findByUserName(user).getUserName();
     }
 
@@ -83,7 +85,7 @@ public class UserController {
      */
 
     @PostMapping(path = "/user/{name}/{password}")
-    String createUser(@PathVariable String name, @PathVariable String password) throws IOException {
+    public String createUser(@PathVariable String name, @PathVariable String password) throws IOException {
         if (userRepository.findByUserName(name) != null) {
             return null;
         }
@@ -101,25 +103,6 @@ public class UserController {
         userRepository.save(u);
         return "success";
     }
-//    @PostMapping(path = "/user/{name}/{password}")
-//    String createUser(@PathVariable String name, @PathVariable String password) throws IOException {
-//        if (userRepository.findByUserName(name) != null) {
-//            return "Post Request Failed";
-//        }
-//        Random r = new Random();
-//        User u = new User();
-//        u.setId(Math.abs(r.nextInt() % 100000));
-//        Station s = new Station(u.getId() + 1); // same id as owner
-//        s.setTempo(50);
-//        s.setPopularity(50);
-//        s.setVolume(50);
-//        u.setUserName(name);
-//        u.setPassword(password);
-//        u.setStation(s);
-//        stationRepository.save(s);
-//        userRepository.save(u);
-//        return "success";
-//    }
 
     /**
      * Get mapping for getting user by id
@@ -127,7 +110,7 @@ public class UserController {
      * @return json data of user of id
      */
     @GetMapping(path = "/login/{username}")
-    String getUserId(@PathVariable String username){
+    public String getUserId(@PathVariable String username){
         return String.valueOf(userRepository.findByUserName(username).getId());
     }
 
@@ -137,7 +120,7 @@ public class UserController {
      * @param song the id of the user
      */
     @PutMapping(path = "user/{username}/station/{song}")
-    void setStationSeed(@PathVariable String username, @PathVariable String song) {
+    public void setStationSeed(@PathVariable String username, @PathVariable String song) throws IOException, SpotifyWebApiException, ParseException {
         Track t;
         User u = userRepository.findByUserName(username);
         try {
@@ -156,7 +139,7 @@ public class UserController {
      * @return station of user
      */
     @GetMapping(path = "user/{username}/station")
-    List<Track> getTracks(@PathVariable String username) {
+    public List<Track> getTracks(@PathVariable String username) throws IOException, SpotifyWebApiException, ParseException {
         return userRepository.findByUserName(username).getStation().generateTacks();
     }
     /**
@@ -165,7 +148,7 @@ public class UserController {
      * @param tempo of the station
      */
     @PutMapping(path = "user/{username}/tempo/{tempo}")
-    void setTempo(@PathVariable String username, @PathVariable int tempo){
+    public void setTempo(@PathVariable String username, @PathVariable int tempo){
         User u = userRepository.findByUserName(username);
         Station s = u.getStation();
         s.setTempo(tempo);
@@ -179,7 +162,7 @@ public class UserController {
      * @param pop of the station
      */
     @PutMapping(path = "user/{username}/popularity/{pop}")
-    void setPopularity(@PathVariable String username, @PathVariable int pop){
+    public void setPopularity(@PathVariable String username, @PathVariable int pop){
         User u = userRepository.findByUserName(username);
         Station s = u.getStation();
         s.setPopularity(pop);
@@ -193,7 +176,7 @@ public class UserController {
      * @param vol of the station
      */
     @PutMapping(path = "user/{username}/volume/{vol}")
-    void setVolume(@PathVariable String username, @PathVariable int vol){
+    public void setVolume(@PathVariable String username, @PathVariable int vol){
         User u = userRepository.findByUserName(username);
         Station s = u.getStation();
         s.setVolume(vol);
@@ -207,7 +190,7 @@ public class UserController {
      * @return profile of user
      */
     @GetMapping(path = "user/{username}/profile")
-    String getBio(@PathVariable String username){
+    public String getBio(@PathVariable String username){
         return userRepository.findByUserName(username).getProfileStr();
     }
 
@@ -217,7 +200,7 @@ public class UserController {
      * @param string of bio
      */
     @PutMapping(path = "user/{username}/profile/{string}")
-    void setBio(@PathVariable String username, @PathVariable String string){
+    public void setBio(@PathVariable String username, @PathVariable String string){
         User u = userRepository.findByUserName(username);
         u.setProfileStr(string);
         userRepository.save(u);
@@ -229,7 +212,7 @@ public class UserController {
      * @param string URL of the picture.
      */
     @PutMapping(path = "user/{username}/picture/{string}")
-    void setPfp(@PathVariable String username, @PathVariable String string){
+    public void setPfp(@PathVariable String username, @PathVariable String string){
         User u = userRepository.findByUserName(username);
         u.setProfilePicture(string);
         userRepository.save(u);
@@ -241,7 +224,7 @@ public class UserController {
      * @return URL of the picture.
      */
     @GetMapping(path = "user/{username}/picture")
-    String getPfp(@PathVariable String username){
+    public String getPfp(@PathVariable String username){
         return userRepository.findByUserName(username).getProfilePicture();
     }
 
@@ -252,7 +235,7 @@ public class UserController {
      * @return true if user exists and password is correct, false otherwise
      */
     @GetMapping(path = "user/{username}/{password}")
-    String loginAuth(@PathVariable String username, @PathVariable String password){
+    public String loginAuth(@PathVariable String username, @PathVariable String password){
         User u = userRepository.findByUserName(username);
         if(u == null){
             return "error: user not found";
@@ -270,7 +253,7 @@ public class UserController {
      * @param user2 of the friend
      */
     @PutMapping(path = "add/{user1}/{user2}")
-    void addFriend(@PathVariable String user1, @PathVariable String user2){
+    public void addFriend(@PathVariable String user1, @PathVariable String user2){
         User u1 = userRepository.findByUserName(user1);
         User u2 = userRepository.findByUserName(user2);
         if(u1 == null || u2 == null){
@@ -288,7 +271,7 @@ public class UserController {
      * @param user2 of the friend
      */
     @PutMapping(path = "remove/{user1}/{user2}")
-    void removeFriend(@PathVariable String user1, @PathVariable String user2){
+    public void removeFriend(@PathVariable String user1, @PathVariable String user2){
         User u1 = userRepository.findByUserName(user1);
         User u2 = userRepository.findByUserName(user2);
         if(u1 == null || u2 == null){
@@ -306,7 +289,7 @@ public class UserController {
      * @return list of friends
      */
     @GetMapping(path = "friends/{username}")
-    List<String> getFriendUserNames(@PathVariable String username){
+    public List<String> getFriendUserNames(@PathVariable String username){
         List<String> names = new ArrayList<String>();
         User u = userRepository.findByUserName(username);
         if(u == null) {
@@ -316,7 +299,6 @@ public class UserController {
             names.add(E.getUserName());
         }
         return  names;
-
     }
 
     /**
@@ -325,23 +307,19 @@ public class UserController {
      * @return track
      */
     @GetMapping(path = "song/{name}")
-    Track getSong(@PathVariable String name) {
+    public Track getSong(@PathVariable String name) throws IOException, SpotifyWebApiException, ParseException {
         Track t;
-        try {
-            t = searchTrack(name).get(0);
-        } catch (NullPointerException E) {
-            return null;
-        }
+        t = searchTrack(name).get(0);
         return t;
     }
 
     @GetMapping(path="user/{username}/topTrack")
-    TopTrack getTopTrack(@PathVariable String username){
+    public TopTrack getTopTrack(@PathVariable String username){
         return userRepository.findByUserName(username).getTopTrack();
     }
 
     @GetMapping(path="user/{username}/topArtist")
-    TopArtist getTopArist(@PathVariable String username){
+    public TopArtist getTopArist(@PathVariable String username){
         return userRepository.findByUserName(username).getTopArtist();
     }
 
@@ -367,19 +345,6 @@ public class UserController {
         } else {
             return "failure";
         }
-    }
-
-
-
-    /**
-     * Request for deleting all users
-     */
-    @Transactional
-    @DeleteMapping("user/all")
-    public void deleteAll(){
-        trackRepository.deleteAll();
-        stationRepository.deleteAll();
-        userRepository.deleteAll();
     }
 }
 

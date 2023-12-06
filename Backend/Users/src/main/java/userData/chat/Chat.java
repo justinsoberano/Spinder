@@ -30,9 +30,9 @@ public class Chat {
     public void setUserRepository(UserRepository u) { userRepo = u; }
     private static UserRepository userRepo;
 
-    private static Map <Session, String> chatSession = new Hashtable<>();
+    public static Map <Session, String> chatSession = new Hashtable<>();
 
-    private static Map <String, Session> searchChat = new Hashtable<>();
+    public static Map <String, Session> searchChat = new Hashtable<>();
 
     private ChatRoom chat;
     private String username;
