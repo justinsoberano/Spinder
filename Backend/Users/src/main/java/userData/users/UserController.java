@@ -81,6 +81,7 @@ public class UserController {
      * @return json data of user of id
      * @throws IOException if user already exists
      */
+
     @PostMapping(path = "/user/{name}/{password}")
     String createUser(@PathVariable String name, @PathVariable String password) throws IOException {
         if (userRepository.findByUserName(name) != null) {
@@ -297,6 +298,12 @@ public class UserController {
         }
         return  names;
 
+    }
+
+    @GetMapping(path = "friendslist/{username}")
+    List<User> getFriends(@PathVariable String username){
+        User u = userRepository.findByUserName(username);
+        return u.getFriends();
     }
 
     /**
