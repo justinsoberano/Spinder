@@ -40,7 +40,6 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendInteractions extends AppCompatActivity {
-
     EditText friendText;
     Button friendList;
     Button openChat;
@@ -150,15 +149,12 @@ public class FriendInteractions extends AppCompatActivity {
                             LinearLayout containerLayout = findViewById(R.id.friendsContainer);
 
                             for (int i = 0; i < friendNames.size(); i++) {
-                                // Create a RelativeLayout for each friend
                                 RelativeLayout friendLayout = new RelativeLayout(FriendInteractions.this);
                                 friendLayout.setLayoutParams(new RelativeLayout.LayoutParams(
                                         RelativeLayout.LayoutParams.WRAP_CONTENT,
                                         RelativeLayout.LayoutParams.WRAP_CONTENT));
-
-                                // Center the RelativeLayout horizontally within the LinearLayout
                                 ((RelativeLayout.LayoutParams) friendLayout.getLayoutParams()).addRule(RelativeLayout.CENTER_HORIZONTAL);
-                                // Create CircleImageView for profile picture
+
                                 CircleImageView profilePicture = new CircleImageView(FriendInteractions.this);
                                 profilePicture.setId(View.generateViewId());
                                 profilePicture.setLayoutParams(new RelativeLayout.LayoutParams(120, 120));
@@ -166,7 +162,6 @@ public class FriendInteractions extends AppCompatActivity {
                                 profilePicture.setBorderWidth(1);
                                 profilePicture.setBorderColor(Color.WHITE);
 
-                                // Create TextView for userName
                                 TextView textView = new TextView(FriendInteractions.this);
                                 textView.setLayoutParams(new RelativeLayout.LayoutParams(
                                         RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -174,17 +169,14 @@ public class FriendInteractions extends AppCompatActivity {
                                 textView.setText(friendNames.get(i));
                                 textView.setTextColor(Color.WHITE);
 
-                                // Add views to the RelativeLayout
                                 friendLayout.addView(profilePicture);
                                 friendLayout.addView(textView);
 
-                                // Set layout parameters for TextView relative to profilePicture
                                 RelativeLayout.LayoutParams textParams = (RelativeLayout.LayoutParams) textView.getLayoutParams();
                                 textParams.addRule(RelativeLayout.END_OF, profilePicture.getId());
                                 textParams.addRule(RelativeLayout.CENTER_VERTICAL);
-                                textParams.setMarginStart(16); // Replace with your desired margin
+                                textParams.setMarginStart(16);
 
-                                // Add the RelativeLayout to the container
                                 containerLayout.addView(friendLayout);
 
                                 Log.d("Friend Names", friendNames.toString());
@@ -203,6 +195,7 @@ public class FriendInteractions extends AppCompatActivity {
         );
         requestQueue.add(jsonArrayRequest);
     }
+
 
 
 

@@ -18,7 +18,7 @@
           android:layout_height="120dp"
           android:layout_marginStart="16dp"
           android:layout_marginTop="16dp"
-          android:src="@drawable/profilekendall"
+          android:src="@drawable/profiledef"
           android:contentDescription="Profile Picture"
           app:civ_border_width="1dp"
           app:civ_border_color="#FFFFFF" />
