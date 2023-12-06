@@ -67,7 +67,6 @@ public class AuthController {
 
     /**
      * This method will redirect the user to the Spotify login page.
-     *
      * @param response: The response object that will be used to redirect the user.
      * @throws IOException: If the redirect fails.
      */
@@ -167,14 +166,14 @@ public class AuthController {
         userRepository.save(u);
     }
 
-    public User createSpinderFavorites(User u) throws IOException, SpotifyWebApiException, ParseException {
+    // Turned into void
+    public void createSpinderFavorites(User u) throws IOException, SpotifyWebApiException, ParseException {
         String uuid = u.getUuid();
         CreatePlaylistRequest createPlaylist = spotifyAPI.createPlaylist(uuid, "Spinder Picks").collaborative(false).public_(false).description("Generated with love from the Spinder Team: JS, NG, QE, & BP").build();
         final Playlist playlist = createPlaylist.execute();
         final String playlistId = playlist.getId();
         u.setPlaylistId(playlistId);
         userRepository.save(u);
-        return u;
     }
 
     @PostMapping("add/{username}/{track}")

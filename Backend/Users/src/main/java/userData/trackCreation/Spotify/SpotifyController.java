@@ -12,11 +12,13 @@ import se.michaelthelin.spotify.enums.ModelObjectType;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
 import se.michaelthelin.spotify.model_objects.miscellaneous.AudioAnalysis;
+import se.michaelthelin.spotify.model_objects.miscellaneous.CurrentlyPlaying;
 import se.michaelthelin.spotify.model_objects.special.SearchResult;
 import se.michaelthelin.spotify.model_objects.specification.AudioFeatures;
 import se.michaelthelin.spotify.model_objects.specification.Recommendations;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 import se.michaelthelin.spotify.requests.data.browse.GetRecommendationsRequest;
+import se.michaelthelin.spotify.requests.data.player.GetUsersCurrentlyPlayingTrackRequest;
 import se.michaelthelin.spotify.requests.data.search.SearchItemRequest;
 
 import se.michaelthelin.spotify.requests.data.tracks.GetAudioAnalysisForTrackRequest;
@@ -28,6 +30,7 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -94,6 +97,23 @@ public class SpotifyController {
         features.add(String.valueOf(audioFeatures.getDurationMs()));
 
         return features;
+    }
+
+    public static HashMap<String, Long> getCurrentlyPlayingRecommendedSong(String id) throws IOException, SpotifyWebApiException, ParseException {
+        final GetUsersCurrentlyPlayingTrackRequest getUsersCurrentlyPlayingTrackRequest = spotifyAPI
+                .getUsersCurrentlyPlayingTrack()
+                .build();
+
+        final CurrentlyPlaying currentlyPlaying = getUsersCurrentlyPlayingTrackRequest.execute();
+
+        String track_playing = currentlyPlaying.getItem().getName();
+        Long current_time = currentlyPlaying.getTimestamp();
+
+        HashMap<String, Long> current_track_playing = new HashMap<>();
+        current_track_playing.put(track_playing, current_time);
+
+
+        return current_track_playing;
     }
 
     public static List<Track> getRecommendations(String seeds, int numSongs/*, int popularity*/) throws IOException, SpotifyWebApiException, ParseException {
