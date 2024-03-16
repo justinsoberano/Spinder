@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">AS1</string>
-    <string name="Increase">Increase random (0-5)</string>
-    <string name="Decrease">Decrease random (0-5)</string>
-</resources>
